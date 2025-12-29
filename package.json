@@ -1,0 +1,39 @@
+{
+  "name": "chainfund-monorepo",
+  "version": "1.0.0",
+  "description": "ChainFund - Blockchain Philanthropy Platform",
+  "private": true,
+  "scripts": {
+    "install:frontend": "cd ChainFund-backend/Chain-Front/Chain-Front && npm install",
+    "install:backend": "cd ChainFund-backend/ChainFund/chainfund-backend && pip install -r requirements.txt",
+    "build:frontend": "cd ChainFund-backend/Chain-Front/Chain-Front && npm run build",
+    "dev:frontend": "cd ChainFund-backend/Chain-Front/Chain-Front && npm run dev",
+    "dev:backend": "cd ChainFund-backend/ChainFund/chainfund-backend && python start_server.py",
+    "dev": "npm run dev:frontend",
+    "build": "npm run install:frontend && npm run build:frontend",
+    "start": "npm run build",
+    "preview": "cd ChainFund-backend/Chain-Front/Chain-Front && npm run preview"
+  },
+  "workspaces": [
+    "ChainFund-backend/Chain-Front/Chain-Front",
+    "ChainFund-backend/ChainFund/chainfund-backend"
+  ],
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GauravPatil2515/StellarForge.git"
+  },
+  "keywords": [
+    "blockchain",
+    "stellar",
+    "philanthropy",
+    "crowdfunding",
+    "react",
+    "vite"
+  ],
+  "author": "Gaurav Patil",
+  "license": "MIT"
+}

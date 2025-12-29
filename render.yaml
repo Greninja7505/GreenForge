@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: stellarforge
+    env: node
+    buildCommand: cd ChainFund-backend/Chain-Front/Chain-Front && npm ci
+    startCommand: npm run dev
+    envVars:
+      - key: NODE_VERSION
+        value: "18"
+      - key: HOST
+        value: "0.0.0.0"
+
+  # Backend API (if needed)
+  - type: web
+    name: chainfund-backend
+    env: python
+    buildCommand: cd ChainFund-backend/ChainFund/chainfund-backend && pip install -r requirements.txt
+    startCommand: cd ChainFund-backend/ChainFund/chainfund-backend && python start_server.py
+    plan: free
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: NODE_VERSION
+        value: 18.17.0

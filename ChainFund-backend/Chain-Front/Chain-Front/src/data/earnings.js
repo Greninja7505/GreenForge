@@ -1,0 +1,56 @@
+  // Mock Freelancer Earnings Data
+  export const mockEarnings = {
+    total: 12450,
+    available: 9850,
+    pending: 2600,
+    monthly: [
+      { month: "Jan", amount: 2100 },
+      { month: "Feb", amount: 1850 },
+      { month: "Mar", amount: 2400 },
+      { month: "Apr", amount: 1950 },
+      { month: "May", amount: 2800 },
+      { month: "Jun", amount: 1350 },
+    ],
+    recentTransactions: [
+      {
+        id: "txn_001",
+        type: "earning",
+        amount: 150,
+        description: "Logo Design Project",
+        date: "2024-01-20",
+        status: "completed",
+      },
+      {
+        id: "txn_002",
+        type: "earning",
+        amount: 800,
+        description: "Full Stack Web Development",
+        date: "2024-01-18",
+        status: "completed",
+      },
+      {
+        id: "txn_003",
+        type: "withdrawal",
+        amount: -500,
+        description: "Bank Transfer",
+        date: "2024-01-15",
+        status: "completed",
+      },
+      {
+        id: "txn_004",
+        type: "earning",
+        amount: 300,
+        description: "Mobile App UI/UX Design",
+        date: "2024-01-12",
+        status: "pending",
+      },
+      {
+        id: "txn_005",
+        type: "fee",
+        amount: -25,
+        description: "Platform Fee",
+        date: "2024-01-10",
+        status: "completed",
+      },
+    ],
+  };
