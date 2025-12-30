@@ -35,7 +35,7 @@ const CreateProject = () => {
     title: "",
     description: "",
     fullDescription: "",
-    category: "DeFi Infrastructure",
+    category: "solar-renewable-energy",
     goal: "",
     location: "",
     website: "",
@@ -88,14 +88,14 @@ const CreateProject = () => {
   }, []);
 
   const blockchainCategories = [
-    { value: "DeFi Infrastructure", label: "DeFi Infrastructure" },
-    { value: "Smart Contracts", label: "Smart Contracts" },
-    { value: "Layer 2 & Scaling", label: "Layer 2 & Scaling" },
-    { value: "NFT & Gaming", label: "NFT & Gaming" },
-    { value: "Identity & Privacy", label: "Identity & Privacy" },
-    { value: "Cross-Chain", label: "Cross-Chain" },
-    { value: "Developer Tools", label: "Developer Tools" },
-    { value: "Privacy Technology", label: "Privacy Technology" },
+    { value: "solar-renewable-energy", label: "Solar & Renewable Energy" },
+    { value: "ocean-cleanup-marine", label: "Ocean Cleanup & Marine" },
+    { value: "regenerative-agriculture", label: "Regenerative Agriculture" },
+    { value: "carbon-capture-climate", label: "Carbon Capture & Climate" },
+    { value: "biodiversity-wildlife", label: "Biodiversity & Wildlife" },
+    { value: "sustainable-transportation", label: "Sustainable Transportation" },
+    { value: "circular-economy-waste", label: "Circular Economy & Waste" },
+    { value: "green-building-infrastructure", label: "Green Building & Infrastructure" },
   ];
 
   const handleSubmit = async (e) => {
@@ -319,7 +319,7 @@ const CreateProject = () => {
             }}
             className="text-white mb-6"
           >
-            Create Blockchain Project
+            Create Sustainable Project
           </h1>
           <p
             style={{
@@ -330,7 +330,7 @@ const CreateProject = () => {
             }}
             className="text-gray-400"
           >
-            Launch your DeFi, NFT, or blockchain infrastructure project
+            Launch your sustainability initiative and make a real environmental impact
           </p>
         </motion.div>
 

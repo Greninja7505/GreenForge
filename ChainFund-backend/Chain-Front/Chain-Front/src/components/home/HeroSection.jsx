@@ -34,7 +34,7 @@ const HeroSection = () => {
             className="text-white text-[clamp(3.5rem,10vw,7rem)] font-medium leading-[0.95]"
           >
             Fund the Future <br />
-            <span className="text-white/40">of Web3.</span>
+            <span className="text-white/40">of Our Planet.</span>
           </h1>
 
           <motion.p
@@ -47,8 +47,8 @@ const HeroSection = () => {
             }}
             className="text-gray-400 text-lg md:text-xl max-w-[700px] mx-auto font-light leading-relaxed"
           >
-            Institutional-grade crowdfunding on Stellar. Milestone-based escrow,
-            transparent governance, and blockchain-verified accountability.
+            Sustainable crowdfunding on Stellar. Milestone-based funding for environmental initiatives,
+            transparent impact tracking, and blockchain-verified sustainability goals.
           </motion.p>
         </motion.div>
 

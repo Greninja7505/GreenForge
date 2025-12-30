@@ -1,106 +1,100 @@
-// Blockchain/DeFi Projects Data
+// Sustainability Projects Data
 export const projectsData = [
   {
     id: 1,
-    slug: "stellar-defi-liquidity-protocol",
-    title: "Stellar DeFi Liquidity Protocol",
-    category: "DeFi Infrastructure",
-    image: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=800&h=400&fit=crop",
+    slug: "solar-energy-revolution",
+    title: "Solar Energy Revolution",
+    category: "solar-renewable-energy",
+    image: "https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=800&h=400&fit=crop",
     description:
-      "Next-generation automated market maker with concentrated liquidity and minimal slippage for Stellar network.",
-    fullDescription: `This project is building a cutting-edge decentralized exchange protocol on Stellar that implements concentrated liquidity positions, allowing liquidity providers to earn higher fees while reducing slippage for traders.
+      "Large-scale solar farm development with innovative thin-film technology, aiming to power 50,000 homes with clean, renewable energy.",
+    fullDescription: `Revolutionary solar energy project combining cutting-edge thin-film photovoltaic technology with advanced energy storage solutions to create a sustainable power ecosystem.
 
-Key features include:
-• Concentrated liquidity management with custom price ranges
-• Capital-efficient trading with up to 4000x capital efficiency
-• Cross-chain liquidity aggregation via Stellar anchors
-• MEV-resistant transaction ordering
-• Gasless swaps using Stellar's fee pool mechanism
+Key innovations:
+• Next-generation perovskite solar cells with 28% efficiency
+• Integrated microgrid with AI-powered energy management
+• Community solar ownership model for local investment
+• Advanced battery storage with 8-hour capacity
+• Smart grid integration with demand response capabilities
 
-The protocol has completed security audits by Trail of Bits and CertiK, with testnet launch scheduled for Q1 2026. We're seeking funding to expand the core development team and establish liquidity mining incentives for early adopters.`,
-    raised: 125600,
-    goal: 200000,
-    donors: 487,
-    upvotes: 342,
-    downvotes: 12,
+The project will deploy 500MW of solar capacity across three states, creating 2,000 construction jobs and 500 permanent maintenance positions. Our AI-driven energy management system will optimize power distribution, reducing waste by 40% compared to traditional grids.
+
+Partnerships with major utilities and government incentives make this project financially viable while delivering substantial environmental benefits.`,
+    raised: 285000,
+    goal: 500000,
+    donors: 1247,
+    upvotes: 892,
+    downvotes: 23,
     verified: true,
     givbacksEligible: true,
-    location: "Decentralized",
+    location: "California, USA",
     milestones: [
       {
         id: 1,
-        title: "Protocol Architecture Design",
-        amount: 50000,
+        title: "Site Acquisition & Permits",
+        amount: 100000,
         completed: true,
-        date: "2025-04-15",
+        date: "2025-03-15",
       },
       {
         id: 2,
-        title: "Smart Contract Development",
-        amount: 80000,
+        title: "Technology Development",
+        amount: 200000,
         completed: true,
-        date: "2025-07-20",
+        date: "2025-07-01",
       },
       {
         id: 3,
-        title: "Security Audit & Testnet",
-        amount: 100000,
+        title: "Pilot Installation (50MW)",
+        amount: 350000,
         completed: false,
-        date: "2025-10-30",
+        date: "2025-11-15",
       },
       {
         id: 4,
-        title: "Mainnet Launch & Liquidity Mining",
-        amount: 150000,
+        title: "Full Scale Deployment",
+        amount: 450000,
         completed: false,
-        date: "2026-01-15",
+        date: "2026-02-28",
       },
       {
         id: 5,
-        title: "Multi-Chain Integration",
-        amount: 200000,
+        title: "Grid Integration & Operations",
+        amount: 500000,
         completed: false,
-        date: "2026-03-30",
+        date: "2026-05-15",
       },
     ],
     creator: {
-      name: "Stellar Labs Foundation",
-      address: "GDXL...K3PQ",
+      name: "HelioPower Corporation",
+      address: "GHEL...P8QR",
       stellarAddress:
-        "GCZYLNGU4CA5NAWBZBHGKX7FEQCMIGZDSZFH3CQWHZNCT2OWQDK5LE5P", // Testnet address
+        "GHELIOP8QRQPVX2HK3M5LXBWY7AQVNFT2LABSQPVX9WZGHELIOP8QR",
       verified: true,
       memberSince: "2023",
     },
     updates: [
       {
         id: 1,
-        title: "Testnet Launch Successfully Deployed",
+        title: "Pilot Site Producing Clean Energy",
         content:
-          "Our testnet is now live with full concentrated liquidity functionality. Early testers can start providing liquidity and testing swap operations.",
+          "Our 10MW pilot installation is now online, generating enough clean energy for 5,000 homes and proving our technology works at scale.",
         date: "2025-09-15",
-        author: "Core Development Team",
+        author: "Engineering Team",
       },
       {
         id: 2,
-        title: "Security Audit Completed - No Critical Issues",
+        title: "Major Utility Partnership Signed",
         content:
-          "Trail of Bits completed comprehensive security audit of smart contracts. All recommendations have been implemented in the latest release.",
+          "Pacific Gas & Electric commits to purchasing 200MW of our solar energy under a 15-year power purchase agreement.",
         date: "2025-08-20",
-        author: "Security Team",
-      },
-      {
-        id: 3,
-        title: "Cross-Chain Bridge Integration Progress",
-        content:
-          "Integration with Wormhole bridge progressing ahead of schedule. Users will soon be able to bridge assets from Ethereum and other chains.",
-        date: "2025-07-10",
-        author: "Bridge Team",
+        author: "Business Development",
       },
     ],
     donations: [
       {
         id: 1,
-        donor: "DeFi Whale",
+        donor: "Green Energy Investor",
         amount: 25000,
         date: "2025-09-18",
         anonymous: false,
@@ -114,123 +108,690 @@ The protocol has completed security audits by Trail of Bits and CertiK, with tes
       },
       {
         id: 3,
-        donor: "Stellar Foundation",
+        donor: "Environmental Foundation",
         amount: 50000,
         date: "2025-09-10",
         anonymous: false,
-      },
-      {
-        id: 4,
-        donor: "Crypto VC Fund",
-        amount: 20000,
-        date: "2025-09-05",
-        anonymous: false,
-      },
-      {
-        id: 5,
-        donor: "Anonymous",
-        amount: 5000,
-        date: "2025-08-28",
-        anonymous: true,
       },
     ],
   },
   {
     id: 2,
-    slug: "decentralized-identity-system",
-    title: "Decentralized Identity System",
-    category: "Identity & Privacy",
-    image: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=800&h=400&fit=crop",
+    slug: "ocean-cleanup-initiative",
+    title: "Ocean Cleanup Initiative",
+    category: "ocean-cleanup-marine",
+    image: "https://images.unsplash.com/photo-1583212292454-1fe6229603b7?w=800&h=400&fit=crop",
     description:
-      "Self-sovereign identity solution with zero-knowledge proofs for privacy-preserving authentication on Stellar.",
-    fullDescription: `Building a comprehensive decentralized identity (DID) framework that enables users to control their digital identity without relying on centralized authorities.
+      "Advanced autonomous ocean cleanup system using AI-powered vessels to remove plastic waste from major ocean gyres.",
+    fullDescription: `Comprehensive ocean cleanup solution deploying a fleet of autonomous vessels equipped with advanced AI vision systems and mechanical collection technology to combat marine plastic pollution.
 
-Core features:
-• W3C DID standard compliance for interoperability
-• Zero-knowledge proof authentication for privacy
-• Verifiable credentials issued on Stellar blockchain
-• Biometric data encryption with threshold cryptography
-• Cross-platform SDK for mobile and web applications
+Technology features:
+• AI-powered computer vision for plastic detection (95% accuracy)
+• Autonomous navigation with weather-adaptive routing
+• Advanced sorting system separating plastics by type
+• On-board recycling capabilities for immediate processing
+• Real-time monitoring with satellite connectivity
+• Modular design for easy maintenance and upgrades
 
-Our system allows users to prove their identity, age, or credentials without revealing unnecessary personal information. Perfect for DeFi KYC/AML compliance, age verification, and enterprise authentication.
+Our system can collect 500 tons of ocean plastic annually, preventing it from breaking down into microplastics that enter the food chain. The collected plastic is recycled into new products, creating a circular economy solution.
 
-We've partnered with several major DeFi protocols planning to integrate our identity layer for regulatory compliance while maintaining user privacy.`,
-    raised: 89300,
-    goal: 150000,
-    donors: 342,
-    upvotes: 289,
-    downvotes: 8,
+Partnerships with major shipping companies and coastal governments ensure global deployment and regulatory support.`,
+    raised: 198000,
+    goal: 350000,
+    donors: 956,
+    upvotes: 723,
+    downvotes: 18,
     verified: true,
     givbacksEligible: true,
-    location: "Global",
+    location: "Pacific Ocean",
     milestones: [
       {
         id: 1,
-        title: "DID Protocol Design & W3C Compliance",
-        amount: 30000,
+        title: "AI Vision System Development",
+        amount: 80000,
         completed: true,
-        date: "2025-05-10",
+        date: "2025-04-01",
       },
       {
         id: 2,
-        title: "Zero-Knowledge Proof Implementation",
-        amount: 60000,
+        title: "Prototype Vessel Construction",
+        amount: 150000,
         completed: true,
-        date: "2025-07-22",
+        date: "2025-07-15",
       },
       {
         id: 3,
-        title: "Mobile SDK Development",
-        amount: 90000,
+        title: "Field Testing & Optimization",
+        amount: 250000,
         completed: false,
-        date: "2025-11-15",
+        date: "2025-11-01",
       },
       {
         id: 4,
-        title: "Enterprise Partnership Integration",
-        amount: 120000,
+        title: "Fleet Deployment (10 vessels)",
+        amount: 300000,
         completed: false,
-        date: "2026-01-30",
+        date: "2026-02-15",
       },
       {
         id: 5,
-        title: "Global Rollout & Compliance",
-        amount: 150000,
+        title: "Global Expansion & Partnerships",
+        amount: 350000,
         completed: false,
-        date: "2026-04-20",
+        date: "2026-05-30",
       },
     ],
     creator: {
-      name: "Identity Protocol DAO",
-      address: "GBID...M7XY",
+      name: "OceanTech Solutions",
+      address: "GOCT...N4WX",
       stellarAddress:
-        "GBIDYTPHZZ7M7XYTQKXN2RQ5PCBW5ZNQNM7XY2VXFVVT2QKXM7XYBIDM", // Testnet address
+        "GOCTN4WXQPVX2HK3M5LXBWY7AQVNFT2LABSQPVX9WZGOCTN4WXQPVX",
       verified: true,
       memberSince: "2024",
     },
     updates: [
       {
         id: 1,
-        title: "Mobile SDK Beta Release",
+        title: "First Autonomous Collection Mission",
         content:
-          "iOS and Android SDKs now available for developers. Includes biometric authentication and secure credential storage.",
-        date: "2025-09-20",
-        author: "Mobile Team",
+          "Our prototype vessel successfully completed its first autonomous mission, collecting 2.3 tons of plastic from the Great Pacific Garbage Patch.",
+        date: "2025-09-22",
+        author: "Operations Team",
       },
       {
         id: 2,
-        title: "Partnership with Major DeFi Protocols",
+        title: "Recycling Partnership Established",
         content:
-          "Signed integration agreements with three top-10 DeFi protocols for identity verification layer.",
+          "Partnership with major recycling company to process collected plastics into new marine-safe products.",
+        date: "2025-08-28",
+        author: "Sustainability Team",
+      },
+    ],
+    donations: [
+      {
+        id: 1,
+        donor: "Marine Conservationist",
+        amount: 20000,
+        date: "2025-09-20",
+        anonymous: false,
+      },
+      {
+        id: 2,
+        donor: "Anonymous",
+        amount: 30000,
+        date: "2025-09-12",
+        anonymous: true,
+      },
+      {
+        id: 3,
+        donor: "Ocean NGO",
+        amount: 25000,
+        date: "2025-09-05",
+        anonymous: false,
+      },
+    ],
+  },
+  {
+    id: 3,
+    slug: "regenerative-agriculture-network",
+    title: "Regenerative Agriculture Network",
+    category: "regenerative-agriculture",
+    image: "https://images.unsplash.com/photo-1500651230702-0e2d8a49d4ad?w=800&h=400&fit=crop",
+    description:
+      "Large-scale regenerative farming initiative converting 10,000 acres of degraded farmland into productive, carbon-sequestering agricultural systems.",
+    fullDescription: `Transformative agricultural project implementing regenerative farming practices across 10,000 acres to restore soil health, sequester carbon, and create sustainable food systems.
+
+Regenerative practices include:
+• No-till farming with cover crop rotations
+• Holistic livestock management with planned grazing
+• Agroforestry integration with fruit and nut trees
+• Soil microbiome enhancement with compost and biochar
+• Water conservation through swales and ponds
+• Biodiversity corridors connecting wildlife habitats
+
+The project will sequester 50,000 tons of CO2 annually while producing high-quality, nutrient-dense food for local communities. Economic benefits include premium pricing for regenerative products and ecosystem service payments.
+
+Collaboration with local farmers, universities, and food companies ensures long-term success and knowledge transfer.`,
+    raised: 167000,
+    goal: 300000,
+    donors: 834,
+    upvotes: 645,
+    downvotes: 15,
+    verified: true,
+    givbacksEligible: true,
+    location: "Midwest USA",
+    milestones: [
+      {
+        id: 1,
+        title: "Land Acquisition & Assessment",
+        amount: 60000,
+        completed: true,
+        date: "2025-02-20",
+      },
+      {
+        id: 2,
+        title: "Infrastructure Development",
+        amount: 120000,
+        completed: true,
+        date: "2025-06-10",
+      },
+      {
+        id: 3,
+        title: "Pilot Farms (1,000 acres)",
+        amount: 180000,
+        completed: false,
+        date: "2025-10-25",
+      },
+      {
+        id: 4,
+        title: "Full Scale Implementation",
+        amount: 240000,
+        completed: false,
+        date: "2026-02-10",
+      },
+      {
+        id: 5,
+        title: "Market Development & Certification",
+        amount: 300000,
+        completed: false,
+        date: "2026-05-20",
+      },
+    ],
+    creator: {
+      name: "SoilHealth Collective",
+      address: "GSHC...M9KL",
+      stellarAddress:
+        "GSHCM9KLQPVX2HK3M5LXBWY7AQVNFT2LABSQPVX9WZGSHCM9KLQPVX",
+      verified: true,
+      memberSince: "2023",
+    },
+    updates: [
+      {
+        id: 1,
+        title: "First 500 Acres Converted",
+        content:
+          "Pilot conversion complete with soil carbon levels increasing by 15% in just 6 months. Crop yields maintained while reducing input costs.",
+        date: "2025-09-18",
+        author: "Farm Operations",
+      },
+      {
+        id: 2,
+        title: "Premium Market Access Secured",
+        content:
+          "Partnership with major grocery chain to purchase regenerative products at 20% premium pricing.",
         date: "2025-08-25",
+        author: "Market Development",
+      },
+    ],
+    donations: [
+      {
+        id: 1,
+        donor: "Sustainable Farmer",
+        amount: 18000,
+        date: "2025-09-16",
+        anonymous: false,
+      },
+      {
+        id: 2,
+        donor: "Anonymous",
+        amount: 25000,
+        date: "2025-09-08",
+        anonymous: true,
+      },
+      {
+        id: 3,
+        donor: "Food Company",
+        amount: 30000,
+        date: "2025-08-30",
+        anonymous: false,
+      },
+    ],
+  },
+  {
+    id: 4,
+    slug: "direct-air-capture-facility",
+    title: "Direct Air Capture Facility",
+    category: "carbon-capture-climate",
+    image: "https://images.unsplash.com/photo-1569163139394-de4e4f43e4e3?w=800&h=400&fit=crop",
+    description:
+      "Industrial-scale direct air capture facility using novel electrochemical processes to remove CO2 from atmosphere at unprecedented efficiency.",
+    fullDescription: `Cutting-edge carbon capture technology using advanced electrochemical systems to directly remove CO2 from ambient air, providing scalable climate solutions.
+
+Technical innovations:
+• Electrochemical capture with 90% energy efficiency
+• Modular design for rapid deployment and scaling
+• Direct mineral conversion of captured CO2
+• Waste heat utilization for energy efficiency
+• Automated monitoring with blockchain-verified data
+• Integration with carbon credit markets
+
+The facility will capture 100,000 tons of CO2 annually, equivalent to planting 5 million trees or removing 20,000 cars from the road. Captured CO2 is converted into stable minerals or used in industrial processes.
+
+Strategic partnerships with major corporations and governments ensure offtake agreements and regulatory support.`,
+    raised: 342000,
+    goal: 600000,
+    donors: 1456,
+    upvotes: 1023,
+    downvotes: 28,
+    verified: true,
+    givbacksEligible: true,
+    location: "Texas, USA",
+    milestones: [
+      {
+        id: 1,
+        title: "Technology R&D & Patents",
+        amount: 120000,
+        completed: true,
+        date: "2025-01-30",
+      },
+      {
+        id: 2,
+        title: "Pilot Plant Construction",
+        amount: 240000,
+        completed: true,
+        date: "2025-05-20",
+      },
+      {
+        id: 3,
+        title: "Full-Scale Facility (Phase 1)",
+        amount: 420000,
+        completed: false,
+        date: "2025-11-10",
+      },
+      {
+        id: 4,
+        title: "Expansion & Optimization",
+        amount: 510000,
+        completed: false,
+        date: "2026-03-01",
+      },
+      {
+        id: 5,
+        title: "Global Deployment Network",
+        amount: 600000,
+        completed: false,
+        date: "2026-06-15",
+      },
+    ],
+    creator: {
+      name: "CarbonCapture Technologies",
+      address: "GCCT...P2MN",
+      stellarAddress:
+        "GCCTP2MNQPVX2HK3M5LXBWY7AQVNFT2LABSQPVX9WZGCCTP2MNQPVX",
+      verified: true,
+      memberSince: "2024",
+    },
+    updates: [
+      {
+        id: 1,
+        title: "Pilot Plant Operational",
+        content:
+          "Our pilot facility is now capturing 1 ton of CO2 daily, validating our electrochemical process at commercial scale.",
+        date: "2025-09-25",
+        author: "Engineering Team",
+      },
+      {
+        id: 2,
+        title: "Corporate Partnerships Secured",
+        content:
+          "Major oil and gas companies commit to purchasing carbon credits equivalent to 50,000 tons of CO2 annually.",
+        date: "2025-09-02",
+        author: "Business Development",
+      },
+    ],
+    donations: [
+      {
+        id: 1,
+        donor: "Climate Tech Investor",
+        amount: 35000,
+        date: "2025-09-24",
+        anonymous: false,
+      },
+      {
+        id: 2,
+        donor: "Anonymous",
+        amount: 45000,
+        date: "2025-09-16",
+        anonymous: true,
+      },
+      {
+        id: 3,
+        donor: "Energy Company",
+        amount: 40000,
+        date: "2025-09-08",
+        anonymous: false,
+      },
+    ],
+  },
+  {
+    id: 5,
+    slug: "amazon-rainforest-restoration",
+    title: "Amazon Rainforest Restoration",
+    category: "biodiversity-wildlife",
+    image: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=800&h=400&fit=crop",
+    description:
+      "Comprehensive rainforest restoration project combining reforestation, wildlife corridors, and indigenous community development in the Brazilian Amazon.",
+    fullDescription: `Large-scale ecosystem restoration initiative focused on regenerating degraded rainforest areas while protecting biodiversity and supporting indigenous communities.
+
+Restoration activities:
+• Native tree species reforestation with 85% survival rate
+• Wildlife corridor creation connecting fragmented habitats
+• Indigenous community capacity building and land rights
+• Sustainable agroforestry systems for local food security
+• Biodiversity monitoring with AI-powered camera traps
+• Carbon credit generation for ongoing funding
+
+The project will restore 50,000 hectares of degraded rainforest, creating habitat for endangered species and sequestering 2.5 million tons of CO2. Community involvement ensures long-term protection and sustainable development.
+
+Partnerships with international conservation organizations and Brazilian government provide technical expertise and regulatory support.`,
+    raised: 223000,
+    goal: 400000,
+    donors: 1089,
+    upvotes: 834,
+    downvotes: 21,
+    verified: true,
+    givbacksEligible: true,
+    location: "Brazilian Amazon",
+    milestones: [
+      {
+        id: 1,
+        title: "Community Partnerships & Planning",
+        amount: 80000,
+        completed: true,
+        date: "2025-03-01",
+      },
+      {
+        id: 2,
+        title: "Nursery Establishment & Seed Collection",
+        amount: 160000,
+        completed: true,
+        date: "2025-06-30",
+      },
+      {
+        id: 3,
+        title: "Initial Reforestation (10,000 hectares)",
+        amount: 240000,
+        completed: false,
+        date: "2025-10-20",
+      },
+      {
+        id: 4,
+        title: "Wildlife Corridor Development",
+        amount: 320000,
+        completed: false,
+        date: "2026-02-05",
+      },
+      {
+        id: 5,
+        title: "Full Restoration & Monitoring",
+        amount: 400000,
+        completed: false,
+        date: "2026-05-25",
+      },
+    ],
+    creator: {
+      name: "Amazon Conservation Alliance",
+      address: "GACA...T7UV",
+      stellarAddress:
+        "GACAT7UVQPVX2HK3M5LXBWY7AQVNFT2LABSQPVX9WZGACAT7UVQPVX",
+      verified: true,
+      memberSince: "2023",
+    },
+    updates: [
+      {
+        id: 1,
+        title: "5,000 Hectares Reforested",
+        content:
+          "First phase complete with 95% tree survival rate. Local communities trained in sustainable forest management practices.",
+        date: "2025-09-20",
+        author: "Field Operations",
+      },
+      {
+        id: 2,
+        title: "Endangered Species Protection",
+        content:
+          "Established protected corridor for jaguar and harpy eagle populations, with first sightings recorded by our monitoring system.",
+        date: "2025-08-30",
+        author: "Biodiversity Team",
+      },
+    ],
+    donations: [
+      {
+        id: 1,
+        donor: "Conservation Fund",
+        amount: 28000,
+        date: "2025-09-19",
+        anonymous: false,
+      },
+      {
+        id: 2,
+        donor: "Anonymous",
+        amount: 35000,
+        date: "2025-09-11",
+        anonymous: true,
+      },
+      {
+        id: 3,
+        donor: "Wildlife Organization",
+        amount: 25000,
+        date: "2025-09-03",
+        anonymous: false,
+      },
+    ],
+  },
+  {
+    id: 6,
+    slug: "ev-charging-network-expansion",
+    title: "EV Charging Network Expansion",
+    category: "sustainable-transportation",
+    image: "https://images.unsplash.com/photo-1593941707882-a5bac6861d75?w=800&h=400&fit=crop",
+    description:
+      "Nationwide electric vehicle charging network deployment with smart grid integration and renewable energy sourcing for zero-emission transportation.",
+    fullDescription: `Comprehensive EV charging infrastructure project deploying 10,000 fast-charging stations across major highways and urban centers, powered entirely by renewable energy.
+
+Infrastructure features:
+• 350kW ultra-fast charging (full charge in 15 minutes)
+• Smart grid integration with demand response
+• 100% renewable energy sourcing via solar/wind partnerships
+• Mobile app with real-time availability and payment
+• Vehicle-to-grid capability for energy storage
+• Universal connector standards for all EV brands
+
+The network will support 500,000 electric vehicles, reducing transportation emissions by 2.5 million tons of CO2 annually. Strategic partnerships with automakers and utilities ensure long-term sustainability.
+
+Economic impact includes 5,000 construction jobs and ongoing maintenance positions, plus billions in healthcare cost savings from reduced air pollution.`,
+    raised: 289000,
+    goal: 500000,
+    donors: 1324,
+    upvotes: 967,
+    downvotes: 25,
+    verified: true,
+    givbacksEligible: true,
+    location: "United States",
+    milestones: [
+      {
+        id: 1,
+        title: "Network Planning & Partnerships",
+        amount: 100000,
+        completed: true,
+        date: "2025-02-15",
+      },
+      {
+        id: 2,
+        title: "Pilot Network (500 stations)",
+        amount: 200000,
+        completed: true,
+        date: "2025-06-01",
+      },
+      {
+        id: 3,
+        title: "Phase 1 Expansion (2,500 stations)",
+        amount: 350000,
+        completed: false,
+        date: "2025-11-30",
+      },
+      {
+        id: 4,
+        title: "Full Network Deployment",
+        amount: 425000,
+        completed: false,
+        date: "2026-03-15",
+      },
+      {
+        id: 5,
+        title: "Advanced Features & Scaling",
+        amount: 500000,
+        completed: false,
+        date: "2026-06-30",
+      },
+    ],
+    creator: {
+      name: "ChargeNation Infrastructure",
+      address: "GCNI...B4WX",
+      stellarAddress:
+        "GCNIB4WXQPVX2HK3M5LXBWY7AQVNFT2LABSQPVX9WZGCNIB4WXQPVX",
+      verified: true,
+      memberSince: "2024",
+    },
+    updates: [
+      {
+        id: 1,
+        title: "500 Stations Operational",
+        content:
+          "Pilot network complete with 99.5% uptime. Supporting 50,000+ charging sessions monthly with average satisfaction rating of 4.8/5.",
+        date: "2025-09-28",
+        author: "Operations Team",
+      },
+      {
+        id: 2,
+        title: "Major Auto Manufacturer Partnership",
+        content:
+          "Tesla commits to integrating our network into their navigation system, providing seamless charging for 2 million vehicles.",
+        date: "2025-09-05",
         author: "Partnership Team",
       },
     ],
     donations: [
       {
         id: 1,
-        donor: "Privacy Advocate",
-        amount: 10000,
+        donor: "EV Enthusiast",
+        amount: 30000,
+        date: "2025-09-26",
+        anonymous: false,
+      },
+      {
+        id: 2,
+        donor: "Anonymous",
+        amount: 40000,
+        date: "2025-09-18",
+        anonymous: true,
+      },
+      {
+        id: 3,
+        donor: "Automotive Company",
+        amount: 35000,
+        date: "2025-09-10",
+        anonymous: false,
+      },
+    ],
+  },
+  {
+    id: 7,
+    slug: "circular-economy-marketplace",
+    title: "Circular Economy Marketplace",
+    category: "circular-economy-waste",
+    image: "https://images.unsplash.com/photo-1532996122724-e3bc8a3334b9?w=800&h=400&fit=crop",
+    description:
+      "Digital platform connecting businesses for material reuse, upcycling, and waste-to-resource conversion, creating a zero-waste industrial ecosystem.",
+    fullDescription: `Comprehensive circular economy platform digitizing material flows between businesses to eliminate waste and maximize resource efficiency.
+
+Platform capabilities:
+• AI-powered material matching for reuse and upcycling
+• Blockchain-tracked supply chains with provenance
+• Smart contracts for automated material exchanges
+• Carbon footprint tracking for circular products
+• Community marketplace for creative upcycling
+• Industrial symbiosis network optimization
+
+The platform connects 1,000+ businesses, diverting 500,000 tons of waste from landfills annually while creating $200M in new economic value. Advanced analytics identify optimization opportunities and reduce material costs by 30%.
+
+Partnerships with major corporations and government agencies drive adoption and regulatory compliance.`,
+    raised: 156000,
+    goal: 280000,
+    donors: 723,
+    upvotes: 567,
+    downvotes: 14,
+    verified: true,
+    givbacksEligible: true,
+    location: "Global",
+    milestones: [
+      {
+        id: 1,
+        title: "Platform Development & AI Engine",
+        amount: 70000,
+        completed: true,
+        date: "2025-04-10",
+      },
+      {
+        id: 2,
+        title: "Pilot Network (100 businesses)",
+        amount: 140000,
+        completed: true,
+        date: "2025-07-25",
+      },
+      {
+        id: 3,
+        title: "Expansion & Feature Development",
+        amount: 210000,
+        completed: false,
+        date: "2025-11-15",
+      },
+      {
+        id: 4,
+        title: "Global Scaling & Partnerships",
+        amount: 245000,
+        completed: false,
+        date: "2026-02-28",
+      },
+      {
+        id: 5,
+        title: "Advanced Analytics & AI",
+        amount: 280000,
+        completed: false,
+        date: "2026-05-10",
+      },
+    ],
+    creator: {
+      name: "CircularTech Solutions",
+      address: "GCTS...N6YZ",
+      stellarAddress:
+        "GCTSN6YZQPVX2HK3M5LXBWY7AQVNFT2LABSQPVX9WZGCTSN6YZQPVX",
+      verified: true,
+      memberSince: "2024",
+    },
+    updates: [
+      {
+        id: 1,
+        title: "100 Businesses Connected",
+        content:
+          "Pilot network successfully diverting 50 tons of waste weekly from landfills, creating $500K in new material value.",
+        date: "2025-09-21",
+        author: "Platform Team",
+      },
+      {
+        id: 2,
+        title: "Major Corporation Partnership",
+        content:
+          "Fortune 500 company commits to circular supply chain transformation, targeting 80% waste reduction across operations.",
+        date: "2025-08-27",
+        author: "Business Development",
+      },
+    ],
+    donations: [
+      {
+        id: 1,
+        donor: "Sustainability Director",
+        amount: 20000,
         date: "2025-09-19",
         anonymous: false,
       },
@@ -238,1313 +799,131 @@ We've partnered with several major DeFi protocols planning to integrate our iden
         id: 2,
         donor: "Anonymous",
         amount: 25000,
-        date: "2025-09-12",
+        date: "2025-09-11",
         anonymous: true,
       },
       {
         id: 3,
-        donor: "Web3 Foundation",
-        amount: 30000,
-        date: "2025-08-30",
+        donor: "Manufacturing Company",
+        amount: 18000,
+        date: "2025-09-03",
         anonymous: false,
-      },
-      {
-        id: 4,
-        donor: "Anonymous",
-        amount: 8000,
-        date: "2025-08-15",
-        anonymous: true,
       },
     ],
   },
   {
-    id: 3,
-    slug: "cross-chain-nft-marketplace",
-    title: "Cross-Chain NFT Marketplace",
-    category: "NFT & Gaming",
-    image: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=800&h=400&fit=crop",
+    id: 8,
+    slug: "urban-green-building-retrofit",
+    title: "Urban Green Building Retrofit",
+    category: "green-building-infrastructure",
+    image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&h=400&fit=crop",
     description:
-      "Unified NFT marketplace supporting cross-chain trading, fractional ownership, and gasless transactions on Stellar.",
-    fullDescription: `Revolutionary NFT marketplace that breaks down barriers between blockchain ecosystems, allowing seamless trading of NFTs across multiple chains.
+      "Large-scale urban building retrofit program converting existing structures into energy-efficient, sustainable spaces with living green walls and renewable energy systems.",
+    fullDescription: `Comprehensive building retrofit initiative transforming urban infrastructure into sustainable, energy-efficient spaces that reduce carbon emissions and improve quality of life.
 
-Platform capabilities:
-• Cross-chain NFT bridging (Ethereum, Polygon, Solana, Stellar)
-• Fractional NFT ownership with automated price discovery
-• Gasless minting and trading using meta-transactions
-• AI-powered NFT valuation and authenticity verification
-• Creator royalty enforcement across all chains
-• Dynamic NFT support with on-chain metadata updates
+Retrofit features:
+• High-performance insulation and air sealing
+• Solar panel and green roof installations
+• Living walls and urban forest integration
+• Smart building automation and energy management
+• Water conservation and greywater recycling
+• Indoor air quality monitoring and improvement
 
-Our marketplace uses Stellar's efficient transaction layer for settlement while supporting assets from any blockchain. Artists and collectors can access global liquidity without worrying about which chain their NFTs are on.
+The program will retrofit 500 buildings across major cities, reducing energy consumption by 60% and carbon emissions by 40,000 tons annually. Economic benefits include $150M in energy cost savings and 2,000 green jobs.
 
-Beta testing with 500+ creators has shown 90% reduction in transaction costs compared to Ethereum-based marketplaces.`,
-    raised: 156400,
-    goal: 250000,
-    donors: 628,
-    upvotes: 512,
-    downvotes: 23,
+Collaboration with property owners, architects, and local governments ensures comprehensive urban transformation.`,
+    raised: 198000,
+    goal: 350000,
+    donors: 945,
+    upvotes: 712,
+    downvotes: 19,
     verified: true,
     givbacksEligible: true,
-    location: "Distributed",
+    location: "Major US Cities",
     milestones: [
       {
         id: 1,
-        title: "Platform Architecture & Smart Contracts",
-        amount: 50000,
+        title: "Pilot Program & Assessment",
+        amount: 70000,
         completed: true,
-        date: "2025-04-01",
+        date: "2025-03-20",
       },
       {
         id: 2,
-        title: "Ethereum Bridge Integration",
-        amount: 100000,
+        title: "Technology Development & Standards",
+        amount: 140000,
         completed: true,
-        date: "2025-08-15",
+        date: "2025-07-05",
       },
       {
         id: 3,
-        title: "Fractional Ownership Feature",
-        amount: 150000,
-        completed: true,
-        date: "2025-09-10",
+        title: "Phase 1 Retrofit (100 buildings)",
+        amount: 210000,
+        completed: false,
+        date: "2025-11-20",
       },
       {
         id: 4,
-        title: "Multi-Chain Expansion (Polygon, Solana)",
-        amount: 200000,
+        title: "Expansion & Replication",
+        amount: 280000,
         completed: false,
-        date: "2025-12-20",
+        date: "2026-03-05",
       },
       {
         id: 5,
-        title: "AI Valuation & Global Launch",
-        amount: 250000,
+        title: "City-wide Implementation",
+        amount: 350000,
         completed: false,
-        date: "2026-03-10",
+        date: "2026-06-20",
       },
     ],
     creator: {
-      name: "NFT Labs Collective",
-      address: "GNFT...R9WZ",
+      name: "UrbanGreen Development",
+      address: "GUGD...P9KL",
       stellarAddress:
-        "GNFTLABSR9WZQPVX2HKNT3M5LXBWY7AQVNFT2LABSQPVX9WZGNFTLABS", // Testnet address
+        "GUGDP9KLQPVX2HK3M5LXBWY7AQVNFT2LABSQPVX9WZGUGDP9KLQPVX",
       verified: true,
       memberSince: "2023",
     },
     updates: [
       {
         id: 1,
-        title: "Cross-Chain Bridge Live for Ethereum NFTs",
+        title: "First 25 Buildings Completed",
         content:
-          "Users can now bridge their Ethereum NFTs to Stellar for trading with near-zero fees. Over 1,000 NFTs bridged in first week.",
-        date: "2025-09-22",
-        author: "Bridge Team",
+          "Pilot retrofit program shows 55% energy reduction and 70% improvement in occupant satisfaction scores.",
+        date: "2025-09-23",
+        author: "Construction Team",
       },
       {
         id: 2,
-        title: "Fractional Ownership Feature Launched",
+        title: "Major City Partnership",
         content:
-          "High-value NFTs can now be fractionalized into tradable shares. First collection fractionalized: CryptoPunks #7804.",
-        date: "2025-09-10",
-        author: "DeFi Team",
-      },
-      {
-        id: 3,
-        title: "500 Creators Onboarded to Beta",
-        content:
-          "Beta program exceeded expectations with strong creator adoption. Average gas savings: 94% compared to Ethereum.",
-        date: "2025-08-18",
-        author: "Community Team",
+          "New York City commits to retrofitting 200 municipal buildings under our program, creating city-wide green building standards.",
+        date: "2025-09-01",
+        author: "Government Relations",
       },
     ],
     donations: [
       {
         id: 1,
-        donor: "NFT Collector",
-        amount: 18000,
+        donor: "Property Developer",
+        amount: 25000,
         date: "2025-09-21",
         anonymous: false,
       },
       {
         id: 2,
         donor: "Anonymous",
-        amount: 40000,
-        date: "2025-09-15",
-        anonymous: true,
-      },
-      {
-        id: 3,
-        donor: "Art DAO",
-        amount: 35000,
-        date: "2025-09-08",
-        anonymous: false,
-      },
-      {
-        id: 4,
-        donor: "Gaming Studio",
-        amount: 22000,
-        date: "2025-08-30",
-        anonymous: false,
-      },
-      {
-        id: 5,
-        donor: "Anonymous",
-        amount: 12000,
-        date: "2025-08-20",
-        anonymous: true,
-      },
-    ],
-  },
-  {
-    id: 4,
-    slug: "layer2-scaling-solution",
-    title: "Stellar Layer 2 Scaling Protocol",
-    category: "Layer 2 & Scaling",
-    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&h=400&fit=crop",
-    description:
-      "High-throughput Layer 2 solution with optimistic rollups for scaling Stellar to millions of transactions per second.",
-    fullDescription: `Advanced Layer 2 scaling infrastructure that dramatically increases Stellar's transaction throughput while maintaining security and decentralization.
-
-Technical architecture:
-• Optimistic rollup design with 7-day challenge period
-• 10,000+ TPS with sub-second finality
-• EVM compatibility for easy smart contract migration
-• Native Stellar asset support with atomic swaps
-• Fraud proof verification using zero-knowledge proofs
-• Decentralized sequencer network for censorship resistance
-
-Our L2 solution enables complex DeFi applications and high-frequency trading on Stellar while keeping fees below $0.001 per transaction. Smart contracts deployed on our L2 can interact seamlessly with Stellar mainnet assets.
-
-Currently in audit phase with mainnet launch planned for Q2 2026.`,
-    raised: 178900,
-    goal: 300000,
-    donors: 531,
-    upvotes: 445,
-    downvotes: 18,
-    verified: true,
-    givbacksEligible: true,
-    location: "Decentralized",
-    milestones: [
-      {
-        id: 1,
-        title: "Rollup Architecture & Research",
-        amount: 60000,
-        completed: true,
-        date: "2025-03-20",
-      },
-      {
-        id: 2,
-        title: "Testnet Development",
-        amount: 120000,
-        completed: true,
-        date: "2025-08-05",
-      },
-      {
-        id: 3,
-        title: "Security Audit & Bug Bounty",
-        amount: 180000,
-        completed: false,
-        date: "2025-11-30",
-      },
-      {
-        id: 4,
-        title: "Mainnet Launch",
-        amount: 240000,
-        completed: false,
-        date: "2026-02-15",
-      },
-      {
-        id: 5,
-        title: "Ecosystem Expansion & Grants",
-        amount: 300000,
-        completed: false,
-        date: "2026-05-01",
-      },
-    ],
-    creator: {
-      name: "Stellar Scaling Labs",
-      address: "GSL2...K8NM",
-      stellarAddress: "GSL2K8NMQPVX2HK3M5LXBWY7AQVNFT2LABSQPVX9WZGSL2K8NMQPVX", // Testnet address
-      verified: true,
-      memberSince: "2024",
-    },
-    updates: [
-      {
-        id: 1,
-        title: "Mainnet Audit Initiated with Trail of Bits",
-        content:
-          "Comprehensive security audit has begun. Covering smart contracts, sequencer logic, and fraud proof mechanisms.",
-        date: "2025-09-25",
-        author: "Security Team",
-      },
-      {
-        id: 2,
-        title: "Testnet Achieves 12,000 TPS Milestone",
-        content:
-          "Stress testing exceeded design goals. Average transaction finality: 0.8 seconds with zero failures.",
-        date: "2025-09-05",
-        author: "Engineering Team",
-      },
-    ],
-    donations: [
-      {
-        id: 1,
-        donor: "Scaling Enthusiast",
-        amount: 28000,
-        date: "2025-09-24",
-        anonymous: false,
-      },
-      {
-        id: 2,
-        donor: "Anonymous",
-        amount: 50000,
-        date: "2025-09-18",
-        anonymous: true,
-      },
-      {
-        id: 3,
-        donor: "DeFi Protocol DAO",
-        amount: 45000,
-        date: "2025-09-10",
-        anonymous: false,
-      },
-      {
-        id: 4,
-        donor: "Anonymous",
-        amount: 20000,
-        date: "2025-08-28",
-        anonymous: true,
-      },
-    ],
-  },
-  {
-    id: 5,
-    slug: "smart-contract-security-toolkit",
-    title: "Smart Contract Security Toolkit",
-    category: "Developer Tools",
-    image: "https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=800&h=400&fit=crop",
-    description:
-      "Comprehensive security analysis and formal verification tools for Stellar smart contracts and Soroban.",
-    fullDescription: `Professional-grade security toolkit designed specifically for Stellar's Soroban smart contract platform, helping developers identify vulnerabilities before deployment.
-
-Toolkit features:
-• Static analysis engine with 200+ vulnerability patterns
-• Formal verification using symbolic execution
-• Automated fuzz testing with edge case generation
-• Gas optimization recommendations
-• Real-time monitoring for deployed contracts
-• Integration with CI/CD pipelines (GitHub Actions, GitLab)
-• Comprehensive reporting with remediation guidance
-
-Our tools have already identified critical vulnerabilities in 15+ major DeFi protocols during beta testing, preventing potential exploits worth over $50M.
-
-Open-source core with premium enterprise features. All proceeds fund ongoing research and tool development.`,
-    raised: 67200,
-    goal: 120000,
-    donors: 289,
-    upvotes: 198,
-    downvotes: 5,
-    verified: true,
-    givbacksEligible: true,
-    location: "Open Source",
-    milestones: [
-      {
-        id: 1,
-        title: "Static Analysis Engine Development",
-        amount: 25000,
-        completed: true,
-        date: "2025-06-01",
-      },
-      {
-        id: 2,
-        title: "Formal Verification Module",
-        amount: 50000,
-        completed: true,
-        date: "2025-09-28",
-      },
-      {
-        id: 3,
-        title: "CI/CD Integration & Testing",
-        amount: 75000,
-        completed: false,
-        date: "2025-12-10",
-      },
-      {
-        id: 4,
-        title: "Enterprise Features & Dashboard",
-        amount: 100000,
-        completed: false,
-        date: "2026-02-20",
-      },
-      {
-        id: 5,
-        title: "Community Edition & Documentation",
-        amount: 120000,
-        completed: false,
-        date: "2026-04-15",
-      },
-    ],
-    verified: true,
-    givbacksEligible: true,
-    location: "Open Source",
-    creator: {
-      name: "Secure Smart Contract Foundation",
-      address: "GSEC...P4RT",
-      stellarAddress: "GSECP4RTQPVX2HK3M5LXBWY7AQVNFT2LABSQPVX9WZGSECP4RTQPVX", // Testnet address
-      verified: true,
-      memberSince: "2024",
-    },
-    updates: [
-      {
-        id: 1,
-        title: "Version 2.0 Released with Formal Verification",
-        content:
-          "Major update includes formal verification module using Z3 theorem prover. Can mathematically prove contract correctness.",
-        date: "2025-09-28",
-        author: "Core Dev Team",
-      },
-      {
-        id: 2,
-        title: "15 Critical Vulnerabilities Found in Beta Testing",
-        content:
-          "Our tools identified critical issues across multiple DeFi protocols during private beta, preventing potential exploits.",
-        date: "2025-09-12",
-        author: "Research Team",
-      },
-    ],
-    donations: [
-      {
-        id: 1,
-        donor: "Security Researcher",
-        amount: 8000,
-        date: "2025-09-27",
-        anonymous: false,
-      },
-      {
-        id: 2,
-        donor: "Anonymous",
-        amount: 15000,
-        date: "2025-09-20",
-        anonymous: true,
-      },
-      {
-        id: 3,
-        donor: "DeFi Protocol",
-        amount: 20000,
-        date: "2025-09-15",
-        anonymous: false,
-      },
-      {
-        id: 4,
-        donor: "Anonymous",
-        amount: 10000,
-        date: "2025-09-05",
-        anonymous: true,
-      },
-    ],
-  },
-  {
-    id: 6,
-    slug: "privacy-preserving-payment-network",
-    title: "Privacy-Preserving Payment Network",
-    category: "Privacy Technology",
-    image: "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=800&h=400&fit=crop",
-    description:
-      "Anonymous payment protocol using ring signatures and stealth addresses for confidential transactions on Stellar.",
-    fullDescription: `Advanced privacy protocol that brings Monero-level anonymity to Stellar network while maintaining regulatory compliance options.
-
-Privacy features:
-• Ring signatures with configurable anonymity set size
-• Stealth addresses for recipient privacy
-• Confidential transactions hiding amounts
-• Optional selective disclosure for compliance
-• Mixing protocol with decentralized coordination
-• Integration with existing Stellar anchors and DEXs
-
-Our protocol allows users to transact privately while businesses can opt into compliance modes that allow selective disclosure to auditors. Best of both worlds: privacy by default, compliance when needed.
-
-Cryptographic foundations audited by academic cryptography experts from MIT and Stanford.`,
-    raised: 94500,
-    goal: 180000,
-    donors: 412,
-    upvotes: 367,
-    downvotes: 15,
-    verified: true,
-    givbacksEligible: true,
-    location: "Decentralized",
-    milestones: [
-      {
-        id: 1,
-        title: "Ring Signature Cryptography Research",
-        amount: 36000,
-        completed: true,
-        date: "2025-04-12",
-      },
-      {
-        id: 2,
-        title: "Stealth Address Implementation",
-        amount: 72000,
-        completed: true,
-        date: "2025-07-18",
-      },
-      {
-        id: 3,
-        title: "Academic Audit & Peer Review",
-        amount: 108000,
-        completed: false,
-        date: "2025-10-30",
-      },
-      {
-        id: 4,
-        title: "Testnet Launch & Mixing Protocol",
-        amount: 144000,
-        completed: false,
-        date: "2026-01-25",
-      },
-      {
-        id: 5,
-        title: "Mainnet & Compliance Framework",
-        amount: 180000,
-        completed: false,
-        date: "2026-04-10",
-      },
-    ],
-    creator: {
-      name: "Privacy Protocol DAO",
-      address: "GPRV...L6QM",
-      stellarAddress: "GPRVL6QMXY8ZVWPRVL6QMXY8ZVWPRVL6QMXY8ZVWPRVL6QMXY8ZV", // Testnet address
-      verified: true,
-      memberSince: "2023",
-    },
-    updates: [
-      {
-        id: 1,
-        title: "Academic Audit Completed by MIT Cryptographers",
-        content:
-          "Cryptographic protocols reviewed by leading academics. Paper to be published at IEEE Security & Privacy 2026.",
-        date: "2025-09-30",
-        author: "Research Team",
-      },
-      {
-        id: 2,
-        title: "Testnet Launch with Full Privacy Features",
-        content:
-          "All privacy features now live on testnet. Ring size: 11, transaction linkability: 0%.",
-        date: "2025-09-14",
-        author: "Engineering Team",
-      },
-    ],
-    donations: [
-      {
-        id: 1,
-        donor: "Privacy Advocate",
-        amount: 12000,
-        date: "2025-09-29",
-        anonymous: false,
-      },
-      {
-        id: 2,
-        donor: "Anonymous",
         amount: 30000,
-        date: "2025-09-22",
+        date: "2025-09-13",
         anonymous: true,
       },
       {
         id: 3,
-        donor: "Crypto Fund",
-        amount: 25000,
-        date: "2025-09-12",
-        anonymous: false,
-      },
-      {
-        id: 4,
-        donor: "Anonymous",
-        amount: 15000,
-        date: "2025-09-01",
-        anonymous: true,
-      },
-    ],
-  },
-  {
-    id: 7,
-    slug: "ai-powered-trading-bot",
-    title: "AI-Powered Trading Bot",
-    category: "Trading & Analytics",
-    image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&h=400&fit=crop",
-    description:
-      "Advanced algorithmic trading bot using machine learning for optimal trade execution and risk management on Stellar DEXs.",
-    fullDescription: `Intelligent trading automation platform that leverages artificial intelligence and machine learning to optimize trading strategies on Stellar's decentralized exchanges.
-
-Key capabilities:
-• Machine learning algorithms for market prediction and trend analysis
-• Automated risk management with dynamic position sizing
-• High-frequency trading with sub-millisecond execution
-• Multi-strategy portfolio management across Stellar assets
-• Real-time market data analysis from multiple sources
-• Backtesting engine with historical Stellar network data
-
-Our AI models are trained on 5+ years of Stellar transaction data, achieving 23% better returns than traditional strategies in backtesting. The bot supports both spot and margin trading with integrated liquidation protection.
-
-Currently in beta with 500+ active users, generating an average of 18% monthly returns for conservative strategies.`,
-    raised: 112300,
-    goal: 175000,
-    donors: 398,
-    upvotes: 267,
-    downvotes: 9,
-    verified: true,
-    givbacksEligible: true,
-    location: "Decentralized",
-    milestones: [
-      {
-        id: 1,
-        title: "AI Model Development & Training",
-        amount: 40000,
-        completed: true,
-        date: "2025-05-20",
-      },
-      {
-        id: 2,
-        title: "Trading Engine & Risk Management",
-        amount: 70000,
-        completed: true,
-        date: "2025-08-10",
-      },
-      {
-        id: 3,
-        title: "Beta Testing & Performance Optimization",
-        amount: 105000,
-        completed: false,
-        date: "2025-11-15",
-      },
-      {
-        id: 4,
-        title: "Mobile App & Advanced Features",
-        amount: 140000,
-        completed: false,
-        date: "2026-01-30",
-      },
-      {
-        id: 5,
-        title: "Institutional Features & API",
-        amount: 175000,
-        completed: false,
-        date: "2026-04-15",
-      },
-    ],
-    creator: {
-      name: "Quantum Trading Labs",
-      address: "GQTL...X9MN",
-      stellarAddress:
-        "GQTLX9MNQPVX2HK3M5LXBWY7AQVNFT2LABSQPVX9WZGQTLX9MNQPVX", // Testnet address
-      verified: true,
-      memberSince: "2024",
-    },
-    updates: [
-      {
-        id: 1,
-        title: "Beta Launch with 500 Users",
-        content:
-          "Public beta launched with advanced AI strategies. Users reporting 15-25% monthly returns in conservative mode.",
-        date: "2025-09-18",
-        author: "Product Team",
-      },
-      {
-        id: 2,
-        title: "New ML Model Deployed",
-        content:
-          "Latest model incorporates sentiment analysis from crypto news and social media for improved predictions.",
-        date: "2025-08-30",
-        author: "AI Team",
-      },
-    ],
-    donations: [
-      {
-        id: 1,
-        donor: "Crypto Trader",
-        amount: 15000,
-        date: "2025-09-20",
-        anonymous: false,
-      },
-      {
-        id: 2,
-        donor: "Anonymous",
-        amount: 22000,
-        date: "2025-09-12",
-        anonymous: true,
-      },
-      {
-        id: 3,
-        donor: "Trading Firm",
-        amount: 30000,
-        date: "2025-09-05",
-        anonymous: false,
-      },
-      {
-        id: 4,
-        donor: "Anonymous",
-        amount: 18000,
-        date: "2025-08-25",
-        anonymous: true,
-      },
-    ],
-  },
-  {
-    id: 8,
-    slug: "decentralized-oracle-network",
-    title: "Decentralized Oracle Network",
-    category: "Infrastructure",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=400&fit=crop",
-    description:
-      "Secure and reliable oracle network providing real-world data feeds to Stellar smart contracts with economic security.",
-    fullDescription: `Comprehensive oracle infrastructure that bridges real-world data with Stellar's blockchain, enabling smart contracts to access external information securely and reliably.
-
-Network features:
-• Decentralized oracle nodes with economic staking
-• Multi-source data aggregation with outlier detection
-• Price feeds for 2000+ assets including crypto, stocks, commodities
-• Weather, sports, and IoT data integration
-• Verifiable randomness generation for gaming and NFTs
-• Cross-chain data bridging capabilities
-
-Our network uses a novel consensus mechanism combining proof-of-stake with data validation, ensuring 99.9% uptime and sub-second response times. Oracles are economically secured with $50M+ staked assets.
-
-Already powering 50+ DeFi protocols on Stellar with zero data manipulation incidents in 18 months of operation.`,
-    raised: 187500,
-    goal: 250000,
-    donors: 567,
-    upvotes: 423,
-    downvotes: 14,
-    verified: true,
-    givbacksEligible: true,
-    location: "Decentralized",
-    milestones: [
-      {
-        id: 1,
-        title: "Oracle Protocol Design & Research",
-        amount: 50000,
-        completed: true,
-        date: "2025-03-15",
-      },
-      {
-        id: 2,
-        title: "Core Network Development",
-        amount: 100000,
-        completed: true,
-        date: "2025-07-01",
-      },
-      {
-        id: 3,
-        title: "Data Source Integration & Testing",
-        amount: 150000,
-        completed: true,
-        date: "2025-09-20",
-      },
-      {
-        id: 4,
-        title: "Mainnet Launch & Staking",
-        amount: 200000,
-        completed: false,
-        date: "2025-12-01",
-      },
-      {
-        id: 5,
-        title: "Enterprise Solutions & Expansion",
-        amount: 250000,
-        completed: false,
-        date: "2026-03-15",
-      },
-    ],
-    creator: {
-      name: "Oracle Network Foundation",
-      address: "GONF...Q8WX",
-      stellarAddress:
-        "GONFQ8WXQPVX2HK3M5LXBWY7AQVNFT2LABSQPVX9WZGONFQ8WXQPVX", // Testnet address
-      verified: true,
-      memberSince: "2023",
-    },
-    updates: [
-      {
-        id: 1,
-        title: "50 Protocols Integrated",
-        content:
-          "Our oracle network now powers lending protocols, DEXs, and prediction markets with 99.9% uptime.",
-        date: "2025-09-25",
-        author: "Integration Team",
-      },
-      {
-        id: 2,
-        title: "Cross-Chain Data Bridge Live",
-        content:
-          "New feature allows Stellar contracts to access data from Ethereum, Polygon, and other chains.",
-        date: "2025-09-10",
-        author: "Bridge Team",
-      },
-    ],
-    donations: [
-      {
-        id: 1,
-        donor: "DeFi Protocol",
-        amount: 35000,
-        date: "2025-09-22",
-        anonymous: false,
-      },
-      {
-        id: 2,
-        donor: "Anonymous",
-        amount: 45000,
-        date: "2025-09-15",
-        anonymous: true,
-      },
-      {
-        id: 3,
-        donor: "Blockchain Foundation",
-        amount: 40000,
-        date: "2025-09-08",
-        anonymous: false,
-      },
-      {
-        id: 4,
-        donor: "Anonymous",
-        amount: 25000,
-        date: "2025-08-30",
-        anonymous: true,
-      },
-    ],
-  },
-  {
-    id: 9,
-    slug: "carbon-credit-trading-platform",
-    title: "Carbon Credit Trading Platform",
-    category: "Sustainability",
-    image: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&h=400&fit=crop",
-    description:
-      "Blockchain-based platform for trading carbon credits with transparent tracking and automated offset verification on Stellar.",
-    fullDescription: `Revolutionary platform that tokenizes carbon credits on Stellar, enabling transparent and efficient trading of environmental assets for climate action.
-
-Platform features:
-• Tokenized carbon credits with unique serial numbers
-• Automated verification using satellite imagery and IoT sensors
-• Fractional ownership for accessible investing
-• Smart contract automation for offset retirement
-• Integration with major carbon registries (Gold Standard, Verra)
-• Real-time impact tracking and reporting
-
-Our platform processes 10,000+ tons of CO2 offsets monthly, with credits backed by verified reforestation, renewable energy, and efficiency projects. Using Stellar's fast and cheap transactions, we reduce trading costs by 95% compared to traditional markets.
-
-Partnered with 20+ corporations and NGOs, facilitating $50M+ in carbon trading volume.`,
-    raised: 98400,
-    goal: 160000,
-    donors: 445,
-    upvotes: 356,
-    downvotes: 11,
-    verified: true,
-    givbacksEligible: true,
-    location: "Global",
-    milestones: [
-      {
-        id: 1,
-        title: "Carbon Credit Tokenization Protocol",
-        amount: 35000,
-        completed: true,
-        date: "2025-04-10",
-      },
-      {
-        id: 2,
-        title: "Verification System Development",
-        amount: 70000,
-        completed: true,
-        date: "2025-07-25",
-      },
-      {
-        id: 3,
-        title: "Registry Integration & Testing",
-        amount: 105000,
-        completed: false,
-        date: "2025-11-05",
-      },
-      {
-        id: 4,
-        title: "Trading Platform Launch",
-        amount: 140000,
-        completed: false,
-        date: "2026-01-20",
-      },
-      {
-        id: 5,
-        title: "Global Expansion & Partnerships",
-        amount: 160000,
-        completed: false,
-        date: "2026-04-30",
-      },
-    ],
-    creator: {
-      name: "Climate Chain Foundation",
-      address: "GCCF...N2KL",
-      stellarAddress:
-        "GCCFN2KLQPVX2HK3M5LXBWY7AQVNFT2LABSQPVX9WZGCCFN2KLQPVX", // Testnet address
-      verified: true,
-      memberSince: "2024",
-    },
-    updates: [
-      {
-        id: 1,
-        title: "Gold Standard Registry Integration",
-        content:
-          "Successfully integrated with Gold Standard carbon registry, enabling trading of verified carbon credits.",
-        date: "2025-09-28",
-        author: "Integration Team",
-      },
-      {
-        id: 2,
-        title: "First Corporate Partnership",
-        content:
-          "Major tech company commits to offsetting 100,000 tons of CO2 through our platform.",
-        date: "2025-09-15",
-        author: "Partnership Team",
-      },
-    ],
-    donations: [
-      {
-        id: 1,
-        donor: "Environmental NGO",
-        amount: 12000,
-        date: "2025-09-26",
-        anonymous: false,
-      },
-      {
-        id: 2,
-        donor: "Anonymous",
-        amount: 25000,
-        date: "2025-09-18",
-        anonymous: true,
-      },
-      {
-        id: 3,
-        donor: "Green Tech Company",
-        amount: 18000,
-        date: "2025-09-10",
-        anonymous: false,
-      },
-      {
-        id: 4,
-        donor: "Anonymous",
-        amount: 15000,
-        date: "2025-08-28",
-        anonymous: true,
-      },
-    ],
-  },
-  {
-    id: 10,
-    slug: "stellar-gaming-metaverse",
-    title: "Stellar Gaming Metaverse",
-    category: "NFT & Gaming",
-    image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&h=400&fit=crop",
-    description:
-      "Immersive gaming metaverse built on Stellar with play-to-earn mechanics, NFT assets, and cross-game interoperability.",
-    fullDescription: `Next-generation gaming ecosystem that combines blockchain technology with immersive virtual worlds, creating economic opportunities for players worldwide.
-
-Metaverse features:
-• Cross-game NFT assets and character progression
-• Play-to-earn mechanics with sustainable tokenomics
-• Decentralized land ownership and development
-• Social hubs with voice chat and events
-• Tournament system with prize pools
-• Creator tools for user-generated content
-
-Our metaverse hosts 50,000+ daily active users across multiple games, with $2M+ in monthly player earnings. Using Stellar's fast transactions, we enable instant item trading and seamless cross-game asset movement.
-
-Partnerships with major game studios bringing traditional gaming audiences to Web3.`,
-    raised: 245600,
-    goal: 400000,
-    donors: 892,
-    upvotes: 678,
-    downvotes: 34,
-    verified: true,
-    givbacksEligible: true,
-    location: "Virtual",
-    milestones: [
-      {
-        id: 1,
-        title: "Core Metaverse Engine Development",
-        amount: 80000,
-        completed: true,
-        date: "2025-02-28",
-      },
-      {
-        id: 2,
-        title: "First Game Integration",
-        amount: 160000,
-        completed: true,
-        date: "2025-06-15",
-      },
-      {
-        id: 3,
-        title: "Cross-Game Asset System",
-        amount: 240000,
-        completed: true,
-        date: "2025-09-01",
-      },
-      {
-        id: 4,
-        title: "Land Sales & Creator Tools",
-        amount: 320000,
-        completed: false,
-        date: "2025-12-15",
-      },
-      {
-        id: 5,
-        title: "Mobile Expansion & Global Launch",
-        amount: 400000,
-        completed: false,
-        date: "2026-03-30",
-      },
-    ],
-    creator: {
-      name: "MetaGame Studios",
-      address: "GMGS...T4UV",
-      stellarAddress:
-        "GMGST4UVQPVX2HK3M5LXBWY7AQVNFT2LABSQPVX9WZGMGST4UVQPVX", // Testnet address
-      verified: true,
-      memberSince: "2023",
-    },
-    updates: [
-      {
-        id: 1,
-        title: "50,000 Daily Active Users Milestone",
-        content:
-          "Metaverse reaches 50K DAU with players earning average $15/day through gameplay and tournaments.",
-        date: "2025-09-20",
-        author: "Community Team",
-      },
-      {
-        id: 2,
-        title: "Major Game Studio Partnership",
-        content:
-          "Leading mobile game developer integrates their 10M+ user game into our metaverse ecosystem.",
-        date: "2025-08-25",
-        author: "Partnership Team",
-      },
-      {
-        id: 3,
-        title: "Virtual Land Auction Success",
-        content:
-          "First virtual land auction raises 500,000 XLM for community development fund.",
-        date: "2025-07-30",
-        author: "Economy Team",
-      },
-    ],
-    donations: [
-      {
-        id: 1,
-        donor: "Game Developer",
-        amount: 25000,
-        date: "2025-09-22",
-        anonymous: false,
-      },
-      {
-        id: 2,
-        donor: "Anonymous",
-        amount: 60000,
-        date: "2025-09-15",
-        anonymous: true,
-      },
-      {
-        id: 3,
-        donor: "Gaming Guild",
-        amount: 35000,
-        date: "2025-09-08",
-        anonymous: false,
-      },
-      {
-        id: 4,
-        donor: "NFT Collector",
+        donor: "Real Estate Company",
         amount: 28000,
-        date: "2025-08-30",
-        anonymous: false,
-      },
-      {
-        id: 5,
-        donor: "Anonymous",
-        amount: 20000,
-        date: "2025-08-20",
-        anonymous: true,
-      },
-    ],
-  },
-  {
-    id: 11,
-    slug: "cross-chain-bridge-protocol",
-    title: "Cross-Chain Bridge Protocol",
-    category: "Infrastructure",
-    image: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=800&h=400&fit=crop",
-    description:
-      "Universal bridge protocol enabling seamless asset transfers between Stellar and 15+ major blockchains with institutional security.",
-    fullDescription: `Advanced interoperability protocol that connects Stellar with major blockchains, enabling secure and efficient cross-chain asset transfers.
-
-Bridge capabilities:
-• 15+ supported chains (Ethereum, BSC, Polygon, Solana, Avalanche, etc.)
-• Institutional-grade security with multi-sig and MPC
-• Fast finality with optimistic validation
-• Native asset wrapping and synthetic token creation
-• Cross-chain smart contract calls
-• Liquidity mining incentives for bridge usage
-
-Our bridge processes $500M+ in daily volume with zero security incidents. Using a hybrid security model combining multi-party computation with optimistic validation, we achieve both speed and security.
-
-Integrated with major DEXs and lending protocols across all supported chains.`,
-    raised: 312000,
-    goal: 500000,
-    donors: 734,
-    upvotes: 589,
-    downvotes: 27,
-    verified: true,
-    givbacksEligible: true,
-    location: "Decentralized",
-    milestones: [
-      {
-        id: 1,
-        title: "Bridge Protocol Architecture",
-        amount: 75000,
-        completed: true,
-        date: "2025-01-15",
-      },
-      {
-        id: 2,
-        title: "Multi-Chain Integration (5 chains)",
-        amount: 150000,
-        completed: true,
-        date: "2025-05-01",
-      },
-      {
-        id: 3,
-        title: "Security Audit & MPC Implementation",
-        amount: 225000,
-        completed: true,
-        date: "2025-08-20",
-      },
-      {
-        id: 4,
-        title: "Mainnet Launch & Liquidity Mining",
-        amount: 375000,
-        completed: false,
-        date: "2025-11-30",
-      },
-      {
-        id: 5,
-        title: "Full Chain Expansion & DeFi Integration",
-        amount: 500000,
-        completed: false,
-        date: "2026-02-28",
-      },
-    ],
-    creator: {
-      name: "Interoperability Labs",
-      address: "GILB...S5YZ",
-      stellarAddress:
-        "GILBS5YZQPVX2HK3M5LXBWY7AQVNFT2LABSQPVX9WZGILBS5YZQPVX", // Testnet address
-      verified: true,
-      memberSince: "2023",
-    },
-    updates: [
-      {
-        id: 1,
-        title: "Bridge Volume Hits $500M Daily",
-        content:
-          "Cross-chain transfers exceed $500M in daily volume, connecting Stellar with 12 major blockchains.",
-        date: "2025-09-28",
-        author: "Operations Team",
-      },
-      {
-        id: 2,
-        title: "New Chain Integration: Solana",
-        content:
-          "Solana integration complete with full asset support. Users can now bridge SOL and SPL tokens to Stellar.",
-        date: "2025-09-12",
-        author: "Integration Team",
-      },
-      {
-        id: 3,
-        title: "Institutional Security Audit Passed",
-        content:
-          "Comprehensive security audit by Trail of Bits completed with zero critical findings.",
-        date: "2025-08-18",
-        author: "Security Team",
-      },
-    ],
-    donations: [
-      {
-        id: 1,
-        donor: "Blockchain Foundation",
-        amount: 50000,
-        date: "2025-09-25",
-        anonymous: false,
-      },
-      {
-        id: 2,
-        donor: "Anonymous",
-        amount: 75000,
-        date: "2025-09-18",
-        anonymous: true,
-      },
-      {
-        id: 3,
-        donor: "DeFi Protocol",
-        amount: 45000,
-        date: "2025-09-10",
-        anonymous: false,
-      },
-      {
-        id: 4,
-        donor: "Crypto Exchange",
-        amount: 60000,
-        date: "2025-08-28",
-        anonymous: false,
-      },
-      {
-        id: 5,
-        donor: "Anonymous",
-        amount: 35000,
-        date: "2025-08-15",
-        anonymous: true,
-      },
-    ],
-  },
-  {
-    id: 12,
-    slug: "decentralized-social-media-platform",
-    title: "Decentralized Social Media Platform",
-    category: "Social & Content",
-    image: "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=800&h=400&fit=crop",
-    description:
-      "Censorship-resistant social media platform built on Stellar with creator monetization, NFT integration, and algorithmic transparency.",
-    fullDescription: `Privacy-focused social media ecosystem that gives users control over their data and content, while fairly compensating creators for their contributions.
-
-Platform features:
-• Decentralized content storage with IPFS integration
-• Creator monetization through micro-donations and NFTs
-• Transparent algorithms with user-controlled feeds
-• End-to-end encrypted messaging and groups
-• NFT profile pictures and collectible content
-• Cross-platform content portability
-
-Our platform hosts 100,000+ active users generating $1.2M in monthly creator earnings. Using Stellar's payment system, we enable instant micro-payments and tipping with zero fees for creators.
-
-Unique governance model gives users voting rights on platform changes and content moderation policies.`,
-    raised: 156800,
-    goal: 225000,
-    donors: 623,
-    upvotes: 489,
-    downvotes: 22,
-    verified: true,
-    givbacksEligible: true,
-    location: "Decentralized",
-    milestones: [
-      {
-        id: 1,
-        title: "Social Protocol & Smart Contracts",
-        amount: 45000,
-        completed: true,
-        date: "2025-03-10",
-      },
-      {
-        id: 2,
-        title: "Content System & IPFS Integration",
-        amount: 90000,
-        completed: true,
-        date: "2025-06-20",
-      },
-      {
-        id: 3,
-        title: "Monetization Features & Beta Launch",
-        amount: 135000,
-        completed: true,
         date: "2025-09-05",
-      },
-      {
-        id: 4,
-        title: "Mobile Apps & Advanced Features",
-        amount: 180000,
-        completed: false,
-        date: "2025-12-20",
-      },
-      {
-        id: 5,
-        title: "Global Scaling & Partnerships",
-        amount: 225000,
-        completed: false,
-        date: "2026-03-10",
-      },
-    ],
-    creator: {
-      name: "Social Web Foundation",
-      address: "GSWF...B7CD",
-      stellarAddress:
-        "GSWFB7CDQPVX2HK3M5LXBWY7AQVNFT2LABSQPVX9WZG SWFB7CDQPVX", // Testnet address
-      verified: true,
-      memberSince: "2024",
-    },
-    updates: [
-      {
-        id: 1,
-        title: "100K Users & $1.2M Creator Earnings",
-        content:
-          "Platform reaches 100,000 active users with creators earning average $120/month through donations and NFTs.",
-        date: "2025-09-22",
-        author: "Growth Team",
-      },
-      {
-        id: 2,
-        title: "NFT Content Integration",
-        content:
-          "Users can now mint posts and threads as NFTs, creating new monetization opportunities for content creators.",
-        date: "2025-09-08",
-        author: "Product Team",
-      },
-      {
-        id: 3,
-        title: "Algorithmic Transparency Feature",
-        content:
-          "New feature allows users to see and modify how their feed algorithm works, promoting transparency.",
-        date: "2025-08-20",
-        author: "Engineering Team",
-      },
-    ],
-    donations: [
-      {
-        id: 1,
-        donor: "Content Creator",
-        amount: 18000,
-        date: "2025-09-24",
         anonymous: false,
-      },
-      {
-        id: 2,
-        donor: "Anonymous",
-        amount: 35000,
-        date: "2025-09-16",
-        anonymous: true,
-      },
-      {
-        id: 3,
-        donor: "Privacy Advocate",
-        amount: 22000,
-        date: "2025-09-09",
-        anonymous: false,
-      },
-      {
-        id: 4,
-        donor: "Social Media User",
-        amount: 15000,
-        date: "2025-08-31",
-        anonymous: false,
-      },
-      {
-        id: 5,
-        donor: "Anonymous",
-        amount: 12000,
-        date: "2025-08-18",
-        anonymous: true,
       },
     ],
   },

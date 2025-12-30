@@ -20,6 +20,19 @@ const userSchema = new mongoose.Schema(
       enum: ["donor", "creator", "both"],
       default: "donor",
     },
+    sustainabilityFocus: [{
+      type: String,
+      enum: [
+        "solar-renewable-energy",
+        "ocean-cleanup-marine",
+        "regenerative-agriculture",
+        "carbon-capture-climate",
+        "biodiversity-wildlife",
+        "sustainable-transportation",
+        "circular-economy-waste",
+        "green-building-infrastructure",
+      ],
+    }],
     projects: [
       {
         type: mongoose.Schema.Types.ObjectId,

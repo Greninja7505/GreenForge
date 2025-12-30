@@ -13,21 +13,9 @@ export const useProjects = () => {
 
 export const ProjectsProvider = ({ children }) => {
   const [projects, setProjects] = useState(() => {
-    // Try to load from localStorage first
-    const stored = localStorage.getItem("stellar_projects");
-    if (stored) {
-      try {
-        const parsed = JSON.parse(stored);
-        // If stored projects are fewer than initial, use initial to avoid missing projects
-        if (parsed.length < initialProjects.length) {
-          return initialProjects;
-        }
-        return parsed;
-      } catch (e) {
-        console.error("Failed to parse stored projects:", e);
-        return initialProjects;
-      }
-    }
+    // Always use the latest projects data from the file
+    // Clear any old cached data to ensure sustainability projects are loaded
+    localStorage.removeItem("stellar_projects");
     return initialProjects;
   });
 

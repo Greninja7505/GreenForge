@@ -1,35 +1,25 @@
 import { motion } from "framer-motion";
 import {
   Globe,
-  Coins,
-  Lock,
-  TrendingUp,
-  Network,
-  Layers,
-  Wallet,
-  Code,
-  Zap,
-  Shield,
-  Database,
-  GitBranch,
-  Users,
+  Sun,
+  Waves,
+  Leaf,
+  Cloud,
+  Bird,
+  Truck,
+  Recycle,
+  Building,
 } from "lucide-react";
+import { getCategoryOptions } from "../../utils/categories";
 
 const CategoryFilter = ({ selectedCategory, onSelectCategory }) => {
   const categories = [
     { id: "all", name: "All Projects", icon: Globe },
-    { id: "DeFi Infrastructure", name: "DeFi Protocol", icon: Coins },
-    { id: "Trading & Analytics", name: "DEX & AMM", icon: TrendingUp },
-    { id: "Lending & Borrowing", name: "Lending & Borrowing", icon: Wallet },
-    { id: "Staking & Yield", name: "Staking & Yield", icon: Layers },
-    { id: "NFT & Gaming", name: "NFT & Gaming", icon: Zap },
-    { id: "DAO & Governance", name: "DAO & Governance", icon: Users },
-    { id: "Layer 2 & Scaling", name: "Infrastructure", icon: Network },
-    { id: "Developer Tools", name: "Security & Audit", icon: Shield },
-    { id: "Cross-Chain & Interoperability", name: "Cross-Chain Bridge", icon: GitBranch },
-    { id: "Oracle & Data", name: "Oracle & Data", icon: Database },
-    { id: "Privacy Technology", name: "Privacy & ZK", icon: Lock },
-    { id: "Identity & Privacy", name: "Dev Tools", icon: Code },
+    ...getCategoryOptions().map((cat, index) => ({
+      id: cat.value,
+      name: cat.label,
+      icon: [Sun, Waves, Leaf, Cloud, Bird, Truck, Recycle, Building][index] || Globe,
+    })),
   ];
 
   return (

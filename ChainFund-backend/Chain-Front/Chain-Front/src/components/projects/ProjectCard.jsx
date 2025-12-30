@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Heart, CheckCircle, TrendingUp } from "lucide-react";
+import { getCategoryDisplayName } from "../../utils/categories";
 
 const ProjectCard = ({ project, index, viewMode = "grid" }) => {
   const progressPercentage = (project.raised / project.goal) * 100;
@@ -51,7 +52,7 @@ const ProjectCard = ({ project, index, viewMode = "grid" }) => {
             {/* Content */}
             <div className="flex-1 flex flex-col">
               <span className="text-sm text-gray-400 font-semibold mb-2 uppercase">
-                {project.category}
+                {getCategoryDisplayName(project.category)}
               </span>
 
               <h3
@@ -165,7 +166,7 @@ const ProjectCard = ({ project, index, viewMode = "grid" }) => {
           {/* Project Info */}
           <div className="flex-1 flex flex-col">
             <span className="text-sm text-gray-400 font-semibold mb-2 uppercase">
-              {project.category}
+              {getCategoryDisplayName(project.category)}
             </span>
 
             <h3

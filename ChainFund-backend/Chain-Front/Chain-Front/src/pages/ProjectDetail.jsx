@@ -18,6 +18,7 @@ import {
   Target,
 } from "lucide-react";
 import { useProjects } from "../context/ProjectsContext";
+import ProjectTimelineVisualization from "../components/projects/ProjectTimelineVisualization";
 
 const ProjectDetail = () => {
   const { slug } = useParams();
@@ -496,6 +497,13 @@ const ProjectDetail = () => {
                   transition={{ duration: 0.4 }}
                   className="space-y-4"
                 >
+                  {/* Project Timeline Visualization */}
+                  <ProjectTimelineVisualization
+                    milestones={project.milestones || []}
+                    raised={project.raised}
+                    goal={project.goal}
+                  />
+
                   {project.milestones && project.milestones.length > 0 ? (
                     project.milestones.map((milestone, index) => {
                       const milestoneProgress =

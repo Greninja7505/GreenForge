@@ -20,33 +20,33 @@ const ChainFarm = () => {
   const stakingPools = [
     {
       id: 1,
-      name: "CHAIN Single Staking",
-      pair: "CHAIN",
+      name: "Green Energy Single Staking",
+      pair: "GREEN",
       apr: "55%",
       tvl: "$3.2M",
-      rewards: "CHAIN",
-      icon: Gift,
-      description: "Stake your CHAIN tokens directly to earn rewards and support the ecosystem"
+      rewards: "GREEN",
+      icon: Sparkles,
+      description: "Stake your GREEN tokens directly to earn rewards and support renewable energy initiatives"
     },
     {
       id: 2,
-      name: "CHAIN-XLM LP",
-      pair: "CHAIN/XLM",
+      name: "GREEN-XLM LP",
+      pair: "GREEN/XLM",
       apr: "95%",
       tvl: "$5.8M",
-      rewards: "CHAIN + XLM",
+      rewards: "GREEN + XLM",
       icon: Sparkles,
-      description: "Provide liquidity to the CHAIN-XLM pool and earn dual rewards"
+      description: "Provide liquidity to the GREEN-XLM pool and earn dual rewards for ocean cleanup projects"
     },
     {
       id: 3,
-      name: "CHAIN-USDC LP",
-      pair: "CHAIN/USDC",
+      name: "GREEN-USDC LP",
+      pair: "GREEN/USDC",
       apr: "75%",
       tvl: "$4.1M",
-      rewards: "CHAIN + USDC",
+      rewards: "GREEN + USDC",
       icon: DollarSign,
-      description: "Stable liquidity provision with attractive yields and low volatility"
+      description: "Stable liquidity provision with attractive yields supporting regenerative agriculture"
     },
   ];
 
@@ -97,7 +97,7 @@ const ChainFarm = () => {
             }}
             className="text-white mb-6 tracking-tight"
           >
-            <span style={{ fontWeight: "400" }}>CHAINFARM</span> STAKING
+            <span style={{ fontWeight: "400" }}>GREENFARM</span> REWARDS
           </h1>
           <p
             style={{
@@ -108,7 +108,7 @@ const ChainFarm = () => {
             }}
             className="text-gray-400 max-w-3xl mx-auto"
           >
-            Stake your CHAIN tokens or provide liquidity to earn attractive rewards while supporting impactful blockchain projects on the Stellar Forge ecosystem. Your participation helps fund real-world change and sustainable development initiatives.
+            Earn rewards by supporting sustainable initiatives and environmental projects. Your participation directly funds green technologies, conservation efforts, and climate solutions that create lasting positive impact for our planet.
           </p>
         </motion.div>
 

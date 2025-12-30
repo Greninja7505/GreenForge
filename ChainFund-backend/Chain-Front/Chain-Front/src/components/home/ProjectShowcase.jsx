@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Heart, TrendingUp, ExternalLink, CheckCircle } from "lucide-react";
 import { useProjects } from "../../context/ProjectsContext";
+import { getCategoryDisplayName } from "../../utils/categories";
 
 const ProjectShowcase = () => {
   // Get top 3 featured projects by raised amount
@@ -40,7 +41,7 @@ const ProjectShowcase = () => {
               }}
               className="text-gray-400"
             >
-              Innovative blockchain protocols making real impact
+              Sustainable initiatives creating environmental impact
             </p>
           </div>
 
@@ -112,7 +113,7 @@ const ProjectShowcase = () => {
                       }}
                       className="text-gray-500 mb-3"
                     >
-                      {project.category}
+                      {getCategoryDisplayName(project.category)}
                     </span>
 
                     <h3
