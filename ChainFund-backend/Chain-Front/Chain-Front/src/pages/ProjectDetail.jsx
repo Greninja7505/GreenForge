@@ -404,6 +404,13 @@ const ProjectDetail = () => {
                   >
                     {project.fullDescription}
                   </div>
+
+                  {/* Project Timeline Visualization */}
+                  <ProjectTimelineVisualization
+                    milestones={project.milestones || []}
+                    raised={project.raised}
+                    goal={project.goal}
+                  />
                 </motion.div>
               )}
 
@@ -497,13 +504,6 @@ const ProjectDetail = () => {
                   transition={{ duration: 0.4 }}
                   className="space-y-4"
                 >
-                  {/* Project Timeline Visualization */}
-                  <ProjectTimelineVisualization
-                    milestones={project.milestones || []}
-                    raised={project.raised}
-                    goal={project.goal}
-                  />
-
                   {project.milestones && project.milestones.length > 0 ? (
                     project.milestones.map((milestone, index) => {
                       const milestoneProgress =
