@@ -23,6 +23,7 @@ class User(Document):
     skill_level: str = Field(default="Beginner", description="Skill level based on score")
     skill_nft_token_id: Optional[int] = Field(None, description="Token ID of skill NFT")
     skill_history: List[SkillHistory] = Field(default_factory=list, description="History of skill-earning activities")
+    sustainability_focus: List[str] = Field(default_factory=list, description="Sustainability focus areas")
     total_milestones_completed: int = Field(default=0, description="Total milestones completed")
     total_campaigns_participated: int = Field(default=0, description="Total campaigns participated in")
     average_completion_time: Optional[float] = Field(None, description="Average completion time in days")
@@ -57,6 +58,7 @@ class UserResponse(BaseModel):
     skill_score: float
     skill_level: str
     skill_nft_token_id: Optional[int] = None
+    sustainability_focus: List[str]
     total_milestones_completed: int
     total_campaigns_participated: int
     created_at: str
@@ -68,6 +70,7 @@ class SkillScoreResponse(BaseModel):
     skill_score: float
     skill_level: str
     skill_nft_token_id: Optional[int] = None
+    sustainability_focus: List[str]
     total_milestones_completed: int
     total_campaigns_participated: int
     average_completion_time: Optional[float] = None

@@ -25,6 +25,7 @@ class Campaign(Document):
     creator_wallet: str = Field(..., description="Creator's wallet address")
     title: str = Field(..., description="Campaign title")
     description: str = Field(..., description="Campaign description")
+    category: str = Field(default="solar-renewable-energy", description="Sustainability category")
     goal_amount: float = Field(..., description="Funding goal amount")
     contract_address: Optional[str] = Field(None, description="Deployed campaign contract address")
     milestones: List[Milestone] = Field(default_factory=list, description="List of campaign milestones")
@@ -52,6 +53,7 @@ class CampaignCreate(BaseModel):
     creator_wallet: str
     title: str
     description: str
+    category: str = "solar-renewable-energy"
     goal_amount: float
     milestones: List[dict]  # Will be converted to Milestone objects
 
@@ -61,6 +63,7 @@ class CampaignResponse(BaseModel):
     creator_wallet: str
     title: str
     description: str
+    category: str
     goal_amount: float
     contract_address: Optional[str] = None
     milestones: List[Milestone]

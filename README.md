@@ -1,4 +1,4 @@
-# 🌟 StellarForge (ChainFund)
+# � GreenChain (StellarForge)
 
 <div align="center">
 
@@ -8,7 +8,7 @@
 ![Rust](https://img.shields.io/badge/Rust-Smart_Contracts-orange?style=for-the-badge&logo=rust)
 ![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 
-**AI-Verified Trustless Crowdfunding Platform on Stellar Blockchain**
+**AI-Verified Sustainable Crowdfunding Platform on Stellar Blockchain**
 
 [🚀 Live Demo](#) • [📖 Documentation](./PROJECT_OVERVIEW.md) • [🔗 Smart Contracts](#smart-contracts) • [💬 Community](#)
 
@@ -35,9 +35,9 @@
 
 ## 🎯 Overview
 
-**StellarForge (ChainFund)** is a revolutionary decentralized crowdfunding platform built on the Stellar blockchain using Soroban smart contracts. It combines **AI-powered verification**, **quadratic voting governance**, and **milestone-based funding** to create a transparent, trustless crowdfunding ecosystem.
+**GreenChain (StellarForge)** is a revolutionary decentralized crowdfunding platform built on the Stellar blockchain using Soroban smart contracts. It combines **AI-powered verification**, **quadratic voting governance**, and **milestone-based funding** to create a transparent, trustless crowdfunding ecosystem focused on **sustainable development and environmental impact**.
 
-### Why StellarForge?
+### Why GreenChain?
 
 Traditional crowdfunding platforms suffer from:
 
@@ -46,7 +46,12 @@ Traditional crowdfunding platforms suffer from:
 - ❌ No accountability for fund usage
 - ❌ Risk of fraud and mismanagement
 
-**StellarForge solves these problems with:**
+**GreenChain solves these problems with:**
+
+- ✅ **Sustainability Matching**: Connect investors with projects aligned to their environmental focus areas
+- ✅ **Impact Tracking**: Real-time monitoring of environmental outcomes and carbon reduction metrics
+- ✅ **Green Rewards**: Earn tokens for supporting verified sustainable initiatives
+- ✅ **Community Governance**: Quadratic voting ensures fair decision-making for environmental priorities
 
 - ✅ **Trustless Escrow** - Funds locked in smart contracts
 - ✅ **AI Verification** - Automated milestone verification
