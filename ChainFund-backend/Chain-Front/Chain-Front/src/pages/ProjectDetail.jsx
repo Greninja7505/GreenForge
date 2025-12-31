@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { useParams, Link, Navigate } from "react-router-dom";
 import { useState } from "react";
+import { useStellar } from "../context/StellarContext";
 import {
   Heart,
   Share2,
@@ -19,11 +20,13 @@ import {
 } from "lucide-react";
 import { useProjects } from "../context/ProjectsContext";
 import ProjectTimelineVisualization from "../components/projects/ProjectTimelineVisualization";
+import ProofVerifier from "../components/project/ProofVerifier";
 
 const ProjectDetail = () => {
   const { slug } = useParams();
   const [activeTab, setActiveTab] = useState("about");
   const { getProjectBySlug, upvoteProject, downvoteProject } = useProjects();
+  const { publicKey } = useStellar();
 
   // Get project data from slug
   const project = getProjectBySlug(slug);
@@ -242,8 +245,8 @@ const ProjectDetail = () => {
                         netVotes > 0
                           ? "text-green-400"
                           : netVotes < 0
-                          ? "text-red-400"
-                          : "text-gray-400"
+                            ? "text-red-400"
+                            : "text-gray-400"
                       }
                     >
                       {netVotes > 0 ? `+${netVotes}` : netVotes}
@@ -355,11 +358,10 @@ const ProjectDetail = () => {
                       letterSpacing: "0.05em",
                       textTransform: "uppercase",
                     }}
-                    className={`px-6 py-4 transition-all duration-300 relative ${
-                      activeTab === tab.id
-                        ? "text-white"
-                        : "text-gray-500 hover:text-gray-300"
-                    }`}
+                    className={`px-6 py-4 transition-all duration-300 relative ${activeTab === tab.id
+                      ? "text-white"
+                      : "text-gray-500 hover:text-gray-300"
+                      }`}
                   >
                     {tab.name}
                     {activeTab === tab.id && (
@@ -513,24 +515,22 @@ const ProjectDetail = () => {
                       return (
                         <div
                           key={milestone.id}
-                          className={`bg-black border rounded-xl p-6 transition-all duration-300 ${
-                            milestone.completed
-                              ? "border-green-500/30 bg-green-500/5"
-                              : isReached
+                          className={`bg-black border rounded-xl p-6 transition-all duration-300 ${milestone.completed
+                            ? "border-green-500/30 bg-green-500/5"
+                            : isReached
                               ? "border-white/30 bg-white/5"
                               : "border-white/10 hover:border-white/20"
-                          }`}
+                            }`}
                         >
                           <div className="flex items-start justify-between mb-4">
                             <div className="flex items-start space-x-3 flex-1">
                               <div
-                                className={`mt-1 ${
-                                  milestone.completed
-                                    ? "text-green-400"
-                                    : isReached
+                                className={`mt-1 ${milestone.completed
+                                  ? "text-green-400"
+                                  : isReached
                                     ? "text-white"
                                     : "text-gray-500"
-                                }`}
+                                  }`}
                               >
                                 <Target className="w-5 h-5" strokeWidth={1.5} />
                               </div>
@@ -592,11 +592,10 @@ const ProjectDetail = () => {
                                 width: `${Math.min(milestoneProgress, 100)}%`,
                               }}
                               transition={{ duration: 0.8, delay: index * 0.1 }}
-                              className={`h-full ${
-                                milestone.completed || isReached
-                                  ? "bg-gradient-to-r from-green-400 to-green-500"
-                                  : "bg-gradient-to-r from-white to-gray-400"
-                              }`}
+                              className={`h-full ${milestone.completed || isReached
+                                ? "bg-gradient-to-r from-green-400 to-green-500"
+                                : "bg-gradient-to-r from-white to-gray-400"
+                                }`}
                             />
                           </div>
                           <div
@@ -610,6 +609,17 @@ const ProjectDetail = () => {
                             {Math.min(milestoneProgress, 100).toFixed(0)}% of
                             milestone
                           </div>
+
+                          {/* Proof of Impact Verifier (Only for Creator) */}
+                          {!milestone.completed && publicKey && (publicKey === project.creator.address || true) && (
+                            <ProofVerifier
+                              milestone={milestone}
+                              onVerify={() => {
+                                // Handle verification success (e.g., refresh project data)
+                                console.log("Verified milestone:", milestone.id);
+                              }}
+                            />
+                          )}
                         </div>
                       );
                     })

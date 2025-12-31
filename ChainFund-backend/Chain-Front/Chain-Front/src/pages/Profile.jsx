@@ -26,6 +26,7 @@ import { useStellar } from "../context/StellarContext";
 import { useNavigate } from "react-router-dom";
 import ProfileSetupModal from "../components/profile/ProfileSetupModal";
 import SbtBadgesModule from "../components/SbtBadges";
+import GreenPortfolio from "../components/profile/GreenPortfolio";
 
 const { SbtProfileSection, useSbtData, SbtBadgeGrid, SbtMiniBadges } = SbtBadgesModule;
 
@@ -35,7 +36,7 @@ const Profile = () => {
   const { projects } = useProjects();
   const { publicKey } = useStellar();
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  
+
   // Fetch SBT data for the connected wallet
   const sbtData = useSbtData(publicKey);
 
@@ -306,6 +307,15 @@ const Profile = () => {
             </motion.div>
           )}
 
+          {/* Green Portfolio (Impact NFTs) */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.25 }}
+          >
+            <GreenPortfolio />
+          </motion.div>
+
           {/* Stats Cards */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
             {/* Total Donations */}
@@ -478,14 +488,12 @@ const Profile = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={toggleAnonymous}
-              className={`relative inline-flex h-8 w-14 items-center rounded-full transition-colors ${
-                isAnonymous ? "bg-gray-700" : "bg-white"
-              }`}
+              className={`relative inline-flex h-8 w-14 items-center rounded-full transition-colors ${isAnonymous ? "bg-gray-700" : "bg-white"
+                }`}
             >
               <span
-                className={`inline-block h-6 w-6 transform rounded-full bg-black transition-transform ${
-                  isAnonymous ? "translate-x-1" : "translate-x-7"
-                }`}
+                className={`inline-block h-6 w-6 transform rounded-full bg-black transition-transform ${isAnonymous ? "translate-x-1" : "translate-x-7"
+                  }`}
               />
             </motion.button>
           </div>
@@ -924,7 +932,7 @@ const Profile = () => {
         isOpen={isEditModalOpen}
         onClose={() => setIsEditModalOpen(false)}
       />
-    </div>
+    </div >
   );
 };
 

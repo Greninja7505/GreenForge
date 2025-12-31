@@ -34,6 +34,9 @@ class Settings(BaseSettings):
     pinata_api_key: str = ""
     pinata_secret_key: str = ""
     web3_storage_token: str = ""
+    
+    # AI Configuration
+    groq_api_key: str = ""
 
     # JWT Configuration
     jwt_secret_key: str = "your-secret-key-change-in-production"
@@ -50,8 +53,7 @@ class Settings(BaseSettings):
         "http://127.0.0.1:8080"
     ]
 
-    class Config:
-        env_file = ".env"
+
 
 
 settings = Settings()
@@ -61,7 +63,7 @@ MONGODB_URL = settings.mongodb_url
 MONGODB_DB = settings.database_name
 
 # Stellar Contract IDs
-STELLAR_PROJECT_FUNDING_ID = settings.stellar_project_funding_id
+STELLAR_PROJECT_FUNDING_ID = settings.chainfund_contract_id
 STELLAR_REWARD_TOKEN_ID = settings.stellar_reward_token_id
 
 # Stellar Network

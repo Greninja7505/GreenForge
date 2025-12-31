@@ -62,6 +62,8 @@ const EarningsDashboard = lazy(() => import("./components/Freelancer/EarningsDas
 const HireGig = lazy(() => import("./pages/HireGig"));
 const Governance = lazy(() => import("./pages/Governance"));
 const CreateGig = lazy(() => import("./pages/CreateGig"));
+const EcoBounties = lazy(() => import("./pages/EcoBounties"));
+const Marketplace = lazy(() => import("./pages/Marketplace"));
 
 // Scroll to top component
 function ScrollToTop() {
@@ -220,6 +222,8 @@ function App() {
                       <Route path="/freelancer/create-gig" element={<RoleBasedRoute feature="freelancer"><SuspenseWrapper><CreateGig /></SuspenseWrapper></RoleBasedRoute>} />
                       <Route path="/hire/:gigId" element={<ProtectedRoute><HireGigPage /></ProtectedRoute>} />
                       <Route path="/governance" element={<RoleBasedRoute feature="governance"><SuspenseWrapper><Governance /></SuspenseWrapper></RoleBasedRoute>} />
+                      <Route path="/eco-bounties" element={<SuspenseWrapper><EcoBounties /></SuspenseWrapper>} />
+                      <Route path="/marketplace" element={<SuspenseWrapper><Marketplace /></SuspenseWrapper>} />
                       <Route path="*" element={<NotFound />} />
                     </Routes>
                   </AnimatePresence>

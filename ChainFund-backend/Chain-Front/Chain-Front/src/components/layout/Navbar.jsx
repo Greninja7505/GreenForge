@@ -61,6 +61,8 @@ const Navbar = () => {
 
   // More dropdown items (always available)
   const moreItems = [
+    { name: "Eco-Bounties", path: "/eco-bounties", desc: "Earn for impact" },
+    { name: "Marketplace", path: "/marketplace", desc: "Carbon Cashback" },
     { name: "GIVeconomy", path: "/giveconomy", desc: "Token economics" },
     { name: "GIVfarm", path: "/givfarm", desc: "Yield farming" },
     { name: "Community", path: "/join", desc: "Join us" },

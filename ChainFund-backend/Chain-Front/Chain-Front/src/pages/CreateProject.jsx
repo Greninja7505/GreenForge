@@ -20,6 +20,7 @@ import { TransactionProgress, useTransactionState } from "../components/Transact
 import ContractService from "../services/ContractService";
 import AIHelper from "../components/AIHelper";
 import { generateProjectDescription, suggestMilestones } from "../services/AIService";
+import SustainabilityAnalyzer from "../components/project/SustainabilityAnalyzer";
 
 const CreateProject = () => {
   const { publicKey, isConnected, connectWallet } = useStellar();
@@ -137,7 +138,7 @@ const CreateProject = () => {
     try {
       // Step 1: Prepare transaction
       txState.setStep('prepare');
-      
+
       // Create slug from title
       const slug = formData.title
         .toLowerCase()
@@ -161,7 +162,7 @@ const CreateProject = () => {
 
       // Step 3: Submit to blockchain
       txState.setStep('submit');
-      
+
       // Try to call smart contract
       let contractResult = null;
       try {
@@ -203,10 +204,10 @@ const CreateProject = () => {
       };
 
       addProject(newProject);
-      
+
       txState.setSuccess(contractResult?.hash || 'local-' + Date.now());
       toast.success("Project created successfully!");
-      
+
       setTimeout(() => {
         txState.close();
         navigate(`/project/${slug}`);
@@ -249,7 +250,7 @@ const CreateProject = () => {
       toast.error("Please enter a project title first");
       return;
     }
-    
+
     setIsGeneratingDescription(true);
     try {
       const description = await generateProjectDescription({
@@ -258,7 +259,7 @@ const CreateProject = () => {
         goal: formData.goal || '10000',
         brief: formData.description || 'A blockchain project'
       });
-      
+
       setFormData(prev => ({
         ...prev,
         fullDescription: description
@@ -277,7 +278,7 @@ const CreateProject = () => {
       toast.error("Please enter title and goal first");
       return;
     }
-    
+
     setIsGeneratingMilestones(true);
     try {
       const suggestions = await suggestMilestones({
@@ -286,7 +287,7 @@ const CreateProject = () => {
         goal: formData.goal,
         description: formData.description
       });
-      
+
       toast.success("AI suggestions ready! Check the AI helper.");
     } catch (error) {
       toast.error("Failed to get suggestions");
@@ -614,6 +615,13 @@ const CreateProject = () => {
                   className="w-full px-4 py-3 bg-black border border-white/10 rounded-xl text-white placeholder-gray-600 focus:border-white/30 focus:outline-none transition-all"
                 />
               </div>
+
+              {/* Greenwashing Detector */}
+              <SustainabilityAnalyzer
+                title={formData.title}
+                description={formData.fullDescription || formData.description}
+                category={formData.category}
+              />
             </div>
           </div>
 

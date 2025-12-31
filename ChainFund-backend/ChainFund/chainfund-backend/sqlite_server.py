@@ -33,6 +33,13 @@ except ImportError:
     PROJECTS_AVAILABLE = False
     print("⚠️  Projects router not available - missing dependencies")
 
+try:
+    from app.routers import ai
+    AI_AVAILABLE = True
+except ImportError:
+    AI_AVAILABLE = False
+    print("⚠️  AI router not available - missing dependencies")
+
 # ==================== PYDANTIC MODELS ====================
 
 class UserCreate(BaseModel):
@@ -133,6 +140,11 @@ if AUTH_AVAILABLE:
 if PROJECTS_AVAILABLE:
     app.include_router(projects.router)
     print("✅ Projects router included")
+
+# Include AI router if available
+if AI_AVAILABLE:
+    app.include_router(ai.router)
+    print("✅ AI router included")
 
 
 # ==================== STARTUP EVENT ====================
