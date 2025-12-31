@@ -6,6 +6,7 @@ import ProjectShowcase from "../components/home/ProjectShowcase";
 import RecentPosts from "../components/home/RecentPosts";
 import Marquee from "../components/home/Marquee";
 import AnnouncementBanner from "../components/home/AnnouncementBanner";
+import ImpactGlobe from "../components/home/ImpactGlobe";
 
 const Home = () => {
   return (
@@ -20,6 +21,12 @@ const Home = () => {
         transition={{ duration: 0.5 }}
       >
         <HeroSection />
+
+        {/* Living Globe 3D Visualization */}
+        <section className="bg-black py-0 border-y border-white/10">
+          <ImpactGlobe />
+        </section>
+
         {/* New: Detailed Core Features Cards */}
         <CoreFeatures />
         {/* Swapped: ProjectShowcase now comes before FeaturesGrid */}
