@@ -72,6 +72,7 @@ Partnerships with major utilities and government incentives make this project fi
         "GHELIOP8QRQPVX2HK3M5LXBWY7AQVNFT2LABSQPVX9WZGHELIOP8QR",
       verified: true,
       memberSince: "2023",
+      avatar: "https://images.unsplash.com/photo-1560179707-f14e90ef3dab?w=200&h=200&fit=crop"
     },
     updates: [
       {
@@ -188,6 +189,7 @@ Partnerships with major shipping companies and coastal governments ensure global
         "GOCTN4WXQPVX2HK3M5LXBWY7AQVNFT2LABSQPVX9WZGOCTN4WXQPVX",
       verified: true,
       memberSince: "2024",
+      avatar: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=200&h=200&fit=crop"
     },
     updates: [
       {
@@ -304,6 +306,7 @@ Collaboration with local farmers, universities, and food companies ensures long-
         "GSHCM9KLQPVX2HK3M5LXBWY7AQVNFT2LABSQPVX9WZGSHCM9KLQPVX",
       verified: true,
       memberSince: "2023",
+      avatar: "https://images.unsplash.com/photo-1628258334105-2a0b3d6efcd1?w=200&h=200&fit=crop"
     },
     updates: [
       {
@@ -420,6 +423,7 @@ Strategic partnerships with major corporations and governments ensure offtake ag
         "GCCTP2MNQPVX2HK3M5LXBWY7AQVNFT2LABSQPVX9WZGCCTP2MNQPVX",
       verified: true,
       memberSince: "2024",
+      avatar: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=200&h=200&fit=crop"
     },
     updates: [
       {
@@ -536,6 +540,7 @@ Partnerships with international conservation organizations and Brazilian governm
         "GACAT7UVQPVX2HK3M5LXBWY7AQVNFT2LABSQPVX9WZGACAT7UVQPVX",
       verified: true,
       memberSince: "2023",
+      avatar: "https://images.unsplash.com/photo-1599586120429-48285b6a7a27?w=200&h=200&fit=crop"
     },
     updates: [
       {
@@ -652,6 +657,7 @@ Economic impact includes 5,000 construction jobs and ongoing maintenance positio
         "GCNIB4WXQPVX2HK3M5LXBWY7AQVNFT2LABSQPVX9WZGCNIB4WXQPVX",
       verified: true,
       memberSince: "2024",
+      avatar: "https://images.unsplash.com/photo-1593941707882-a5bac6861d75?w=200&h=200&fit=crop"
     },
     updates: [
       {
@@ -768,6 +774,7 @@ Partnerships with major corporations and government agencies drive adoption and 
         "GCTSN6YZQPVX2HK3M5LXBWY7AQVNFT2LABSQPVX9WZGCTSN6YZQPVX",
       verified: true,
       memberSince: "2024",
+      avatar: "https://images.unsplash.com/photo-1532996122724-e3bc8a3334b9?w=200&h=200&fit=crop"
     },
     updates: [
       {
@@ -884,6 +891,7 @@ Collaboration with property owners, architects, and local governments ensures co
         "GUGDP9KLQPVX2HK3M5LXBWY7AQVNFT2LABSQPVX9WZGUGDP9KLQPVX",
       verified: true,
       memberSince: "2023",
+      avatar: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=200&h=200&fit=crop"
     },
     updates: [
       {

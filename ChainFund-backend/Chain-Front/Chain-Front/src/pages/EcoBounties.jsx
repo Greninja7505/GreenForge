@@ -12,6 +12,7 @@ const BOUNTIES_DATA = [
         reward: "50 XLM",
         difficulty: "Medium",
         type: "Cleanup",
+        image: "https://images.unsplash.com/photo-1618477461853-5f8dd68aa61f?q=80&w=1000&auto=format&fit=crop",
         coordinates: { top: "40%", left: "60%" }, // Mock map position
         description: "Remove plastic waste specifically from the northern sector near the mangroves."
     },
@@ -22,6 +23,7 @@ const BOUNTIES_DATA = [
         reward: "100 XLM",
         difficulty: "Hard",
         type: "Planting",
+        image: "https://images.unsplash.com/photo-1542601906990-b4d3fb7d5b73?q=80&w=1000&auto=format&fit=crop",
         coordinates: { top: "45%", left: "58%" },
         description: "Reforestation drive needs support. Saplings provided at check-in point."
     },
@@ -32,6 +34,7 @@ const BOUNTIES_DATA = [
         reward: "30 XLM",
         difficulty: "Easy",
         type: "Verification",
+        image: "https://images.unsplash.com/photo-1509391366360-2e959784a276?q=80&w=1000&auto=format&fit=crop",
         coordinates: { top: "35%", left: "20%" },
         description: "Take photos of the newly installed solar array for the community energy grid."
     },
@@ -42,6 +45,7 @@ const BOUNTIES_DATA = [
         reward: "75 XLM",
         difficulty: "Medium",
         type: "Audit",
+        image: "https://images.unsplash.com/photo-1484291470158-b8f8d608850d?q=80&w=1000&auto=format&fit=crop",
         coordinates: { top: "55%", left: "75%" },
         description: "Count and categorize waste types found on Kuta beach for research."
     }
@@ -237,36 +241,47 @@ const EcoBounties = () => {
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     whileHover={{ y: -5 }}
-                                    className="bg-black border border-white/10 rounded-xl p-6 group hover:border-green-500/30 transition-all duration-300 flex flex-col justify-between h-full"
+                                    className="bg-black border border-white/10 rounded-xl overflow-hidden group hover:border-green-500/30 transition-all duration-300 flex flex-col justify-between h-full"
                                 >
-                                    <div>
-                                        <div className="flex justify-between items-start mb-4">
-                                            <span className={`px-3 py-1 rounded-full text-xs font-medium ${bounty.difficulty === 'Easy' ? 'bg-green-500/10 text-green-400' :
-                                                    bounty.difficulty === 'Medium' ? 'bg-yellow-500/10 text-yellow-400' :
-                                                        'bg-red-500/10 text-red-400'
+                                    {/* Bounty Image */}
+                                    <div className="h-48 overflow-hidden relative">
+                                        <img
+                                            src={bounty.image}
+                                            alt={bounty.title}
+                                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                        />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
+
+                                        <div className="absolute top-4 right-4 bg-black/80 backdrop-blur-md px-3 py-1 rounded-full border border-white/20">
+                                            <span className="text-green-400 font-mono font-medium flex items-center gap-1 text-xs">
+                                                {bounty.reward} <Sprout className="w-3 h-3" />
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <div className="p-6 flex-1 flex flex-col">
+                                        <div className="flex justify-between items-start mb-3">
+                                            <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border ${bounty.difficulty === 'Easy' ? 'bg-green-500/10 text-green-400 border-green-500/20' :
+                                                    bounty.difficulty === 'Medium' ? 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20' :
+                                                        'bg-red-500/10 text-red-400 border-red-500/20'
                                                 }`}>
                                                 {bounty.difficulty}
                                             </span>
-                                            <span className="text-green-400 font-mono font-medium flex items-center gap-1">
-                                                {bounty.reward} <Sprout className="w-3 h-3" />
+                                            <span className="text-gray-400 text-xs flex items-center gap-1">
+                                                <MapPin className="w-3 h-3" /> {bounty.location}
                                             </span>
                                         </div>
 
                                         <h3 className="text-xl text-white font-medium mb-2">{bounty.title}</h3>
-                                        <p className="text-gray-400 text-sm mb-4 line-clamp-2">{bounty.description}</p>
+                                        <p className="text-gray-400 text-sm mb-6 line-clamp-2 flex-1">{bounty.description}</p>
 
-                                        <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
-                                            <MapPin className="w-4 h-4" />
-                                            {bounty.location}
-                                        </div>
+                                        <button
+                                            onClick={() => handleClaim(bounty)}
+                                            className="w-full py-3 bg-white/5 hover:bg-green-600 text-white rounded-lg transition-colors flex items-center justify-center gap-2 group-hover:shadow-[0_0_20px_rgba(34,197,94,0.3)] font-medium text-sm"
+                                        >
+                                            Claim Quest <ArrowRight className="w-4 h-4" />
+                                        </button>
                                     </div>
-
-                                    <button
-                                        onClick={() => handleClaim(bounty)}
-                                        className="w-full py-3 bg-white/5 hover:bg-green-600 text-white rounded-lg transition-colors flex items-center justify-center gap-2 group-hover:shadow-[0_0_20px_rgba(34,197,94,0.3)]"
-                                    >
-                                        Claim Quest <ArrowRight className="w-4 h-4" />
-                                    </button>
                                 </motion.div>
                             ))}
                         </div>

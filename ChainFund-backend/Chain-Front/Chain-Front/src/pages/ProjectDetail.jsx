@@ -651,6 +651,40 @@ const ProjectDetail = () => {
               transition={{ duration: 0.6, delay: 0.3 }}
               className="sticky top-32 space-y-6"
             >
+              {/* Creator Profile Card */}
+              <div className="bg-black border border-white/10 rounded-xl p-6 hover:border-white/30 transition-all duration-300 group">
+                <div className="flex items-center gap-4">
+                  <div className="relative">
+                    <img
+                      src={project.creator.avatar || "https://images.unsplash.com/photo-1560179707-f14e90ef3dab?w=200&h=200&fit=crop"}
+                      alt={project.creator.name}
+                      className="w-16 h-16 rounded-full object-cover border-2 border-white/10 group-hover:border-green-500/50 transition-colors"
+                    />
+                    {project.creator.verified && (
+                      <div className="absolute -bottom-1 -right-1 bg-black text-green-400 rounded-full p-0.5 border border-black">
+                        <CheckCircle className="w-4 h-4" fill="currentColor" stroke="black" />
+                      </div>
+                    )}
+                  </div>
+                  <div>
+                    <p
+                      style={{ fontFamily: "Helvetica, Arial, sans-serif", fontWeight: "300", fontSize: "0.75rem", letterSpacing: "0.05em", textTransform: "uppercase" }}
+                      className="text-gray-500 mb-1"
+                    >
+                      Project Creator
+                    </p>
+                    <h3
+                      style={{ fontFamily: "Helvetica, Arial, sans-serif", fontWeight: "400", fontSize: "1rem" }}
+                      className="text-white leading-tight"
+                    >
+                      {project.creator.name}
+                    </h3>
+                    <p className="text-xs text-gray-500 mt-1 font-mono truncate max-w-[150px]">
+                      {project.creator.address.substring(0, 6)}...{project.creator.address.substring(project.creator.address.length - 4)}
+                    </p>
+                  </div>
+                </div>
+              </div>
               {/* Donation Card */}
               <div className="bg-black border border-white/10 rounded-xl p-8 hover:border-white/30 transition-all duration-300">
                 <div className="text-center mb-6">

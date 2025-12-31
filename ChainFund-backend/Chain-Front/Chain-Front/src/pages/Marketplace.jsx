@@ -9,7 +9,7 @@ const SAMPLE_PRODUCTS = [
         name: "Bamboo Toothbrush Set",
         price: 15,
         cashback: 2,
-        image: "https://images.unsplash.com/photo-1607613009820-a29f7bb6dcaf?q=80&w=1000&auto=format&fit=crop",
+        image: "https://images.unsplash.com/photo-1607613009820-a29f7bb6dcaf?q=80&w=800&auto=format&fit=crop",
         category: "Home"
     },
     {
@@ -17,7 +17,7 @@ const SAMPLE_PRODUCTS = [
         name: "Solar Phone Charger",
         price: 45,
         cashback: 8,
-        image: "https://images.unsplash.com/photo-1621451537084-482c73073a0f?q=80&w=1000&auto=format&fit=crop",
+        image: "https://images.unsplash.com/photo-1545259741-2ea3ebf61fa3?q=80&w=800&auto=format&fit=crop",
         category: "Tech",
         promo: "Top Seller"
     },
@@ -26,7 +26,7 @@ const SAMPLE_PRODUCTS = [
         name: "Recycled Plastic Backpack",
         price: 60,
         cashback: 10,
-        image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?q=80&w=1000&auto=format&fit=crop",
+        image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?q=80&w=800&auto=format&fit=crop",
         category: "Fashion"
     },
     {
@@ -34,7 +34,7 @@ const SAMPLE_PRODUCTS = [
         name: "Organic Cotton Tee",
         price: 25,
         cashback: 3,
-        image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?q=80&w=1000&auto=format&fit=crop",
+        image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?q=80&w=800&auto=format&fit=crop",
         category: "Fashion"
     },
     {
@@ -42,7 +42,7 @@ const SAMPLE_PRODUCTS = [
         name: "Biodegradable Phone Case",
         price: 20,
         cashback: 4,
-        image: "https://images.unsplash.com/photo-1586953208448-b95a79798f07?q=80&w=1000&auto=format&fit=crop",
+        image: "https://images.unsplash.com/photo-1603351154351-5cf99723606c?q=80&w=800&auto=format&fit=crop",
         category: "Tech"
     },
     {
@@ -50,7 +50,7 @@ const SAMPLE_PRODUCTS = [
         name: "Smart Water Bottle",
         price: 35,
         cashback: 5,
-        image: "https://images.unsplash.com/photo-1602143407151-0111419516eb?q=80&w=1000&auto=format&fit=crop",
+        image: "https://images.unsplash.com/photo-1523362628745-0c100150b504?q=80&w=800&auto=format&fit=crop",
         category: "Lifestyle"
     }
 ];
@@ -96,22 +96,34 @@ const Marketplace = () => {
         >
             <div className="container-custom">
 
-                {/* Header */}
-                <div className="flex flex-col md:flex-row justify-between items-end mb-12">
-                    <div>
-                        <h1 className="text-4xl md:text-6xl font-light text-white mb-4 uppercase tracking-tighter">
-                            Carbon Cashback
-                        </h1>
-                        <p className="text-gray-400 text-lg font-light max-w-xl">
-                            Shop verified sustainable products. Earn <span className="text-green-400 font-medium">Carbon Credit Tokens (CCT)</span> for every purchase.
-                        </p>
+                {/* Header - Enhanced with Photo */}
+                <div className="relative rounded-3xl overflow-hidden mb-16 border border-white/10 group">
+                    <div className="absolute inset-0">
+                        <img
+                            src="https://images.unsplash.com/photo-1550989460-0adf9ea622e2?q=80&w=2000&auto=format&fit=crop"
+                            alt="Sustainable Markeplace"
+                            className="w-full h-full object-cover opacity-40 group-hover:scale-105 transition-transform duration-700"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-transparent" />
                     </div>
 
-                    <div className="flex items-center gap-4 mt-6 md:mt-0">
-                        <div className="flex bg-black border border-white/10 rounded-lg p-1">
-                            <button className="px-4 py-2 bg-white/10 rounded-md text-white text-sm">All</button>
-                            <button className="px-4 py-2 hover:bg-white/5 rounded-md text-gray-400 hover:text-white text-sm">Tech</button>
-                            <button className="px-4 py-2 hover:bg-white/5 rounded-md text-gray-400 hover:text-white text-sm">Fashion</button>
+                    <div className="relative p-8 md:p-12 flex flex-col md:flex-row justify-between items-end">
+                        <div className="max-w-2xl">
+                            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-green-500/20 border border-green-500/30 text-green-400 text-xs font-bold uppercase tracking-wider mb-4 backdrop-blur-md">
+                                <Leaf className="w-3 h-3" /> Carbon Neutral Shopping
+                            </div>
+                            <h1 className="text-4xl md:text-6xl font-light text-white mb-4 uppercase tracking-tighter">
+                                Carbon Cashback
+                            </h1>
+                            <p className="text-gray-300 text-lg font-light max-w-xl">
+                                Shop <span className="text-white font-medium">verified sustainable products</span>. Earn <span className="text-green-400 font-medium">Carbon Credit Tokens (CCT)</span> for every purchase to offset your footprint.
+                            </p>
+                        </div>
+
+                        <div className="flex bg-black/50 backdrop-blur-md border border-white/10 rounded-lg p-1 mt-6 md:mt-0">
+                            <button className="px-6 py-2 bg-white/10 rounded-md text-white text-sm font-medium">All</button>
+                            <button className="px-6 py-2 hover:bg-white/5 rounded-md text-gray-400 hover:text-white text-sm transition-colors">Tech</button>
+                            <button className="px-6 py-2 hover:bg-white/5 rounded-md text-gray-400 hover:text-white text-sm transition-colors">Fashion</button>
                         </div>
                     </div>
                 </div>
