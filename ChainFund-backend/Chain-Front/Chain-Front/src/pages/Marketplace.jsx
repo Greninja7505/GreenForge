@@ -116,6 +116,26 @@ const Marketplace = () => {
                     </div>
                 </div>
 
+                {/* Stats & Trust */}
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
+                    <div className="bg-green-500/10 border border-green-500/20 p-6 rounded-2xl text-center">
+                        <h3 className="text-3xl font-light text-green-400 mb-1">100%</h3>
+                        <p className="text-xs text-gray-400 uppercase tracking-widest">Verified Green</p>
+                    </div>
+                    <div className="bg-white/5 border border-white/10 p-6 rounded-2xl text-center">
+                        <h3 className="text-3xl font-light text-white mb-1">50k+</h3>
+                        <p className="text-xs text-gray-400 uppercase tracking-widest">Trees Planted</p>
+                    </div>
+                    <div className="bg-white/5 border border-white/10 p-6 rounded-2xl text-center">
+                        <h3 className="text-3xl font-light text-white mb-1">2.4M</h3>
+                        <p className="text-xs text-gray-400 uppercase tracking-widest">Plastic Removed</p>
+                    </div>
+                    <div className="bg-white/5 border border-white/10 p-6 rounded-2xl text-center">
+                        <h3 className="text-3xl font-light text-white mb-1">Zero</h3>
+                        <p className="text-xs text-gray-400 uppercase tracking-widest">Carbon Shipping</p>
+                    </div>
+                </div>
+
                 {/* Products Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {SAMPLE_PRODUCTS.map((product) => (
@@ -136,9 +156,13 @@ const Marketplace = () => {
                                         {product.promo}
                                     </div>
                                 )}
-                                <div className="absolute bottom-4 right-4 bg-black/80 backdrop-blur-md text-green-400 text-xs font-mono px-3 py-1 rounded-full border border-green-500/30 flex items-center gap-1">
+                                <div className="absolute top-4 right-4 bg-black/60 backdrop-blur-md rounded-full p-2 border border-white/10 group-hover:border-green-500/50 transition-colors">
+                                    <Leaf className="w-4 h-4 text-green-400" />
+                                </div>
+
+                                <div className="absolute bottom-4 right-4 bg-black/80 backdrop-blur-md text-green-400 text-xs font-mono px-3 py-1 rounded-full border border-green-500/30 flex items-center gap-1 shadow-lg">
                                     <Zap className="w-3 h-3" />
-                                    +{product.cashback} CCT Reward
+                                    Earn {product.cashback} CCT
                                 </div>
                             </div>
 
@@ -147,19 +171,28 @@ const Marketplace = () => {
                                 <div className="flex justify-between items-start mb-2">
                                     <div>
                                         <h3 className="text-lg text-white font-medium mb-1">{product.name}</h3>
-                                        <p className="text-xs text-gray-500 uppercase tracking-widest">{product.category}</p>
+                                        <p className="text-xs text-gray-500 uppercase tracking-widest mb-2">{product.category}</p>
                                     </div>
                                     <div className="text-xl font-light text-white">
                                         ${product.price}
                                     </div>
                                 </div>
 
+                                {/* Impact Metric */}
+                                <div className="mb-6 py-2 px-3 bg-white/5 rounded-lg border border-white/5 flex items-center justify-between">
+                                    <span className="text-xs text-gray-400">Impact Score</span>
+                                    <div className="flex gap-1">
+                                        {[1, 2, 3, 4, 5].map(i => (
+                                            <div key={i} className={`w-1.5 h-6 rounded-full ${i <= 4 ? 'bg-green-500' : 'bg-gray-700'}`} />
+                                        ))}
+                                    </div>
+                                </div>
+
                                 <button
                                     onClick={() => addToCart(product)}
-                                    className="w-full mt-4 py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-sm text-white transition-all flex items-center justify-center gap-2 group-hover:bg-green-600 group-hover:border-green-500 group-hover:text-black font-medium"
+                                    className="w-full py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-sm text-white transition-all flex items-center justify-center gap-2 group-hover:bg-green-600 group-hover:border-green-500 group-hover:text-black font-medium overflow-hidden relative"
                                 >
-                                    <ShoppingBag className="w-4 h-4" />
-                                    Add to Cart
+                                    <span className="relative z-10 flex items-center gap-2"><ShoppingBag className="w-4 h-4" /> Add to Cart</span>
                                 </button>
                             </div>
                         </motion.div>

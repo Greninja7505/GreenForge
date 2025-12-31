@@ -110,124 +110,167 @@ const EcoBounties = () => {
                 </div>
 
                 {/* Content Area */}
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 h-[600px]">
-
-                    {/* Map Area */}
-                    <div className="lg:col-span-2 bg-gray-900/50 rounded-2xl border border-white/10 relative overflow-hidden group">
-                        {/* Mock Map Background */}
-                        <div
-                            className="absolute inset-0 opacity-40 bg-[url('https://upload.wikimedia.org/wikipedia/commons/e/ec/World_map_blank_without_borders.svg')] bg-cover bg-center grayscale"
-                        />
-
-                        {/* Pins */}
-                        {view === 'map' && BOUNTIES_DATA.map(bounty => (
-                            <motion.button
-                                key={bounty.id}
-                                initial={{ scale: 0 }}
-                                animate={{ scale: 1 }}
-                                whileHover={{ scale: 1.2 }}
-                                style={{ top: bounty.coordinates.top, left: bounty.coordinates.left }}
-                                onClick={() => setSelectedBounty(bounty)}
-                                className="absolute w-8 h-8 -ml-4 -mt-4 bg-green-500 rounded-full border-4 border-black shadow-[0_0_20px_rgba(34,197,94,0.6)] flex items-center justify-center z-10 hover:z-20"
-                            >
-                                <Sprout className="w-4 h-4 text-black" />
-                            </motion.button>
-                        ))}
-
-                        {/* Selected Bounty Card Overlay */}
-                        {selectedBounty && (
-                            <motion.div
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                className="absolute bottom-8 left-8 right-8 bg-black/90 backdrop-blur-xl border border-white/20 p-6 rounded-xl z-30"
-                            >
-                                <div className="flex justify-between items-start">
-                                    <div>
-                                        <h3 className="text-xl text-white font-medium mb-1">{selectedBounty.title}</h3>
-                                        <div className="flex items-center gap-4 text-sm text-gray-400">
-                                            <span className="flex items-center gap-1"><MapPin className="w-3 h-3" /> {selectedBounty.location}</span>
-                                            <span className="text-green-400 flex items-center gap-1"><Award className="w-3 h-3" /> {selectedBounty.reward}</span>
-                                            <span className="bg-white/10 px-2 py-0.5 rounded text-xs">{selectedBounty.difficulty}</span>
-                                        </div>
-                                        <p className="text-gray-300 text-sm mt-3 max-w-lg">{selectedBounty.description}</p>
-                                    </div>
-                                    <div className="flex gap-2">
-                                        <button
-                                            onClick={() => setSelectedBounty(null)}
-                                            className="px-4 py-2 border border-white/10 rounded-lg text-gray-400 hover:bg-white/5"
-                                        >
-                                            Close
-                                        </button>
-                                        <button
-                                            onClick={() => handleClaim(selectedBounty)}
-                                            className="px-4 py-2 bg-green-600 hover:bg-green-500 text-white rounded-lg shadow-lg shadow-green-900/20"
-                                        >
-                                            Claim Quest
-                                        </button>
-                                    </div>
-                                </div>
-                            </motion.div>
-                        )}
-                    </div>
-
-                    {/* Sidebar / Active Tasks */}
-                    <div className="space-y-6 overflow-y-auto">
-                        {activeTask ? (
-                            <div className="bg-gradient-to-br from-green-900/20 to-black border border-green-500/30 rounded-xl p-6">
-                                <div className="flex items-center gap-2 mb-4 text-green-400 text-sm font-medium uppercase tracking-wider">
-                                    <span className="relative flex h-3 w-3">
-                                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                                        <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
-                                    </span>
-                                    Active Mission
-                                </div>
-                                <h3 className="text-2xl text-white font-light mb-2">{activeTask.title}</h3>
-                                <div className="flex justify-between text-sm text-gray-400 mb-6 border-b border-white/10 pb-4">
-                                    <span>Reward: <b className="text-white">{activeTask.reward}</b></span>
-                                    <span>Time Left: <b className="text-white">23h 59m</b></span>
-                                </div>
-
-                                <div className="mb-6">
-                                    <h4 className="text-white text-sm mb-2">Instructions</h4>
-                                    <ol className="text-gray-400 text-sm space-y-2 list-decimal pl-4">
-                                        <li>Travel to coordinates</li>
-                                        <li>Perform the cleanup/task</li>
-                                        <li>Take a clear photo evidence</li>
-                                        <li>Upload below for AI verification</li>
-                                    </ol>
-                                </div>
-
-                                <ProofVerifier
-                                    milestone={{ title: activeTask.title }}
-                                    onVerify={handleComplete}
+                <div className="min-h-[600px]">
+                    {view === 'map' ? (
+                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 h-[600px]">
+                            {/* Map Area */}
+                            <div className="lg:col-span-2 bg-gray-900/50 rounded-2xl border border-white/10 relative overflow-hidden group">
+                                {/* Mock Map Background */}
+                                <div
+                                    className="absolute inset-0 opacity-40 bg-[url('https://upload.wikimedia.org/wikipedia/commons/e/ec/World_map_blank_without_borders.svg')] bg-cover bg-center grayscale"
                                 />
-                            </div>
-                        ) : (
-                            <div className="bg-black border border-white/10 rounded-xl p-6 h-full">
-                                <h3 className="text-white font-light mb-4 uppercase tracking-wider text-sm text-gray-500">Available Bounties</h3>
-                                <div className="space-y-3">
-                                    {BOUNTIES_DATA.map(bounty => (
-                                        <div
-                                            key={bounty.id}
-                                            onClick={() => setSelectedBounty(bounty)}
-                                            className="p-4 rounded-lg bg-white/5 hover:bg-white/10 cursor-pointer transition-colors border border-transparent hover:border-white/10 group"
-                                        >
-                                            <div className="flex justify-between items-start mb-1">
-                                                <h4 className="text-white group-hover:text-green-400 transition-colors">{bounty.title}</h4>
-                                                <span className="text-green-400 text-xs font-mono">{bounty.reward}</span>
+
+                                {/* Pins */}
+                                {BOUNTIES_DATA.map(bounty => (
+                                    <motion.button
+                                        key={bounty.id}
+                                        initial={{ scale: 0 }}
+                                        animate={{ scale: 1 }}
+                                        whileHover={{ scale: 1.2 }}
+                                        style={{ top: bounty.coordinates.top, left: bounty.coordinates.left }}
+                                        onClick={() => setSelectedBounty(bounty)}
+                                        className="absolute w-8 h-8 -ml-4 -mt-4 bg-green-500 rounded-full border-4 border-black shadow-[0_0_20px_rgba(34,197,94,0.6)] flex items-center justify-center z-10 hover:z-20"
+                                    >
+                                        <Sprout className="w-4 h-4 text-black" />
+                                    </motion.button>
+                                ))}
+
+                                {/* Selected Bounty Card Overlay */}
+                                {selectedBounty && (
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        className="absolute bottom-8 left-8 right-8 bg-black/90 backdrop-blur-xl border border-white/20 p-6 rounded-xl z-30"
+                                    >
+                                        <div className="flex justify-between items-start">
+                                            <div>
+                                                <h3 className="text-xl text-white font-medium mb-1">{selectedBounty.title}</h3>
+                                                <div className="flex items-center gap-4 text-sm text-gray-400">
+                                                    <span className="flex items-center gap-1"><MapPin className="w-3 h-3" /> {selectedBounty.location}</span>
+                                                    <span className="text-green-400 flex items-center gap-1"><Award className="w-3 h-3" /> {selectedBounty.reward}</span>
+                                                    <span className="bg-white/10 px-2 py-0.5 rounded text-xs">{selectedBounty.difficulty}</span>
+                                                </div>
+                                                <p className="text-gray-300 text-sm mt-3 max-w-lg">{selectedBounty.description}</p>
                                             </div>
-                                            <div className="flex gap-2 text-xs text-gray-500">
-                                                <span>{bounty.type}</span>
-                                                <span>•</span>
-                                                <span>{bounty.location}</span>
+                                            <div className="flex gap-2">
+                                                <button
+                                                    onClick={() => setSelectedBounty(null)}
+                                                    className="px-4 py-2 border border-white/10 rounded-lg text-gray-400 hover:bg-white/5"
+                                                >
+                                                    Close
+                                                </button>
+                                                <button
+                                                    onClick={() => handleClaim(selectedBounty)}
+                                                    className="px-4 py-2 bg-green-600 hover:bg-green-500 text-white rounded-lg shadow-lg shadow-green-900/20"
+                                                >
+                                                    Claim Quest
+                                                </button>
                                             </div>
                                         </div>
-                                    ))}
-                                </div>
+                                    </motion.div>
+                                )}
                             </div>
-                        )}
-                    </div>
 
+                            {/* Sidebar / Active Tasks */}
+                            <div className="space-y-6 overflow-y-auto">
+                                {activeTask ? (
+                                    <div className="bg-gradient-to-br from-green-900/20 to-black border border-green-500/30 rounded-xl p-6">
+                                        <div className="flex items-center gap-2 mb-4 text-green-400 text-sm font-medium uppercase tracking-wider">
+                                            <span className="relative flex h-3 w-3">
+                                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                                                <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                                            </span>
+                                            Active Mission
+                                        </div>
+                                        <h3 className="text-2xl text-white font-light mb-2">{activeTask.title}</h3>
+                                        <div className="flex justify-between text-sm text-gray-400 mb-6 border-b border-white/10 pb-4">
+                                            <span>Reward: <b className="text-white">{activeTask.reward}</b></span>
+                                            <span>Time Left: <b className="text-white">23h 59m</b></span>
+                                        </div>
+
+                                        <div className="mb-6">
+                                            <h4 className="text-white text-sm mb-2">Instructions</h4>
+                                            <ol className="text-gray-400 text-sm space-y-2 list-decimal pl-4">
+                                                <li>Travel to coordinates</li>
+                                                <li>Perform the cleanup/task</li>
+                                                <li>Take a clear photo evidence</li>
+                                                <li>Upload below for AI verification</li>
+                                            </ol>
+                                        </div>
+
+                                        <ProofVerifier
+                                            milestone={{ title: activeTask.title }}
+                                            onVerify={handleComplete}
+                                        />
+                                    </div>
+                                ) : (
+                                    <div className="bg-black border border-white/10 rounded-xl p-6 h-full">
+                                        <h3 className="text-white font-light mb-4 uppercase tracking-wider text-sm text-gray-500">Available Bounties</h3>
+                                        <div className="space-y-3">
+                                            {BOUNTIES_DATA.map(bounty => (
+                                                <div
+                                                    key={bounty.id}
+                                                    onClick={() => setSelectedBounty(bounty)}
+                                                    className={`p-4 rounded-lg cursor-pointer transition-all border ${selectedBounty?.id === bounty.id ? 'bg-white/10 border-green-500/50' : 'bg-white/5 border-transparent hover:bg-white/10'}`}
+                                                >
+                                                    <div className="flex justify-between items-start mb-1">
+                                                        <h4 className="text-white">{bounty.title}</h4>
+                                                        <span className="text-green-400 text-xs font-mono">{bounty.reward}</span>
+                                                    </div>
+                                                    <div className="flex gap-2 text-xs text-gray-500">
+                                                        <span>{bounty.type}</span>
+                                                        <span>•</span>
+                                                        <span>{bounty.location}</span>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {BOUNTIES_DATA.map((bounty) => (
+                                <motion.div
+                                    key={bounty.id}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    whileHover={{ y: -5 }}
+                                    className="bg-black border border-white/10 rounded-xl p-6 group hover:border-green-500/30 transition-all duration-300 flex flex-col justify-between h-full"
+                                >
+                                    <div>
+                                        <div className="flex justify-between items-start mb-4">
+                                            <span className={`px-3 py-1 rounded-full text-xs font-medium ${bounty.difficulty === 'Easy' ? 'bg-green-500/10 text-green-400' :
+                                                    bounty.difficulty === 'Medium' ? 'bg-yellow-500/10 text-yellow-400' :
+                                                        'bg-red-500/10 text-red-400'
+                                                }`}>
+                                                {bounty.difficulty}
+                                            </span>
+                                            <span className="text-green-400 font-mono font-medium flex items-center gap-1">
+                                                {bounty.reward} <Sprout className="w-3 h-3" />
+                                            </span>
+                                        </div>
+
+                                        <h3 className="text-xl text-white font-medium mb-2">{bounty.title}</h3>
+                                        <p className="text-gray-400 text-sm mb-4 line-clamp-2">{bounty.description}</p>
+
+                                        <div className="flex items-center gap-2 text-sm text-gray-500 mb-6">
+                                            <MapPin className="w-4 h-4" />
+                                            {bounty.location}
+                                        </div>
+                                    </div>
+
+                                    <button
+                                        onClick={() => handleClaim(bounty)}
+                                        className="w-full py-3 bg-white/5 hover:bg-green-600 text-white rounded-lg transition-colors flex items-center justify-center gap-2 group-hover:shadow-[0_0_20px_rgba(34,197,94,0.3)]"
+                                    >
+                                        Claim Quest <ArrowRight className="w-4 h-4" />
+                                    </button>
+                                </motion.div>
+                            ))}
+                        </div>
+                    )}
                 </div>
             </div>
         </motion.div>
