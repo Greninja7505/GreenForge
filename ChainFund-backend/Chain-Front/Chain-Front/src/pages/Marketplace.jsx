@@ -1,91 +1,105 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
-import { Filter, Search, ShoppingBag, Leaf, ExternalLink, Zap, Info } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Filter, Search, ShoppingBag, Leaf, ExternalLink, Zap, Info, Loader } from "lucide-react";
 import toast from "react-hot-toast";
-
-const SAMPLE_PRODUCTS = [
-    {
-        id: 1,
-        name: "Bamboo Toothbrush Set",
-        price: 15,
-        cashback: 2,
-        image: "https://images.unsplash.com/photo-1607613009820-a29f7bb6dcaf?q=80&w=800&auto=format&fit=crop",
-        category: "Home"
-    },
-    {
-        id: 2,
-        name: "Solar Phone Charger",
-        price: 45,
-        cashback: 8,
-        image: "https://images.unsplash.com/photo-1545259741-2ea3ebf61fa3?q=80&w=800&auto=format&fit=crop",
-        category: "Tech",
-        promo: "Top Seller"
-    },
-    {
-        id: 3,
-        name: "Recycled Plastic Backpack",
-        price: 60,
-        cashback: 10,
-        image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?q=80&w=800&auto=format&fit=crop",
-        category: "Fashion"
-    },
-    {
-        id: 4,
-        name: "Organic Cotton Tee",
-        price: 25,
-        cashback: 3,
-        image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?q=80&w=800&auto=format&fit=crop",
-        category: "Fashion"
-    },
-    {
-        id: 5,
-        name: "Biodegradable Phone Case",
-        price: 20,
-        cashback: 4,
-        image: "https://images.unsplash.com/photo-1603351154351-5cf99723606c?q=80&w=800&auto=format&fit=crop",
-        category: "Tech"
-    },
-    {
-        id: 6,
-        name: "Smart Water Bottle",
-        price: 35,
-        cashback: 5,
-        image: "https://images.unsplash.com/photo-1523362628745-0c100150b504?q=80&w=800&auto=format&fit=crop",
-        category: "Lifestyle"
-    }
-];
+import { api } from "../utils/api";
 
 const Marketplace = () => {
+    const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [cart, setCart] = useState([]);
+
+    useEffect(() => {
+        fetchProducts();
+    }, []);
+
+    const fetchProducts = async () => {
+        try {
+            setLoading(true);
+            const data = await api.get('/api/marketplace/products');
+            const mappedData = data.map(p => ({
+                ...p,
+                // Map backend fields to frontend expectations
+                cashback: p.price * (p.cashback_percentage || 0) / 100, // Explicitly calculate cashback amount
+                promo: p.reviews_count > 10 ? "Top Seller" : null
+            }));
+            setProducts(mappedData);
+        } catch (error) {
+            console.error("Failed to fetch products:", error);
+            toast.error("Using offline mode for marketplace");
+            // Fallback mock data
+            setProducts([
+                {
+                    id: 1, name: "Bamboo Toothbrush Set", price: 15, cashback: 2,
+                    image: "https://images.unsplash.com/photo-1607613009820-a29f7bb6dcaf?q=80&w=800",
+                    category: "Home"
+                },
+                {
+                    id: 2, name: "Solar Phone Charger", price: 45, cashback: 8,
+                    image: "https://images.unsplash.com/photo-1545259741-2ea3ebf61fa3?q=80&w=800",
+                    category: "Tech", promo: "Top Seller"
+                }
+            ]);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const addToCart = (product) => {
         setCart([...cart, product]);
         toast.success(`Aded ${product.name} to cart`);
     };
 
-    const handleCheckout = () => {
-        const totalCashback = cart.reduce((acc, item) => acc + item.cashback, 0);
-        toast.custom((t) => (
-            <div className={`${t.visible ? 'animate-enter' : 'animate-leave'} max-w-md w-full bg-black border border-green-500 rounded-xl pointer-events-auto flex ring-1 ring-black ring-opacity-5`}>
-                <div className="flex-1 w-0 p-4">
-                    <div className="flex items-start">
-                        <div className="flex-shrink-0 pt-0.5">
-                            <Leaf className="h-10 w-10 text-green-500" />
-                        </div>
-                        <div className="ml-3 flex-1">
-                            <p className="text-sm font-medium text-white">
-                                Purchase Successful!
-                            </p>
-                            <p className="mt-1 text-sm text-gray-400">
-                                You earned <b className="text-green-400">{totalCashback} CCT</b> (Carbon Credit Tokens) for your sustainable choices.
-                            </p>
+    const handleCheckout = async () => {
+        try {
+            // Process each item in cart
+            let totalCashback = 0;
+            let totalOffset = 0;
+
+            for (const item of cart) {
+                const result = await api.post('/api/marketplace/buy', {
+                    product_id: item.id,
+                    quantity: 1
+                });
+                totalCashback += result.cashback_earned || 0;
+                totalOffset += result.carbon_offset || 0;
+            }
+
+            toast.custom((t) => (
+                <div className={`${t.visible ? 'animate-enter' : 'animate-leave'} max-w-md w-full bg-black border border-green-500 rounded-xl pointer-events-auto flex ring-1 ring-black ring-opacity-5`}>
+                    <div className="flex-1 w-0 p-4">
+                        <div className="flex items-start">
+                            <div className="flex-shrink-0 pt-0.5">
+                                <Leaf className="h-10 w-10 text-green-500" />
+                            </div>
+                            <div className="ml-3 flex-1">
+                                <p className="text-sm font-medium text-white">
+                                    Purchase Successful!
+                                </p>
+                                <p className="mt-1 text-sm text-gray-400">
+                                    You earned <b className="text-green-400">{totalCashback.toFixed(2)} CCT</b> and offset <b className="text-green-400">{totalOffset}kg CO2</b>.
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        ));
-        setCart([]);
+            ));
+            setCart([]);
+        } catch (error) {
+            toast.error(error.message || "Checkout failed");
+        }
     };
+
+    if (loading) {
+        return (
+            <div className="min-h-screen pt-32 flex justify-center text-white">
+                <div className="flex flex-col items-center gap-4">
+                    <Loader className="w-8 h-8 animate-spin text-green-500" />
+                    <p>Loading marketplace...</p>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <motion.div
@@ -150,7 +164,7 @@ const Marketplace = () => {
 
                 {/* Products Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {SAMPLE_PRODUCTS.map((product) => (
+                    {products.map((product) => (
                         <motion.div
                             key={product.id}
                             whileHover={{ y: -5 }}

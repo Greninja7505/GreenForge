@@ -59,6 +59,7 @@ Traditional crowdfunding platforms suffer from:
 - ✅ **Transparent Tracking** - All transactions on-chain
 - ✅ **Low Fees** - Stellar's minimal transaction costs
 - ✅ **Reputation System** - Non-transferable SoulBound Tokens
+- ✅ **Eco-Bounties & Marketplace** - [GreenForge Integration](./GreenForge_INTEGRATION.md)
 
 ---
 
@@ -273,21 +274,21 @@ git clone https://github.com/GauravPatil2515/StellarForge.git
 cd StellarForge
 ```
 
-2. **Install Frontend Dependencies**
+1. **Install Frontend Dependencies**
 
 ```bash
 cd ChainFund-backend/Chain-Front/Chain-Front
 npm install
 ```
 
-3. **Install Backend Dependencies**
+1. **Install Backend Dependencies**
 
 ```bash
 cd ../../ChainFund/chainfund-backend
 pip install -r requirements-sqlite.txt
 ```
 
-4. **Configure Environment Variables**
+1. **Configure Environment Variables**
 
 Create `.env` in backend directory:
 

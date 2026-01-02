@@ -277,12 +277,12 @@ const Dashboard = () => {
         </motion.div>
 
         {/* Summary Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="stats-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="bg-black border border-white/10 rounded-xl p-6 hover:border-white/30 transition-all duration-300"
+            className="stat-card bg-black border border-white/10 rounded-xl p-4 md:p-6 hover:border-white/30 transition-all duration-300"
           >
             <div className="flex items-center space-x-3 mb-4">
               <TrendingUp className="w-8 h-8 text-white" />

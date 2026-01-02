@@ -21,6 +21,7 @@ import ContractService from "../services/ContractService";
 import AIHelper from "../components/AIHelper";
 import { generateProjectDescription, suggestMilestones } from "../services/AIService";
 import SustainabilityAnalyzer from "../components/project/SustainabilityAnalyzer";
+import GreenwashingDetector from "../components/project/GreenwashingDetector";
 
 const CreateProject = () => {
   const { publicKey, isConnected, connectWallet } = useStellar();
@@ -616,11 +617,18 @@ const CreateProject = () => {
                 />
               </div>
 
-              {/* Greenwashing Detector */}
-              <SustainabilityAnalyzer
+              {/* AI Greenwashing Detector - Analyzes sustainability authenticity */}
+              <GreenwashingDetector
                 title={formData.title}
                 description={formData.fullDescription || formData.description}
                 category={formData.category}
+                onAnalysisComplete={(result) => {
+                  console.log('Greenwashing Analysis:', result);
+                  // Optionally store the score in state for validation
+                  if (result.score < 40) {
+                    toast.error('⚠️ Low sustainability score. Consider improving your description.');
+                  }
+                }}
               />
             </div>
           </div>

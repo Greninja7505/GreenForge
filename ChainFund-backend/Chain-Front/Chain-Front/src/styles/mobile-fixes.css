@@ -1,0 +1,270 @@
+/* Mobile Responsive Fixes for GreenForge */
+
+/* Dashboard Chart Responsive Fixes */
+.recharts-wrapper {
+  width: 100% !important;
+  height: auto !important;
+}
+
+@media (max-width: 768px) {
+  /* Make charts scrollable on mobile */
+  .recharts-surface {
+    overflow-x: auto;
+  }
+  
+  /* Reduce chart heights on mobile */
+  .recharts-wrapper {
+    max-height: 300px;
+  }
+}
+
+/* Form Input Improvements */
+@media (max-width: 640px) {
+  /* Ensure inputs don't zoom on iOS */
+  input[type="text"],
+  input[type="email"],
+  input[type="number"],
+  input[type="tel"],
+  input[type="url"],
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
+  
+  /* Better touch targets (minimum 44x44px) */
+  button,
+  a,
+  input[type="submit"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* Table Responsive Improvements */
+@media (max-width: 1024px) {
+  .table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  table {
+    min-width: 600px;
+  }
+}
+
+/* Navigation Mobile Fixes */
+@media (max-width: 768px) {
+  .mobile-menu {
+    max-height: calc(100vh - 80px);
+    overflow-y: auto;
+  }
+  
+  /* Prevent horizontal scroll */
+  body {
+    overflow-x: hidden;
+  }
+}
+
+/* Card Grid Improvements */
+@media (max-width: 640px) {
+  .grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+/* Modal Improvements for Mobile */
+@media (max-width: 640px) {
+  .modal-content {
+    max-height: 90vh;
+    overflow-y: auto;
+    margin: 1rem;
+  }
+}
+
+/* Dashboard Stats Cards - Mobile Stack */
+@media (max-width: 768px) {
+  .stats-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1rem;
+  }
+  
+  .stat-card {
+    padding: 1rem !important;
+  }
+}
+
+/* Chart Container Fixes */
+.chart-container {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 768px) {
+  .chart-container {
+    padding: 0.5rem;
+  }
+}
+
+/* Milestone Cards Mobile */
+@media (max-width: 640px) {
+  .milestone-card {
+    padding: 1rem !important;
+  }
+  
+  .milestone-actions {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .milestone-actions button {
+    width: 100%;
+  }
+}
+
+/* Project Card Improvements */
+@media (max-width: 640px) {
+  .project-card {
+    margin-bottom: 1rem;
+  }
+  
+  .project-card-image {
+    height: 200px !important;
+  }
+}
+
+/* Wallet Connect Modal */
+@media (max-width: 640px) {
+  .wallet-modal {
+    width: calc(100vw - 2rem);
+    max-width: none;
+  }
+}
+
+/* Dropdown Menu Mobile */
+@media (max-width: 768px) {
+  .dropdown-menu {
+    position: fixed;
+    left: 1rem;
+    right: 1rem;
+    width: auto;
+  }
+}
+
+/* Hero Section Text Scaling */
+@media (max-width: 640px) {
+  .hero-title {
+    font-size: clamp(2rem, 8vw, 4rem) !important;
+  }
+  
+  .hero-subtitle {
+    font-size: clamp(1rem, 4vw, 1.25rem) !important;
+  }
+}
+
+/* Form Layout Mobile */
+@media (max-width: 640px) {
+  .form-row {
+    flex-direction: column !important;
+  }
+  
+  .form-col {
+    width: 100% !important;
+  }
+}
+
+/* Sustainability Score Gauge - Mobile */
+@media (max-width: 640px) {
+  .score-gauge {
+    transform: scale(0.8);
+  }
+  
+  .score-details {
+    font-size: 0.875rem;
+  }
+}
+
+/* Hide elements on mobile for better UX */
+@media (max-width: 768px) {
+  .hide-mobile {
+    display: none !important;
+  }
+}
+
+@media (min-width: 769px) {
+  .show-mobile-only {
+    display: none !important;
+  }
+}
+
+/* Smooth Scrolling for All */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Fix iOS Safari 100vh issue */
+@supports (-webkit-touch-callout: none) {
+  .min-h-screen {
+    min-height: -webkit-fill-available;
+  }
+}
+
+/* Prevent text size adjust on orientation change */
+html {
+  -webkit-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+}
+
+/* Better focus states for accessibility and mobile */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid #06b6d4;
+  outline-offset: 2px;
+}
+
+/* Loading Skeleton Mobile */
+@media (max-width: 640px) {
+  .skeleton {
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+}
+
+/* Animation Performance */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Safe Area Insets for iOS */
+@supports (padding: max(0px)) {
+  .safe-top {
+    padding-top: max(env(safe-area-inset-top), 1rem);
+  }
+  
+  .safe-bottom {
+    padding-bottom: max(env(safe-area-inset-bottom), 1rem);
+  }
+  
+  .safe-left {
+    padding-left: max(env(safe-area-inset-left), 1rem);
+  }
+  
+  .safe-right {
+    padding-right: max(env(safe-area-inset-right), 1rem);
+  }
+}

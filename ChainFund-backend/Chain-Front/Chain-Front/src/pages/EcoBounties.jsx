@@ -1,71 +1,87 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
-import { MapPin, Filter, Search, Award, Sprout, ArrowRight } from "lucide-react";
+import { useState, useEffect } from "react";
+import { MapPin, Filter, Search, Award, Sprout, ArrowRight, Loader } from "lucide-react";
 import ProofVerifier from "../components/project/ProofVerifier";
 import toast from "react-hot-toast";
-
-const BOUNTIES_DATA = [
-    {
-        id: 1,
-        title: "Clean Versova Beach",
-        location: "Mumbai, IN",
-        reward: "50 XLM",
-        difficulty: "Medium",
-        type: "Cleanup",
-        image: "https://images.unsplash.com/photo-1618477461853-5f8dd68aa61f?q=80&w=1000&auto=format&fit=crop",
-        coordinates: { top: "40%", left: "60%" }, // Mock map position
-        description: "Remove plastic waste specifically from the northern sector near the mangroves."
-    },
-    {
-        id: 2,
-        title: "Plant 50 Saplings",
-        location: "Bangalore, IN",
-        reward: "100 XLM",
-        difficulty: "Hard",
-        type: "Planting",
-        image: "https://images.unsplash.com/photo-1542601906990-b4d3fb7d5b73?q=80&w=1000&auto=format&fit=crop",
-        coordinates: { top: "45%", left: "58%" },
-        description: "Reforestation drive needs support. Saplings provided at check-in point."
-    },
-    {
-        id: 3,
-        title: "Verify Solar Panel Install",
-        location: "Austin, TX",
-        reward: "30 XLM",
-        difficulty: "Easy",
-        type: "Verification",
-        image: "https://images.unsplash.com/photo-1509391366360-2e959784a276?q=80&w=1000&auto=format&fit=crop",
-        coordinates: { top: "35%", left: "20%" },
-        description: "Take photos of the newly installed solar array for the community energy grid."
-    },
-    {
-        id: 4,
-        title: "Ocean Plastic Audit",
-        location: "Bali, ID",
-        reward: "75 XLM",
-        difficulty: "Medium",
-        type: "Audit",
-        image: "https://images.unsplash.com/photo-1484291470158-b8f8d608850d?q=80&w=1000&auto=format&fit=crop",
-        coordinates: { top: "55%", left: "75%" },
-        description: "Count and categorize waste types found on Kuta beach for research."
-    }
-];
+import { api } from "../utils/api";
 
 const EcoBounties = () => {
+    const [bounties, setBounties] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [selectedBounty, setSelectedBounty] = useState(null);
     const [activeTask, setActiveTask] = useState(null); // Task currently being worked on
     const [view, setView] = useState("map"); // 'map' or 'list'
 
-    const handleClaim = (bounty) => {
-        toast.success(`Claimed: ${bounty.title}`);
-        setActiveTask(bounty);
-        setSelectedBounty(null);
+    useEffect(() => {
+        fetchBounties();
+    }, []);
+
+    const fetchBounties = async () => {
+        try {
+            setLoading(true);
+            const data = await api.get('/api/bounties');
+            // Add visual coordinates if missing (mock mapping for demo map)
+            const mappedData = data.map((b, i) => ({
+                ...b,
+                // Simple deterministic position based on ID for demo map
+                coordinates: {
+                    top: `${20 + ((b.id * 13) % 60)}%`,
+                    left: `${20 + ((b.id * 7) % 60)}%`
+                },
+                difficulty: b.reward > 80 ? "Hard" : b.reward > 40 ? "Medium" : "Easy",
+                type: b.title.split(' ')[0] // Simple type inference
+            }));
+            setBounties(mappedData);
+        } catch (error) {
+            console.error("Failed to fetch bounties:", error);
+            toast.error("Using offline mode for bounties");
+            // Fallback to mock data if API fails
+            setBounties([
+                {
+                    id: 1, title: "Clean Versova Beach", location: "Mumbai, IN", reward: 50, currency: "XLM",
+                    difficulty: "Medium", type: "Cleanup", image: "https://images.unsplash.com/photo-1618477461853-5f8dd68aa61f?q=80&w=1000",
+                    coordinates: { top: "40%", left: "60%" }, description: "Remove plastic waste."
+                },
+                {
+                    id: 2, title: "Plant 50 Saplings", location: "Bangalore, IN", reward: 100, currency: "XLM",
+                    difficulty: "Hard", type: "Planting", image: "https://images.unsplash.com/photo-1542601906990-b4d3fb7d5b73?q=80&w=1000",
+                    coordinates: { top: "45%", left: "58%" }, description: "Reforestation drive."
+                }
+            ]);
+        } finally {
+            setLoading(false);
+        }
     };
 
-    const handleComplete = () => {
-        setActiveTask(null);
-        // Confetti or reward modal would go here
+    const handleClaim = async (bounty) => {
+        try {
+            await api.post(`/api/bounties/${bounty.id}/claim`);
+            toast.success(`Claimed: ${bounty.title}`);
+            setActiveTask(bounty);
+            setSelectedBounty(null);
+            fetchBounties(); // Refresh list
+        } catch (error) {
+            toast.error(error.message || "Failed to claim bounty");
+        }
     };
+
+    const handleComplete = async () => {
+        // In real app, upload proof via API
+        toast.success("Proof submitted successfully!");
+        setActiveTask(null);
+        fetchBounties();
+    };
+
+    if (loading) {
+        return (
+            <div className="min-h-screen pt-32 flex justify-center text-white">
+                <div className="flex flex-col items-center gap-4">
+                    <Loader className="w-8 h-8 animate-spin text-green-500" />
+                    <p>Loading eco-bounties...</p>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <motion.div
@@ -125,13 +141,13 @@ const EcoBounties = () => {
                                 />
 
                                 {/* Pins */}
-                                {BOUNTIES_DATA.map(bounty => (
+                                {bounties.map(bounty => (
                                     <motion.button
                                         key={bounty.id}
                                         initial={{ scale: 0 }}
                                         animate={{ scale: 1 }}
                                         whileHover={{ scale: 1.2 }}
-                                        style={{ top: bounty.coordinates.top, left: bounty.coordinates.left }}
+                                        style={{ top: bounty.coordinates?.top || '50%', left: bounty.coordinates?.left || '50%' }}
                                         onClick={() => setSelectedBounty(bounty)}
                                         className="absolute w-8 h-8 -ml-4 -mt-4 bg-green-500 rounded-full border-4 border-black shadow-[0_0_20px_rgba(34,197,94,0.6)] flex items-center justify-center z-10 hover:z-20"
                                     >
@@ -211,7 +227,7 @@ const EcoBounties = () => {
                                     <div className="bg-black border border-white/10 rounded-xl p-6 h-full">
                                         <h3 className="text-white font-light mb-4 uppercase tracking-wider text-sm text-gray-500">Available Bounties</h3>
                                         <div className="space-y-3">
-                                            {BOUNTIES_DATA.map(bounty => (
+                                            {bounties.map(bounty => (
                                                 <div
                                                     key={bounty.id}
                                                     onClick={() => setSelectedBounty(bounty)}
@@ -235,7 +251,7 @@ const EcoBounties = () => {
                         </div>
                     ) : (
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {BOUNTIES_DATA.map((bounty) => (
+                            {bounties.map((bounty) => (
                                 <motion.div
                                     key={bounty.id}
                                     initial={{ opacity: 0, y: 20 }}
@@ -262,8 +278,8 @@ const EcoBounties = () => {
                                     <div className="p-6 flex-1 flex flex-col">
                                         <div className="flex justify-between items-start mb-3">
                                             <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border ${bounty.difficulty === 'Easy' ? 'bg-green-500/10 text-green-400 border-green-500/20' :
-                                                    bounty.difficulty === 'Medium' ? 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20' :
-                                                        'bg-red-500/10 text-red-400 border-red-500/20'
+                                                bounty.difficulty === 'Medium' ? 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20' :
+                                                    'bg-red-500/10 text-red-400 border-red-500/20'
                                                 }`}>
                                                 {bounty.difficulty}
                                             </span>

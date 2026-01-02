@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
+import './styles/mobile-fixes.css'
 
 // Context Providers
 import { StellarProvider } from "./context/StellarContext";

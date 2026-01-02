@@ -18,6 +18,16 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from app.database import get_db_connection, to_json, from_json, init_database, DB_PATH
 
+# Import security middleware
+try:
+    from app.middleware.security import RateLimitMiddleware, SecurityHeadersMiddleware
+    SECURITY_AVAILABLE = True
+except ImportError:
+    SECURITY_AVAILABLE = False
+    print("⚠️  Security middleware not available")
+    
+from contextlib import asynccontextmanager
+
 # Import routers
 try:
     from app.routers import auth
@@ -39,6 +49,20 @@ try:
 except ImportError:
     AI_AVAILABLE = False
     print("⚠️  AI router not available - missing dependencies")
+
+try:
+    from app.routers import bounties
+    BOUNTIES_AVAILABLE = True
+except ImportError as e:
+    BOUNTIES_AVAILABLE = False
+    print(f"⚠️  Bounties router not available: {e}")
+
+try:
+    from app.routers import marketplace
+    MARKETPLACE_AVAILABLE = True
+except ImportError as e:
+    MARKETPLACE_AVAILABLE = False
+    print(f"⚠️  Marketplace router not available: {e}")
 
 # ==================== PYDANTIC MODELS ====================
 
@@ -116,10 +140,21 @@ class VoteCreate(BaseModel):
 
 # ==================== FASTAPI APP ====================
 
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """Initialize database on startup"""
+    print("🚀 Starting ChainFund Lite API...")
+    init_database()
+    print(f"📁 Database: {DB_PATH}")
+    print("✅ Server ready!")
+    yield
+    print("🛑 Server shutting down...")
+
 app = FastAPI(
     title="ChainFund Lite API",
     description="Decentralized crowdfunding API with SQLite backend",
-    version="2.0.0"
+    version="2.0.0",
+    lifespan=lifespan
 )
 
 # CORS middleware - allow all origins for development
@@ -130,6 +165,14 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Add security middleware
+if SECURITY_AVAILABLE:
+    app.add_middleware(SecurityHeadersMiddleware)
+    app.add_middleware(RateLimitMiddleware, requests_per_minute=100)
+    print("✅ Security middleware enabled (Rate Limiting: 100 req/min)")
+else:
+    print("⚠️  Running without security middleware")
 
 # Include auth router if available
 if AUTH_AVAILABLE:
@@ -146,16 +189,18 @@ if AI_AVAILABLE:
     app.include_router(ai.router)
     print("✅ AI router included")
 
+if BOUNTIES_AVAILABLE:
+    app.include_router(bounties.router)
+    print("✅ Bounties router included")
+
+if MARKETPLACE_AVAILABLE:
+    app.include_router(marketplace.router)
+    print("✅ Marketplace router included")
+
 
 # ==================== STARTUP EVENT ====================
 
-@app.on_event("startup")
-async def startup_event():
-    """Initialize database on startup"""
-    print("🚀 Starting ChainFund Lite API...")
-    init_database()
-    print(f"📁 Database: {DB_PATH}")
-    print("✅ Server ready!")
+# ==================== STARTUP EVENT (Moved to lifespan) ====================
 
 
 # ==================== ROOT ENDPOINTS ====================
