@@ -1,0 +1,10 @@
+
+============================================================
+Traceback (most recent call last):
+  File "C:\Users\GAURAV PATIL\Downloads\StellarForge-master\StellarForge-master\ChainFund-backend\ChainFund\chainfund-backend\quick_test.py", line 10, in <module>
+    print("\U0001f9ea CHAINFUND AUTHENTICATION TESTS")
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\GAURAV PATIL\miniconda3\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\U0001f9ea' in position 0: character maps to <undefined>

@@ -1,0 +1,15 @@
+{
+  "network": "testnet",
+  "rpc_url": "https://soroban-testnet.stellar.org",
+  "horizon_url": "https://horizon-testnet.stellar.org",
+  "admin": "GCMJRARFR2PWZUUKGRS3VTET3ZXRGHMVS63XAPV4RIH7ZCJF7GUZXKQQ",
+  "contracts": {
+    "chainfund_core": "CASAEVPPIRUVC2H4EAMZEPMIJCOAL7XOG2MH3U5SJCRWVGBEXIOWKGYG",
+    "chainfund_sbt": "CBN4UZRCLFTWQUVNJIV7KDNX4QSONEUMWHRDSO3OQEAWPFTQTQRWXODP"
+  },
+  "explorer_urls": {
+    "chainfund_core": "https://stellar.expert/explorer/testnet/contract/CASAEVPPIRUVC2H4EAMZEPMIJCOAL7XOG2MH3U5SJCRWVGBEXIOWKGYG",
+    "chainfund_sbt": "https://stellar.expert/explorer/testnet/contract/CBN4UZRCLFTWQUVNJIV7KDNX4QSONEUMWHRDSO3OQEAWPFTQTQRWXODP"
+  },
+  "deployed_at": "2025-12-10T00:00:00Z"
+}

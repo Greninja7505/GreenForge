@@ -1,0 +1,9 @@
+C:\Users\lenovo\OneDrive\Desktop\Machine Learning\chainfund\ChainFund-backend\ChainFund\rust-contracts\reward_token\./target-wasm\release\deps\soroban_spec_rust-af1d074652a87c71.d: C:\Users\lenovo\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\soroban-spec-rust-23.0.2\src\lib.rs C:\Users\lenovo\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\soroban-spec-rust-23.0.2\src\trait.rs C:\Users\lenovo\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\soroban-spec-rust-23.0.2\src\types.rs
+
+C:\Users\lenovo\OneDrive\Desktop\Machine Learning\chainfund\ChainFund-backend\ChainFund\rust-contracts\reward_token\./target-wasm\release\deps\libsoroban_spec_rust-af1d074652a87c71.rlib: C:\Users\lenovo\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\soroban-spec-rust-23.0.2\src\lib.rs C:\Users\lenovo\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\soroban-spec-rust-23.0.2\src\trait.rs C:\Users\lenovo\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\soroban-spec-rust-23.0.2\src\types.rs
+
+C:\Users\lenovo\OneDrive\Desktop\Machine Learning\chainfund\ChainFund-backend\ChainFund\rust-contracts\reward_token\./target-wasm\release\deps\libsoroban_spec_rust-af1d074652a87c71.rmeta: C:\Users\lenovo\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\soroban-spec-rust-23.0.2\src\lib.rs C:\Users\lenovo\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\soroban-spec-rust-23.0.2\src\trait.rs C:\Users\lenovo\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\soroban-spec-rust-23.0.2\src\types.rs
+
+C:\Users\lenovo\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\soroban-spec-rust-23.0.2\src\lib.rs:
+C:\Users\lenovo\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\soroban-spec-rust-23.0.2\src\trait.rs:
+C:\Users\lenovo\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\soroban-spec-rust-23.0.2\src\types.rs:

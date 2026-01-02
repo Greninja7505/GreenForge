@@ -1,0 +1,210 @@
+// Mock Freelancer Gigs Data
+export const mockGigs = [
+  {
+    id: 1,
+    title: "Full-Stack Web Development",
+    category: "web-development",
+    description:
+      "Complete web application development using React, Node.js, and MongoDB",
+    price: 1500,
+    currency: "USD",
+    deliveryTime: 14,
+    rating: 4.8,
+    reviews: 127,
+    freelancer: {
+      id: "freelancer_1",
+      name: "Alex Johnson",
+      rating: 4.8,
+      reviews: 127,
+      avatar:
+        "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face",
+      level: "Expert",
+    },
+    skills: ["React", "Node.js", "MongoDB", "Express"],
+    images: [
+      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=300&fit=crop",
+    ],
+    packages: [
+      { name: "Basic Package", price: 500 },
+      { name: "Standard Package", price: 1000 },
+      { name: "Premium Package", price: 1500 },
+    ],
+    status: "active",
+    createdAt: "2025-01-15T10:00:00Z",
+    tags: ["frontend", "backend", "fullstack"],
+  },
+  {
+    id: 2,
+    title: "Smart Contract Development",
+    category: "blockchain",
+    description:
+      "Develop secure smart contracts for DeFi protocols on Stellar network",
+    price: 2500,
+    currency: "USD",
+    deliveryTime: 21,
+    rating: 4.9,
+    reviews: 89,
+    freelancer: {
+      id: "freelancer_2",
+      name: "Sarah Chen",
+      rating: 4.9,
+      reviews: 89,
+      avatar:
+        "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&h=100&fit=crop&crop=face",
+      level: "Expert",
+    },
+    skills: ["Rust", "Soroban", "Stellar", "Solidity"],
+    images: [
+      "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=400&h=300&fit=crop",
+    ],
+    packages: [
+      { name: "Basic Contract", price: 800 },
+      { name: "Full Protocol", price: 2000 },
+      { name: "Complete Solution", price: 2500 },
+    ],
+    status: "active",
+    createdAt: "2025-01-20T14:30:00Z",
+    tags: ["blockchain", "defi", "smart-contracts"],
+  },
+  {
+    id: 3,
+    title: "UI/UX Design & Branding",
+    category: "design",
+    description:
+      "Modern, responsive UI/UX design with complete branding package",
+    price: 800,
+    currency: "USD",
+    deliveryTime: 10,
+    rating: 4.7,
+    reviews: 203,
+    freelancer: {
+      id: "freelancer_3",
+      name: "Marcus Rodriguez",
+      rating: 4.7,
+      reviews: 203,
+      avatar:
+        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face",
+      level: "Pro",
+    },
+    skills: ["Figma", "Adobe XD", "Photoshop", "Illustrator"],
+    images: [
+      "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=400&h=300&fit=crop",
+    ],
+    packages: [
+      { name: "Basic Design", price: 300 },
+      { name: "Complete UI/UX", price: 600 },
+      { name: "Full Branding", price: 800 },
+    ],
+    status: "active",
+    createdAt: "2025-01-25T09:15:00Z",
+    tags: ["ui-design", "ux-design", "branding"],
+  },
+  {
+    id: 4,
+    title: "Mobile App Development",
+    category: "mobile-development",
+    description: "Cross-platform mobile app development using React Native",
+    price: 2000,
+    currency: "USD",
+    deliveryTime: 18,
+    rating: 4.6,
+    reviews: 156,
+    freelancer: {
+      id: "freelancer_4",
+      name: "Emma Thompson",
+      rating: 4.6,
+      reviews: 156,
+      avatar:
+        "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face",
+      level: "Expert",
+    },
+    skills: ["React Native", "JavaScript", "Firebase", "iOS", "Android"],
+    images: [
+      "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=400&h=300&fit=crop",
+    ],
+    packages: [
+      { name: "Basic App", price: 800 },
+      { name: "Feature-Rich App", price: 1500 },
+      { name: "Complete Solution", price: 2000 },
+    ],
+    status: "active",
+    createdAt: "2025-02-01T11:45:00Z",
+    tags: ["mobile", "react-native", "ios", "android"],
+  },
+  {
+    id: 5,
+    title: "Data Analysis & Visualization",
+    category: "data-science",
+    description:
+      "Comprehensive data analysis with interactive dashboards and reports",
+    price: 1200,
+    currency: "USD",
+    deliveryTime: 12,
+    rating: 4.8,
+    reviews: 94,
+    freelancer: {
+      id: "freelancer_5",
+      name: "David Kim",
+      rating: 4.8,
+      reviews: 94,
+      avatar:
+        "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&crop=face",
+      level: "Pro",
+    },
+    skills: ["Python", "Pandas", "Tableau", "SQL", "Machine Learning"],
+    images: [
+      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=300&fit=crop",
+    ],
+    packages: [
+      { name: "Basic Analysis", price: 400 },
+      { name: "Advanced Analytics", price: 800 },
+      { name: "Full Dashboard", price: 1200 },
+    ],
+    status: "active",
+    createdAt: "2025-02-05T16:20:00Z",
+    tags: ["data-analysis", "visualization", "python", "tableau"],
+  },
+  {
+    id: 6,
+    title: "DevOps & Cloud Infrastructure",
+    category: "devops",
+    description:
+      "Complete cloud infrastructure setup and CI/CD pipeline implementation",
+    price: 1800,
+    currency: "USD",
+    deliveryTime: 15,
+    rating: 4.9,
+    reviews: 78,
+    freelancer: {
+      id: "freelancer_6",
+      name: "Lisa Wang",
+      rating: 4.9,
+      reviews: 78,
+      avatar:
+        "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=100&h=100&fit=crop&crop=face",
+      level: "Expert",
+    },
+    skills: ["AWS", "Docker", "Kubernetes", "Jenkins", "Terraform"],
+    images: [
+      "https://images.unsplash.com/photo-1667372393119-3d4c48d07fc9?w=400&h=300&fit=crop",
+    ],
+    packages: [
+      { name: "Basic Setup", price: 600 },
+      { name: "Full Infrastructure", price: 1200 },
+      { name: "Enterprise Solution", price: 1800 },
+    ],
+    status: "active",
+    createdAt: "2025-02-10T13:30:00Z",
+    tags: ["devops", "cloud", "aws", "docker", "kubernetes"],
+  },
+];
+
+export const gigCategories = [
+  { value: "all", label: "All Categories" },
+  { value: "web-development", label: "Web Development" },
+  { value: "blockchain", label: "Blockchain" },
+  { value: "design", label: "Design" },
+  { value: "mobile-development", label: "Mobile Development" },
+  { value: "data-science", label: "Data Science" },
+  { value: "devops", label: "DevOps" },
+];

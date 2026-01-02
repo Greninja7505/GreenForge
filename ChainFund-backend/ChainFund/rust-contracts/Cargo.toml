@@ -1,0 +1,22 @@
+[workspace]
+resolver = "2"
+members = [
+    "project_funding",
+    "reward_token",
+    "chainfund_core",
+    "chainfund_sbt"
+]
+
+[profile.release]
+opt-level = "z"
+overflow-checks = true
+debug = 0
+strip = true
+lto = true
+codegen-units = 1
+panic = "abort"
+debug-assertions = false
+
+[profile.release-with-logs]
+inherits = "release"
+debug-assertions = true

@@ -1,0 +1,1 @@
+C:\Users\lenovo\OneDrive\Desktop\Machine\ Learning\chainfund\ChainFund-backend\ChainFund\rust-contracts\reward_token\./target-wasm\wasm32-unknown-unknown\release\reward_token.wasm: C:\Users\lenovo\OneDrive\Desktop\Machine\ Learning\chainfund\ChainFund-backend\ChainFund\rust-contracts\reward_token\src\lib.rs

@@ -1,0 +1,15 @@
+# Alternative Render configuration - use this if the main render.yaml doesn't work
+services:
+  - type: web
+    name: chainfund
+    env: static
+    repo: https://github.com/GauravPatil2515/StellarForge.git
+    buildCommand: |
+      cd ChainFund-backend/Chain-Front/Chain-Front
+      npm ci
+      npm run build
+    staticPublishPath: ChainFund-backend/Chain-Front/Chain-Front/dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html

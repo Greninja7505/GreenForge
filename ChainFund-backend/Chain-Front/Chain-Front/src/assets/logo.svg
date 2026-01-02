@@ -1,0 +1,38 @@
+<svg width="220" height="60" viewBox="0 0 220 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Gradient for Fund text -->
+    <linearGradient id="fundGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#6366f1;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#8b5cf6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#06b6d4;stop-opacity:1" />
+    </linearGradient>
+
+    <!-- Glow effect -->
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background geometric elements -->
+  <g opacity="0.1">
+    <!-- Hexagon pattern -->
+    <polygon points="10,20 20,10 35,10 45,20 35,30 20,30" fill="#6366f1"/>
+    <polygon points="50,15 60,5 75,5 85,15 75,25 60,25" fill="#8b5cf6"/>
+  </g>
+
+  <!-- ChainFund Text -->
+  <text x="0" y="40" font-family="Arial, sans-serif" font-size="32" font-weight="300" fill="#ffffff" filter="url(#glow)">
+    Chain
+  </text>
+  <text x="85" y="40" font-family="Arial, sans-serif" font-size="32" font-weight="600" fill="url(#fundGradient)" filter="url(#glow)">
+    Fund
+  </text>
+
+  <!-- Dynamic accent lines -->
+  <line x1="85" y1="45" x2="160" y2="45" stroke="url(#fundGradient)" stroke-width="2" opacity="0.8" stroke-linecap="round"/>
+  <circle cx="162" cy="45" r="3" fill="url(#fundGradient)" opacity="0.6"/>
+</svg>
