@@ -1,12 +1,34 @@
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
-import { Search, Filter, Grid, List, TrendingUp } from "lucide-react";
+import { Search, Filter, Grid, List, TrendingUp, Leaf } from "lucide-react";
 import ProjectCard from "../components/projects/ProjectCard";
 import CategoryFilter from "../components/projects/CategoryFilter";
 import { useProjects } from "../context/ProjectsContext";
+import { SkeletonCard } from "../components/ui/DemoModeBadge";
+
+// Project Skeleton Loader Component
+const ProjectSkeleton = () => (
+  <div className="bg-black border border-white/10 rounded-2xl overflow-hidden animate-pulse">
+    <div className="h-48 bg-gradient-to-br from-white/5 to-white/10" />
+    <div className="p-6 space-y-4">
+      <div className="flex gap-2">
+        <div className="h-5 w-16 bg-white/10 rounded-full" />
+        <div className="h-5 w-20 bg-white/10 rounded-full" />
+      </div>
+      <div className="h-6 bg-white/10 rounded w-3/4" />
+      <div className="h-4 bg-white/5 rounded w-full" />
+      <div className="h-4 bg-white/5 rounded w-2/3" />
+      <div className="h-2 bg-white/10 rounded-full w-full mt-4" />
+      <div className="flex justify-between">
+        <div className="h-5 w-20 bg-white/10 rounded" />
+        <div className="h-5 w-24 bg-white/5 rounded" />
+      </div>
+    </div>
+  </div>
+);
 
 const Projects = () => {
-  const { projects: allProjects, getProjectsByCategory } = useProjects();
+  const { projects: allProjects, getProjectsByCategory, loading } = useProjects();
   const [projects, setProjects] = useState(allProjects);
   const [filteredProjects, setFilteredProjects] = useState(allProjects);
   const [searchTerm, setSearchTerm] = useState("");
@@ -177,7 +199,18 @@ const Projects = () => {
         </motion.div>
 
         {/* Projects Grid */}
-        {filteredProjects.length > 0 ? (
+        {/* Projects Grid with Loading State */}
+        {loading ? (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          >
+            {[...Array(6)].map((_, i) => (
+              <ProjectSkeleton key={i} />
+            ))}
+          </motion.div>
+        ) : filteredProjects.length > 0 ? (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -203,19 +236,21 @@ const Projects = () => {
             animate={{ opacity: 1 }}
             className="text-center py-20"
           >
-            <TrendingUp className="w-20 h-20 text-gray-600 mx-auto mb-6" />
-            <h3 className="text-2xl font-display font-semibold mb-4">
-              No freelancers found
+            <div className="w-20 h-20 rounded-full bg-green-500/10 flex items-center justify-center mx-auto mb-6">
+              <Leaf className="w-10 h-10 text-green-500/50" />
+            </div>
+            <h3 className="text-2xl font-light text-white mb-4">
+              No projects found
             </h3>
-            <p className="text-gray-400 mb-8">
-              Try adjusting your filters or search term
+            <p className="text-gray-400 mb-8 max-w-md mx-auto">
+              Try adjusting your filters or search for different sustainability projects
             </p>
             <button
               onClick={() => {
                 setSearchTerm("");
                 setSelectedCategory("all");
               }}
-              className="btn-primary"
+              className="px-6 py-3 bg-white text-black rounded-xl font-medium hover:bg-gray-200 transition-colors"
             >
               Clear Filters
             </button>

@@ -665,11 +665,11 @@ const ProjectDetail = () => {
                 <div className="flex items-center gap-4">
                   <div className="relative">
                     <img
-                      src={project.creator.avatar || "https://images.unsplash.com/photo-1560179707-f14e90ef3dab?w=200&h=200&fit=crop"}
-                      alt={project.creator.name}
+                      src={project.creator?.avatar || "https://images.unsplash.com/photo-1560179707-f14e90ef3dab?w=200&h=200&fit=crop"}
+                      alt={project.creator?.name || project.creator_name || "Creator"}
                       className="w-16 h-16 rounded-full object-cover border-2 border-white/10 group-hover:border-green-500/50 transition-colors"
                     />
-                    {project.creator.verified && (
+                    {(project.creator?.verified || project.creator_verified) && (
                       <div className="absolute -bottom-1 -right-1 bg-black text-green-400 rounded-full p-0.5 border border-black">
                         <CheckCircle className="w-4 h-4" fill="currentColor" stroke="black" />
                       </div>
@@ -686,10 +686,12 @@ const ProjectDetail = () => {
                       style={{ fontFamily: "Helvetica, Arial, sans-serif", fontWeight: "400", fontSize: "1rem" }}
                       className="text-white leading-tight"
                     >
-                      {project.creator.name}
+                      {project.creator?.name || project.creator_name || "Anonymous"}
                     </h3>
                     <p className="text-xs text-gray-500 mt-1 font-mono truncate max-w-[150px]">
-                      {project.creator.address.substring(0, 6)}...{project.creator.address.substring(project.creator.address.length - 4)}
+                      {project.creator?.address || project.stellarAddress || project.creator_stellar_address
+                        ? `${(project.creator?.address || project.stellarAddress || project.creator_stellar_address).substring(0, 6)}...${(project.creator?.address || project.stellarAddress || project.creator_stellar_address).substring((project.creator?.address || project.stellarAddress || project.creator_stellar_address).length - 4)}`
+                        : "No wallet linked"}
                     </p>
                   </div>
                 </div>

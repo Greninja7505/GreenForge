@@ -35,6 +35,9 @@ import OnboardingTour from "./components/layout/OnboardingTour";
 // Effects
 import ClickSpark from "./components/effects/ClickSpark";
 
+// Demo Mode Badge
+import { DemoModeBadge } from "./components/ui/DemoModeBadge";
+
 // Eager loaded pages (critical path)
 import Home from "./pages/Home";
 import SignIn from "./pages/SignIn";
@@ -145,6 +148,7 @@ function LayoutWrapper({ children }) {
   return (
     <>
       {!hideNavFooter && <Navbar />}
+      {!hideNavFooter && <DemoModeBadge />}
       {children}
       {!hideNavFooter && <Footer />}
     </>
@@ -153,7 +157,7 @@ function LayoutWrapper({ children }) {
 
 function App() {
   return (
-    <Router>
+    <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       {/* <SmoothScroll> */}
       <ScrollToTop />
       <ClickSpark

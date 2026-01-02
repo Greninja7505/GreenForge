@@ -130,15 +130,23 @@ const ProjectCard = ({ project, index, viewMode = "grid" }) => {
     >
       <Link to={`/project/${project.slug}`}>
         <motion.div
-          whileHover={{ y: -5 }}
-          className="bg-black border border-white/10 rounded-xl p-8 hover:border-white/30 transition-all duration-300 h-full flex flex-col group"
+          whileHover={{ y: -8, scale: 1.02 }}
+          className="bg-black border border-white/10 rounded-2xl p-6 hover:border-white/30 transition-all duration-300 h-full flex flex-col group relative overflow-hidden"
+          style={{
+            boxShadow: "0 0 0 1px rgba(255, 255, 255, 0.05)"
+          }}
         >
+          {/* Glow effect on hover */}
+          <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
+            <div className="absolute -inset-1 bg-gradient-to-r from-green-500/10 via-cyan-500/10 to-green-500/10 blur-xl" />
+          </div>
+
           {/* Project Image */}
-          <div className="w-full h-48 bg-gradient-to-br from-gray-800/50 to-gray-700/50 rounded-xl mb-6 overflow-hidden relative">
+          <div className="relative w-full h-48 bg-gradient-to-br from-gray-800/50 to-gray-700/50 rounded-xl mb-6 overflow-hidden">
             <img
               src={project.image}
               alt={project.title}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
               onError={(e) => {
                 e.target.style.display = 'none';
               }}
@@ -147,19 +155,38 @@ const ProjectCard = ({ project, index, viewMode = "grid" }) => {
               <Heart className="w-16 h-16 text-white/20" />
             </div>
 
-            {/* Badges */}
+            {/* Gradient overlay */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+            {/* Badges with animations */}
             <div className="absolute top-4 left-4 flex space-x-2">
               {project.verified && (
-                <span className="px-3 py-1 bg-gray-700/90 backdrop-blur-sm text-white text-xs font-semibold rounded-full flex items-center space-x-1">
-                  <CheckCircle className="w-3 h-3" />
+                <motion.span
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  className="px-3 py-1.5 bg-green-500/20 backdrop-blur-md text-green-300 text-xs font-medium rounded-full flex items-center space-x-1.5 border border-green-500/30"
+                >
+                  <CheckCircle className="w-3.5 h-3.5" />
                   <span>Verified</span>
-                </span>
+                </motion.span>
               )}
               {project.givbacksEligible && (
-                <span className="px-3 py-1 bg-gray-600/90 backdrop-blur-sm text-white text-xs font-semibold rounded-full">
+                <motion.span
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ delay: 0.1 }}
+                  className="px-3 py-1.5 bg-purple-500/20 backdrop-blur-md text-purple-300 text-xs font-medium rounded-full border border-purple-500/30"
+                >
                   GIVbacks
-                </span>
+                </motion.span>
               )}
+            </div>
+
+            {/* Progress percentage badge */}
+            <div className="absolute bottom-4 right-4">
+              <span className="px-3 py-1.5 bg-black/70 backdrop-blur-md text-white text-xs font-medium rounded-full border border-white/10">
+                {progressPercentage.toFixed(0)}% funded
+              </span>
             </div>
           </div>
 

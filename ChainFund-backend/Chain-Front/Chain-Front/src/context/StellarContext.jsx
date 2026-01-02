@@ -85,40 +85,42 @@ export const StellarProvider = ({ children }) => {
   const fetchXlmPrice = async () => {
     // Use default price for development to avoid CORS issues
     const DEFAULT_XLM_PRICE = 0.12;
-    
+
     try {
-      // Try fetching from CoinGecko via CORS proxy
+      // Try fetching from CoinGecko directly first
       const response = await fetch(
-        "https://corsproxy.io/?" + encodeURIComponent("https://api.coingecko.com/api/v3/simple/price?ids=stellar&vs_currencies=usd"),
-        { signal: AbortSignal.timeout(5000) } // 5 second timeout
+        "https://api.coingecko.com/api/v3/simple/price?ids=stellar&vs_currencies=usd",
+        { signal: AbortSignal.timeout(3000) }
       );
-      const data = await response.json();
-      if (data.stellar && data.stellar.usd) {
-        setXlmPrice(data.stellar.usd);
-        console.log("XLM Price:", data.stellar.usd);
-        return;
+      if (response.ok) {
+        const data = await response.json();
+        if (data.stellar?.usd) {
+          setXlmPrice(data.stellar.usd);
+          return;
+        }
       }
-    } catch (error) {
-      // Silently fall back to default price
-      console.log("Using default XLM price:", DEFAULT_XLM_PRICE);
+    } catch {
+      // Silently continue to fallback
     }
+
+    // If direct API fails, use default price (CORS issues in dev are expected)
     setXlmPrice(DEFAULT_XLM_PRICE);
   };
 
   const checkConnection = async () => {
     try {
       const connected = await checkFreighterConnection();
-      
+
       console.log("🔄 Auto-connect check:", connected);
 
       // Check if we have a saved public key and try to reconnect
       const savedPublicKey = localStorage.getItem(STORAGE_KEYS.PUBLIC_KEY);
-      
+
       if (connected && savedPublicKey) {
         if (window.freighterApi && window.freighterApi.getPublicKey) {
           try {
             const address = await window.freighterApi.getPublicKey();
-            
+
             if (address && typeof address === 'string') {
               setPublicKey(address);
               setIsConnected(true);
@@ -166,21 +168,21 @@ export const StellarProvider = ({ children }) => {
 
       // Method 3: Direct check for Freighter extension
       const hasFreighterExtension = hasFreighterAPI || connected;
-      
+
       console.log("✅ Step 1c: Final Freighter check:", hasFreighterExtension);
-      
+
       if (!hasFreighterExtension) {
         console.error("❌ Freighter not detected!");
         toast.error(
           "Freighter wallet not found. Please install it or make sure it's enabled.",
           { duration: 4000 }
         );
-        
+
         // Ask user if they want to install
         const shouldInstall = window.confirm(
           "Freighter wallet extension is not installed. Would you like to install it now?"
         );
-        
+
         if (shouldInstall) {
           window.open("https://www.freighter.app/", "_blank");
         }
@@ -188,21 +190,21 @@ export const StellarProvider = ({ children }) => {
       }
 
       console.log("🔄 Step 2: Requesting wallet access...");
-      
+
       // Try to request access
       let walletAddress;
       try {
         walletAddress = await requestAccess();
       } catch (accessError) {
         console.error("❌ Access request failed:", accessError);
-        
+
         // Check if it's a user rejection
-        if (accessError.message?.includes("User declined") || 
-            accessError.message?.includes("rejected")) {
+        if (accessError.message?.includes("User declined") ||
+          accessError.message?.includes("rejected")) {
           toast.error("Connection request was declined");
           return;
         }
-        
+
         // Try alternative method using window.freighterApi
         if (window.freighterApi && window.freighterApi.getPublicKey) {
           try {
@@ -217,7 +219,7 @@ export const StellarProvider = ({ children }) => {
           throw accessError;
         }
       }
-      
+
       console.log("📦 Step 3: Result:", walletAddress);
       console.log("📦 Step 3: Type:", typeof walletAddress);
 
@@ -237,7 +239,7 @@ export const StellarProvider = ({ children }) => {
 
       setPublicKey(walletAddress);
       setIsConnected(true);
-      
+
       toast.success(
         `Wallet connected: ${walletAddress.substring(0, 4)}...${walletAddress.substring(
           walletAddress.length - 4
@@ -276,7 +278,7 @@ export const StellarProvider = ({ children }) => {
     // Clear localStorage
     localStorage.removeItem(STORAGE_KEYS.PUBLIC_KEY);
     localStorage.setItem(STORAGE_KEYS.WALLET_CONNECTED, 'false');
-    
+
     setPublicKey(null);
     setIsConnected(false);
     setBalance(null);
@@ -350,15 +352,15 @@ export const StellarProvider = ({ children }) => {
       const payment =
         asset === "native"
           ? Operation.payment({
-              destination: destination,
-              asset: Asset.native(),
-              amount: amount.toString(),
-            })
+            destination: destination,
+            asset: Asset.native(),
+            amount: amount.toString(),
+          })
           : Operation.payment({
-              destination: destination,
-              asset: new Asset(assetCode, assetIssuer),
-              amount: amount.toString(),
-            });
+            destination: destination,
+            asset: new Asset(assetCode, assetIssuer),
+            amount: amount.toString(),
+          });
 
       transaction = transaction.addOperation(payment).setTimeout(180).build();
 
