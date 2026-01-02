@@ -282,32 +282,104 @@ async def create_user(user: UserCreate):
 
 # ==================== PROJECT ENDPOINTS ====================
 
-# ==================== PROJECT ENDPOINTS (MOVED TO ROTUER) ====================
+@app.get("/api/v1/projects")
+async def get_projects(
+    category: Optional[str] = None,
+    status: str = "active",
+    limit: int = 50,
+    offset: int = 0
+):
+    """Get all projects with optional filtering"""
+    with get_db_connection() as conn:
+        cursor = conn.cursor()
+        
+        query = "SELECT * FROM projects WHERE 1=1"
+        params = []
+        
+        if status:
+            query += " AND status = ?"
+            params.append(status)
+        
+        if category and category.lower() != "all":
+            query += " AND category = ?"
+            params.append(category)
+        
+        query += " ORDER BY created_at DESC LIMIT ? OFFSET ?"
+        params.extend([limit, offset])
+        
+        cursor.execute(query, params)
+        projects = []
+        
+        for row in cursor.fetchall():
+            project = dict(row)
+            # Parse any JSON fields if needed
+            projects.append(project)
+        
+        return {"projects": projects, "count": len(projects)}
 
-# @app.get("/api/v1/projects")
-# async def get_projects(
-#     category: Optional[str] = None,
-#     status: Optional[str] = None,
-#     limit: int = 50,
-#     offset: int = 0
-# ):
-#     ... (moved to routers/projects.py)
 
-# @app.get("/api/v1/projects/{slug}")
-# async def get_project(slug: str):
-#     ... (moved to routers/projects.py)
+@app.get("/api/v1/projects/{slug}")
+async def get_project_by_slug(slug: str):
+    """Get single project by slug"""
+    with get_db_connection() as conn:
+        cursor = conn.cursor()
+        
+        # Try by slug first, then by id
+        cursor.execute("SELECT * FROM projects WHERE slug = ?", (slug,))
+        row = cursor.fetchone()
+        
+        if not row:
+            # Try as integer ID
+            try:
+                project_id = int(slug)
+                cursor.execute("SELECT * FROM projects WHERE id = ?", (project_id,))
+                row = cursor.fetchone()
+            except ValueError:
+                pass
+        
+        if not row:
+            raise HTTPException(status_code=404, detail="Project not found")
+        
+        project = dict(row)
+        
+        # Get milestones
+        cursor.execute("""
+            SELECT * FROM milestones 
+            WHERE project_id = ? 
+            ORDER BY id
+        """, (project['id'],))
+        project['milestones'] = [dict(m) for m in cursor.fetchall()]
+        
+        # Get recent donations
+        cursor.execute("""
+            SELECT * FROM donations 
+            WHERE project_id = ? 
+            ORDER BY created_at DESC LIMIT 10
+        """, (project['id'],))
+        project['recent_donations'] = [dict(d) for d in cursor.fetchall()]
+        
+        return {"project": project}
 
-# @app.post("/api/v1/projects")
-# async def create_project(project: ProjectCreate):
-#     ... (moved to routers/projects.py)
 
-# @app.post("/api/v1/projects/{project_id}/upvote")
-# async def upvote_project(project_id: int):
-#     ... (moved to routers/projects.py)
+@app.post("/api/v1/projects/{project_id}/upvote")
+async def upvote_project(project_id: int):
+    """Upvote a project"""
+    with get_db_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute("UPDATE projects SET upvotes = upvotes + 1 WHERE id = ?", (project_id,))
+        conn.commit()
+        return {"message": "Upvoted", "project_id": project_id}
 
-# @app.post("/api/v1/projects/{project_id}/downvote")
-# async def downvote_project(project_id: int):
-#     ... (moved to routers/projects.py)
+
+@app.post("/api/v1/projects/{project_id}/downvote")
+async def downvote_project(project_id: int):
+    """Downvote a project"""
+    with get_db_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute("UPDATE projects SET downvotes = downvotes + 1 WHERE id = ?", (project_id,))
+        conn.commit()
+        return {"message": "Downvoted", "project_id": project_id}
+
 
 
 # ==================== DONATION ENDPOINTS (MOVED TO ROUTER) ====================

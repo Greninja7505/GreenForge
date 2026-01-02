@@ -19,7 +19,7 @@ import {
   Layers,
 } from "lucide-react";
 import toast from "react-hot-toast";
-import { getProjectBySlug } from "../data/projects";
+import { useProjects } from "../context/ProjectsContext";
 import TokenRewardModal from '../components/TokenRewardModal';
 import TransactionDetailsModal from '../components/TransactionDetailsModal';
 import { validateDonationForm, sanitizeString } from "../utils/validation";
@@ -56,6 +56,9 @@ const Donate = () => {
     shortAddress: evmShortAddress
   } = useEVM();
 
+  // Get project from context
+  const { getProjectBySlug, loading: projectsLoading } = useProjects();
+
   // Handle gig payment data if coming from HireGig page
   useEffect(() => {
     if (location.state?.amount) {
@@ -84,8 +87,17 @@ const Donate = () => {
     return `${address.slice(0, 6)}...${address.slice(-4)}`;
   };
 
-  // Get project data dynamically
+  // Get project data dynamically from context
   const project = getProjectBySlug(slug);
+
+  // If projects are still loading, show loading state
+  if (projectsLoading) {
+    return (
+      <div className="min-h-screen pt-32 pb-20 flex items-center justify-center">
+        <div className="text-white text-xl">Loading project...</div>
+      </div>
+    );
+  }
 
   // If project not found, redirect to projects page
   if (!project) {
@@ -144,19 +156,18 @@ const Donate = () => {
       }
 
       // Validate donation form
-      const validation = validateDonationForm({ 
+      const validation = validateDonationForm({
         amount: parseFloat(donationAmount),
         message: memo
       });
-      
+
       if (!validation.isValid) {
         const firstError = Object.values(validation.errors)[0];
         toast.error(firstError);
         return;
       }
 
-      // Get the project info
-      const project = getProjectBySlug(slug);
+      // Project is already loaded from context above
       if (!project) {
         toast.error("Project not found");
         return;
@@ -189,10 +200,10 @@ const Donate = () => {
         // Send EVM transaction
         const recipientAddress = "0x742d35Cc6634C0532925a3b844Bc9e7595f1E7B5"; // Demo address
         toast.loading(`Sending ${cryptoAmount.toFixed(6)} ${selectedAsset}...`, { id: 'evm-tx' });
-        
+
         const txHash = await sendEVMTransaction(recipientAddress, cryptoAmount.toString());
         toast.dismiss('evm-tx');
-        
+
         if (txHash) {
           toast.success(`Donation successful! TX: ${txHash.slice(0, 10)}...`);
           setTransactionDetails({
@@ -245,10 +256,10 @@ const Donate = () => {
 
       // Validate Stellar address format (must be 56 characters starting with G)
       const isValidStellarAddress = (address) => {
-        return address && 
-               address.startsWith('G') && 
-               address.length === 56 && 
-               /^G[A-Z2-7]{55}$/.test(address);
+        return address &&
+          address.startsWith('G') &&
+          address.length === 56 &&
+          /^G[A-Z2-7]{55}$/.test(address);
       };
 
       // For testnet demo: if project address is invalid or unfunded, 
@@ -287,7 +298,7 @@ const Donate = () => {
           destinationAddress = publicKey;
           usingDemoMode = true;
           toast("Demo mode: Project address not funded, simulating donation", { icon: 'ℹ️' });
-          
+
           transactionResult = await sendPayment({
             destination: destinationAddress,
             amount: xlmAmount.toFixed(7),
@@ -337,9 +348,9 @@ const Donate = () => {
   const totalXlmAmount =
     xlmPrice && donationAmount
       ? (
-          (parseFloat(donationAmount) * (1 + givethDonation / 100)) /
-          xlmPrice
-        ).toFixed(4)
+        (parseFloat(donationAmount) * (1 + givethDonation / 100)) /
+        xlmPrice
+      ).toFixed(4)
       : "0.0000";
 
   const balanceInUsd =
@@ -396,7 +407,7 @@ const Donate = () => {
             >
               Your donation helps make a real difference
             </p>
-            
+
             {/* Testing Warning Banner */}
             <div className="mt-6 p-4 bg-yellow-500/10 border border-yellow-500/30 rounded-xl max-w-2xl mx-auto">
               <div className="flex items-center justify-center space-x-2 text-yellow-400 text-sm">
@@ -418,7 +429,7 @@ const Donate = () => {
                   <Wallet className="w-5 h-5" />
                   Wallet Connections
                 </h3>
-                
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {/* Stellar Wallet */}
                   <div className={`p-4 rounded-xl border-2 ${isConnected ? 'border-green-500/50 bg-green-500/10' : 'border-dark-700'}`}>
@@ -518,11 +529,10 @@ const Donate = () => {
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       onClick={() => setSelectedAsset(asset.code)}
-                      className={`p-4 rounded-xl border-2 transition-all relative ${
-                        selectedAsset === asset.code
-                          ? "border-gray-500 bg-gray-500/10"
-                          : "border-dark-700 hover:border-gray-500/50"
-                      }`}
+                      className={`p-4 rounded-xl border-2 transition-all relative ${selectedAsset === asset.code
+                        ? "border-gray-500 bg-gray-500/10"
+                        : "border-dark-700 hover:border-gray-500/50"
+                        }`}
                       style={selectedAsset === asset.code ? { borderColor: asset.color } : {}}
                     >
                       {/* Chain indicator badge */}
@@ -537,7 +547,7 @@ const Donate = () => {
                     </motion.button>
                   ))}
                 </div>
-                
+
                 {/* Show estimated crypto amount */}
                 {donationAmount && parseFloat(donationAmount) > 0 && (
                   <div className="mt-4 p-3 bg-dark-800/50 rounded-lg">
@@ -571,11 +581,10 @@ const Donate = () => {
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       onClick={() => setDonationAmount(amount.toString())}
-                      className={`py-3 rounded-xl border-2 font-semibold transition-all ${
-                        donationAmount === amount.toString()
-                          ? "border-gray-500 bg-gray-500/10 text-white"
-                          : "border-dark-700 text-gray-400 hover:border-gray-500/50"
-                      }`}
+                      className={`py-3 rounded-xl border-2 font-semibold transition-all ${donationAmount === amount.toString()
+                        ? "border-gray-500 bg-gray-500/10 text-white"
+                        : "border-dark-700 text-gray-400 hover:border-gray-500/50"
+                        }`}
                     >
                       ${amount}
                     </motion.button>
@@ -619,9 +628,8 @@ const Donate = () => {
                   </div>
                   <button
                     onClick={() => setIsRecurring(!isRecurring)}
-                    className={`relative w-14 h-8 rounded-full transition-all ${
-                      isRecurring ? "bg-gray-600" : "bg-dark-700"
-                    }`}
+                    className={`relative w-14 h-8 rounded-full transition-all ${isRecurring ? "bg-gray-600" : "bg-dark-700"
+                      }`}
                   >
                     <motion.div
                       animate={{ x: isRecurring ? 24 : 4 }}
@@ -641,9 +649,8 @@ const Donate = () => {
                   </div>
                   <button
                     onClick={() => setIsAnonymous(!isAnonymous)}
-                    className={`relative w-14 h-8 rounded-full transition-all ${
-                      isAnonymous ? "bg-gray-600" : "bg-dark-700"
-                    }`}
+                    className={`relative w-14 h-8 rounded-full transition-all ${isAnonymous ? "bg-gray-600" : "bg-dark-700"
+                      }`}
                   >
                     <motion.div
                       animate={{ x: isAnonymous ? 24 : 4 }}
@@ -730,9 +737,9 @@ const Donate = () => {
                           $
                           {donationAmount
                             ? (
-                                (parseFloat(donationAmount) * givethDonation) /
-                                100
-                              ).toFixed(2)
+                              (parseFloat(donationAmount) * givethDonation) /
+                              100
+                            ).toFixed(2)
                             : "0.00"}
                         </div>
                         {xlmPrice && donationAmount && (

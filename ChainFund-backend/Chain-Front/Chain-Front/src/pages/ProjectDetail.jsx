@@ -25,13 +25,22 @@ import ProofVerifier from "../components/project/ProofVerifier";
 const ProjectDetail = () => {
   const { slug } = useParams();
   const [activeTab, setActiveTab] = useState("about");
-  const { getProjectBySlug, upvoteProject, downvoteProject } = useProjects();
+  const { getProjectBySlug, upvoteProject, downvoteProject, loading } = useProjects();
   const { publicKey } = useStellar();
 
   // Get project data from slug
   const project = getProjectBySlug(slug);
 
-  // If project not found, redirect to projects page
+  // Show loading spinner while fetching
+  if (loading) {
+    return (
+      <div className="min-h-screen pt-32 pb-20 flex items-center justify-center">
+        <div className="text-white text-xl">Loading project...</div>
+      </div>
+    );
+  }
+
+  // If project not found after loading, redirect to projects page
   if (!project) {
     return <Navigate to="/projects/all" replace />;
   }

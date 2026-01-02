@@ -393,6 +393,71 @@ def seed_data():
             
             conn.commit()
 
+        # Seed Projects/Campaigns
+        cursor.execute("SELECT COUNT(*) as count FROM projects")
+        if cursor.fetchone()['count'] == 0:
+            print("🌱 Seeding initial sustainability projects...")
+            projects = [
+                (
+                    "ocean-cleanup-drone", "Ocean Cleanup Drone Network", "Technology",
+                    "https://images.unsplash.com/photo-1621451537084-482c73073a0f?auto=format&fit=crop&q=80&w=1000",
+                    "AI-powered autonomous drones that collect ocean plastic waste",
+                    "We are building a network of solar-powered drones that use computer vision to identify and collect plastic waste from ocean surfaces. The drones work together in swarms, covering large areas efficiently while transmitting real-time data about ocean health.",
+                    12500, 25000, 156, 89, 12, 1, 1, "Pacific Ocean",
+                    "GBXGQJWVLWOYHFLVTKWV5FGHA3LZCQEECFDPJILPTHXBPHXFPJ3VTSXR",
+                    "EcoTech Labs", 1
+                ),
+                (
+                    "solar-schools-india", "Solar Schools Initiative", "Education",
+                    "https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&q=80&w=1000",
+                    "Installing solar panels in 100 rural schools across India",
+                    "Bringing clean, reliable electricity to rural schools that currently lack power. Each school installation provides 5kW of solar capacity, powering lights, fans, and computer labs. This enables extended learning hours and digital education.",
+                    45000, 75000, 423, 234, 5, 1, 1, "Rural India",
+                    "GCXKG6RN4ONIEPCMNFB732A436Z5PNDSRLGWK7GBLCMQLIBER4LHV2PD",
+                    "GreenEd Foundation", 1
+                ),
+                (
+                    "mangrove-restoration", "Mangrove Forest Restoration", "Environment",
+                    "https://images.unsplash.com/photo-1559827260-dc6641ef167b?auto=format&fit=crop&q=80&w=1000",
+                    "Restoring 500 hectares of mangrove forests in coastal regions",
+                    "Mangroves are critical carbon sinks and protect coastlines from erosion. This project plants native mangrove species, employs local communities, and uses satellite monitoring to track forest growth over time.",
+                    18750, 50000, 287, 178, 3, 1, 1, "Bangladesh Coast",
+                    "GDQP2KPQGKIHYJGXNUIYOMHARUARCA7DJT5FO2FFOOUJ3OQQKLJVHQQQ",
+                    "Coastal Conservation", 1
+                ),
+                (
+                    "ewaste-recycling-hub", "E-Waste Recycling Hub", "Technology",
+                    "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&q=80&w=1000",
+                    "Community e-waste collection and proper recycling center",
+                    "Creating a network of e-waste collection points with proper recycling facilities. We extract valuable materials, safely dispose of hazardous components, and create local jobs in the circular economy.",
+                    8200, 20000, 134, 67, 8, 1, 0, "Nairobi, Kenya",
+                    "GAHK7EEG2WWHVKDNT4CEQFZGKF2LGDSW2IVM4S5DP42RBW3K6BTHTSNW",
+                    "CircularTech Africa", 1
+                ),
+                (
+                    "urban-vertical-farm", "Urban Vertical Farm", "Agriculture",
+                    "https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?auto=format&fit=crop&q=80&w=1000",
+                    "Hydroponic vertical farm producing food in urban food deserts",
+                    "Building a 10-story vertical farm in downtown Detroit that produces fresh vegetables year-round using 95% less water than traditional farming. Provides healthy food access and green jobs to underserved communities.",
+                    32000, 100000, 512, 289, 2, 1, 1, "Detroit, USA",
+                    "GCFXHS4GXL6BVUCXBWXGTITROWLVYXQKQLF4YH5O5JT3YZXCYPAFBJZA",
+                    "Urban Greens Co", 1
+                )
+            ]
+            
+            for p in projects:
+                cursor.execute('''
+                    INSERT INTO projects (
+                        slug, title, category, image, description, full_description,
+                        raised, goal, donors, upvotes, downvotes, verified, givbacks_eligible,
+                        location, creator_stellar_address, creator_name, creator_verified
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                ''', p)
+            
+            conn.commit()
+            print("✅ Seeded 5 sustainability projects!")
+
+
 
 def reset_database():
     """Drop all tables and recreate them"""
