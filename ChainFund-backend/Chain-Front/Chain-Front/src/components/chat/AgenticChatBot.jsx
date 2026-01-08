@@ -1,6 +1,6 @@
 /**
  * AgenticChatBot Component
- * Premium AI Agent that can execute actions on the ChainFund platform
+ * Premium AI Agent that can execute actions on the GreenForge platform
  * Features: Voice input, Action cards, Form filling, Navigation
  * Design: Black & white theme with glassmorphism
  */
@@ -8,11 +8,11 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { 
-  Sparkles, 
-  X, 
-  RotateCcw, 
-  Maximize2, 
+import {
+  Sparkles,
+  X,
+  RotateCcw,
+  Maximize2,
   Minimize2,
   Bot,
   User,
@@ -83,11 +83,10 @@ const MessageBubble = ({ message, isUser, action, onActionExecute, actionExecute
     >
       <div className={`flex items-start gap-2 max-w-[90%] ${isUser ? 'flex-row-reverse' : ''}`}>
         {/* Avatar */}
-        <div className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 ${
-          isUser 
-            ? 'bg-white text-black' 
+        <div className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 ${isUser
+            ? 'bg-white text-black'
             : 'bg-gradient-to-br from-white/20 to-white/5 border border-white/10'
-        }`}>
+          }`}>
           {isUser ? (
             <User className="w-3.5 h-3.5" />
           ) : (
@@ -98,11 +97,10 @@ const MessageBubble = ({ message, isUser, action, onActionExecute, actionExecute
         <div className="space-y-2">
           {/* Message Text */}
           <div
-            className={`px-4 py-3 rounded-2xl ${
-              isUser
+            className={`px-4 py-3 rounded-2xl ${isUser
                 ? 'bg-white text-black rounded-br-sm'
                 : 'bg-white/5 text-white/90 border border-white/5 rounded-bl-sm'
-            }`}
+              }`}
           >
             <p className="text-sm leading-relaxed whitespace-pre-wrap">{message}</p>
           </div>
@@ -159,14 +157,14 @@ const AgenticChatBot = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { executeAction } = useAgentActions();
-  
+
   const [isOpen, setIsOpen] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const [messages, setMessages] = useState([
     {
       id: 1,
       role: 'assistant',
-      content: "Welcome to ChainFund. I'm your AI agent - I can help you create projects, navigate the platform, and execute actions. What would you like to do?",
+      content: "Welcome to GreenForge. I'm your AI agent - I can help you create projects, navigate the platform, and execute actions. What would you like to do?",
       action: null,
       actionExecuted: false,
     }
@@ -193,7 +191,7 @@ const AgenticChatBot = () => {
       role: 'user',
       content: userMessage,
     };
-    
+
     setMessages(prev => [...prev, userMsg]);
     setInputValue('');
     setIsLoading(true);
@@ -234,10 +232,10 @@ const AgenticChatBot = () => {
   // Handle action execution
   const handleActionExecute = useCallback(async (action) => {
     const result = await executeAction(action);
-    
+
     // Mark action as executed
-    setMessages(prev => prev.map(msg => 
-      msg.action === action 
+    setMessages(prev => prev.map(msg =>
+      msg.action === action
         ? { ...msg, actionExecuted: true }
         : msg
     ));
@@ -245,9 +243,9 @@ const AgenticChatBot = () => {
     // If action has form data, dispatch event for form to catch
     if (action.type === 'FILL_FORM' && action.params?.data) {
       window.dispatchEvent(new CustomEvent('ai-fill-form', {
-        detail: { 
+        detail: {
           formType: action.params.formType,
-          data: action.params.data 
+          data: action.params.data
         }
       }));
     }
@@ -281,8 +279,8 @@ const AgenticChatBot = () => {
   };
 
   // Size classes based on expanded state
-  const windowSize = isExpanded 
-    ? 'w-[480px] h-[680px]' 
+  const windowSize = isExpanded
+    ? 'w-[480px] h-[680px]'
     : 'w-[380px] h-[540px]';
 
   return (
@@ -292,8 +290,8 @@ const AgenticChatBot = () => {
         {!isOpen && (
           <motion.button
             initial={{ scale: 0, rotate: -180 }}
-            animate={{ 
-              scale: 1, 
+            animate={{
+              scale: 1,
               rotate: 0,
               transition: {
                 type: "spring",
@@ -302,8 +300,8 @@ const AgenticChatBot = () => {
                 delay: 0.1
               }
             }}
-            exit={{ 
-              scale: 0, 
+            exit={{
+              scale: 0,
               rotate: 180,
               transition: { duration: 0.2 }
             }}
@@ -314,30 +312,30 @@ const AgenticChatBot = () => {
           >
             <div className="relative group">
               {/* Animated ring */}
-              <motion.div 
+              <motion.div
                 className="absolute -inset-2 rounded-full border border-white/10"
-                animate={{ 
+                animate={{
                   scale: [1, 1.2, 1],
                   opacity: [0.5, 0, 0.5]
                 }}
-                transition={{ 
+                transition={{
                   duration: 2,
                   repeat: Infinity,
                   ease: "easeInOut"
                 }}
               />
-              
+
               {/* Glow effect */}
-              <motion.div 
+              <motion.div
                 className="absolute -inset-1 bg-gradient-to-r from-white/20 via-white/10 to-white/20 rounded-full blur-md"
                 animate={{ opacity: [0.3, 0.6, 0.3] }}
                 transition={{ duration: 2, repeat: Infinity }}
               />
-              
+
               {/* Main button */}
-              <motion.div 
+              <motion.div
                 className="relative w-14 h-14 bg-black rounded-full flex items-center justify-center border border-white/20 shadow-[0_0_40px_rgba(255,255,255,0.15)]"
-                animate={{ 
+                animate={{
                   boxShadow: [
                     "0 0 30px rgba(255,255,255,0.1)",
                     "0 0 50px rgba(255,255,255,0.2)",
@@ -353,14 +351,14 @@ const AgenticChatBot = () => {
                   <Sparkles className="w-6 h-6 text-white" />
                 </motion.div>
               </motion.div>
-              
+
               {/* Status dot */}
-              <motion.span 
+              <motion.span
                 className="absolute top-0 right-0 w-3 h-3 bg-green-400 rounded-full border-2 border-black"
                 animate={{ scale: [1, 1.2, 1] }}
                 transition={{ duration: 1.5, repeat: Infinity }}
               />
-              
+
               {/* Tooltip */}
               <div className="absolute bottom-full right-0 mb-3 px-3 py-1.5 bg-black/90 backdrop-blur border border-white/20 rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-300 transform group-hover:-translate-y-1 whitespace-nowrap pointer-events-none">
                 <span className="text-white text-xs font-medium">AI Agent</span>
@@ -376,9 +374,9 @@ const AgenticChatBot = () => {
         {isOpen && (
           <motion.div
             initial={{ opacity: 0, y: 100, scale: 0.8 }}
-            animate={{ 
-              opacity: 1, 
-              y: 0, 
+            animate={{
+              opacity: 1,
+              y: 0,
               scale: 1,
               transition: {
                 type: "spring",
@@ -387,9 +385,9 @@ const AgenticChatBot = () => {
                 mass: 0.8,
               }
             }}
-            exit={{ 
-              opacity: 0, 
-              y: 50, 
+            exit={{
+              opacity: 0,
+              y: 50,
               scale: 0.9,
               transition: {
                 duration: 0.2,
@@ -399,10 +397,10 @@ const AgenticChatBot = () => {
             className={`fixed bottom-6 right-6 ${windowSize} z-50`}
             style={{ willChange: 'transform, opacity' }}
           >
-            <motion.div 
+            <motion.div
               className="h-full bg-black/95 backdrop-blur-xl rounded-2xl border border-white/10 shadow-[0_0_80px_rgba(0,0,0,0.9)] flex flex-col overflow-hidden"
               initial={{ boxShadow: "0 0 0 rgba(255,255,255,0)" }}
-              animate={{ 
+              animate={{
                 boxShadow: [
                   "0 0 60px rgba(255,255,255,0.05)",
                   "0 0 80px rgba(255,255,255,0.08)",
@@ -411,9 +409,9 @@ const AgenticChatBot = () => {
               }}
               transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
             >
-              
+
               {/* Header */}
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1, duration: 0.3 }}
@@ -421,14 +419,14 @@ const AgenticChatBot = () => {
               >
                 <div className="flex items-center gap-3 flex-1">
                   <div className="relative">
-                    <motion.div 
+                    <motion.div
                       className="w-10 h-10 rounded-xl bg-gradient-to-br from-white/20 to-white/5 flex items-center justify-center border border-white/10"
                       animate={{ rotate: [0, 5, -5, 0] }}
                       transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
                     >
                       <Zap className="w-5 h-5 text-white" />
                     </motion.div>
-                    <motion.span 
+                    <motion.span
                       className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-green-500 rounded-full border-2 border-black"
                       animate={{ scale: [1, 1.2, 1] }}
                       transition={{ duration: 2, repeat: Infinity }}
@@ -436,13 +434,13 @@ const AgenticChatBot = () => {
                   </div>
                   <div>
                     <h3 className="text-white font-medium text-sm flex items-center gap-2">
-                      ChainFund AI Agent
+                      GreenForge AI Agent
                       <span className="px-1.5 py-0.5 text-[10px] bg-white/10 rounded text-white/60">BETA</span>
                     </h3>
                     <p className="text-white/40 text-xs">I can execute actions for you</p>
                   </div>
                 </div>
-                
+
                 <div className="flex items-center gap-1">
                   <motion.button
                     whileHover={{ scale: 1.1 }}
@@ -492,7 +490,7 @@ const AgenticChatBot = () => {
                 ))}
 
                 {isLoading && <TypingIndicator />}
-                
+
                 <div ref={messagesEndRef} />
               </div>
 
@@ -508,7 +506,7 @@ const AgenticChatBot = () => {
               )}
 
               {/* Input */}
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2, duration: 0.3 }}

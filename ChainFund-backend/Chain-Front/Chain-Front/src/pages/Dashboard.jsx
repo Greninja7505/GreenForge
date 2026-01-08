@@ -273,7 +273,7 @@ const Dashboard = () => {
           className="mb-4"
         >
           <h2 className="text-2xl font-semibold text-white mb-2">Platform Overview</h2>
-          <p className="text-gray-400">Overall statistics for all projects on ChainFund</p>
+          <p className="text-gray-400">Overall statistics for all projects on GreenForge</p>
         </motion.div>
 
         {/* Summary Cards */}

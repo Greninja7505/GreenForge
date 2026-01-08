@@ -399,8 +399,8 @@ const ProposalCard = ({ proposal, onVote, userVote, votePower }) => {
                     onClick={(e) => { e.stopPropagation(); handleVote(true); }}
                     disabled={voting || userVote !== null}
                     className={`flex-1 py-4 rounded-xl flex items-center justify-center gap-2 font-bold uppercase text-xs tracking-widest transition-all ${userVote === true
-                        ? 'bg-white text-black'
-                        : 'bg-white/10 border border-white/10 text-white hover:bg-white/20'
+                      ? 'bg-white text-black'
+                      : 'bg-white/10 border border-white/10 text-white hover:bg-white/20'
                       } disabled:opacity-20`}
                   >
                     {voting ? <Loader2 className="w-4 h-4 animate-spin" /> : <ThumbsUp className="w-4 h-4" />}
@@ -413,8 +413,8 @@ const ProposalCard = ({ proposal, onVote, userVote, votePower }) => {
                     onClick={(e) => { e.stopPropagation(); handleVote(false); }}
                     disabled={voting || userVote !== null}
                     className={`flex-1 py-4 rounded-xl flex items-center justify-center gap-2 font-bold uppercase text-xs tracking-widest transition-all ${userVote === false
-                        ? 'bg-white/20 border border-white/40 text-white'
-                        : 'bg-transparent border border-white/10 text-white/40 hover:text-white hover:border-white/20'
+                      ? 'bg-white/20 border border-white/40 text-white'
+                      : 'bg-transparent border border-white/10 text-white/40 hover:text-white hover:border-white/20'
                       } disabled:opacity-20`}
                   >
                     {voting ? <Loader2 className="w-4 h-4 animate-spin" /> : <ThumbsDown className="w-4 h-4" />}
@@ -638,7 +638,7 @@ const DAOGovernance = () => {
             Community Governance
           </h1>
           <p className="text-lg text-white/40 max-w-2xl mx-auto">
-            Shape the future of ChainFund through quadratic voting. Your voice matters,
+            Shape the future of GreenForge through quadratic voting. Your voice matters,
             weighted by your contribution and reputation.
           </p>
         </motion.div>
@@ -719,8 +719,8 @@ const DAOGovernance = () => {
                   key={f.id}
                   onClick={() => setFilter(f.id)}
                   className={`px-6 py-2.5 rounded-full text-[10px] font-bold uppercase tracking-widest transition-all whitespace-nowrap border ${filter === f.id
-                      ? 'bg-white text-black border-white'
-                      : 'bg-transparent text-white/40 border-white/10 hover:border-white/20 hover:text-white'
+                    ? 'bg-white text-black border-white'
+                    : 'bg-transparent text-white/40 border-white/10 hover:border-white/20 hover:text-white'
                     }`}
                 >
                   {f.label}

@@ -105,8 +105,8 @@ const Navbar = () => {
           <Link to="/" className="flex items-center group">
             <motion.img
               src="/Logo_Text.png"
-              alt="Stellar Forge"
-              className="h-10 w-auto"
+              alt="GreenForge"
+              className="h-48 w-auto"
               whileHover={{ scale: 1.05 }}
               transition={{ duration: 0.2 }}
             />

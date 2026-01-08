@@ -1,10 +1,10 @@
 import { motion } from "framer-motion";
 import { useUser, USER_ROLES } from "../context/UserContext";
-import { 
-  Heart, 
-  Rocket, 
-  Briefcase, 
-  Shield, 
+import {
+  Heart,
+  Rocket,
+  Briefcase,
+  Shield,
   CheckCircle,
   ArrowRight
 } from "lucide-react";
@@ -61,7 +61,7 @@ const RoleSelector = ({ onComplete, showTitle = true, compact = false }) => {
       {showTitle && (
         <div className="text-center mb-8">
           <h2 className="text-2xl font-bold text-white mb-2">Choose Your Role</h2>
-          <p className="text-gray-400">Select how you want to participate in the ChainFund ecosystem</p>
+          <p className="text-gray-400">Select how you want to participate in the GreenForge ecosystem</p>
         </div>
       )}
 
@@ -74,11 +74,10 @@ const RoleSelector = ({ onComplete, showTitle = true, compact = false }) => {
             <motion.button
               key={config.role}
               onClick={() => handleRoleSelect(config.role)}
-              className={`relative p-6 rounded-2xl border text-left transition-all ${
-                isCurrentRole
+              className={`relative p-6 rounded-2xl border text-left transition-all ${isCurrentRole
                   ? 'border-white/30 bg-white/10'
                   : 'border-white/10 bg-white/5 hover:border-white/20 hover:bg-white/10'
-              }`}
+                }`}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >

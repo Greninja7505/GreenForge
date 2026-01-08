@@ -15,7 +15,7 @@ import {
 
 const TOUR_STEPS = [
     {
-        title: "Welcome to ChainFund",
+        title: "Welcome to GreenForge",
         content: "The first AI-verified trustless crowdfunding ecosystem on Stellar. We're building a new standard for decentralized finance and coordination.",
         icon: Globe,
         target: "home"
@@ -46,7 +46,7 @@ const TOUR_STEPS = [
     },
     {
         title: "A Connected Economy",
-        content: "ChainFund isn't just a set of tools—it's a large-scale economy. Each domain benefits the other: Projects create demand for freelancers, freelancers build the infrastructure for new projects, and governance keeps the system trustless. Together, we create a self-sustaining cycle of innovation and funding.",
+        content: "GreenForge isn't just a set of tools—it's a large-scale economy. Each domain benefits the other: Projects create demand for freelancers, freelancers build the infrastructure for new projects, and governance keeps the system trustless. Together, we create a self-sustaining cycle of innovation and funding.",
         icon: Zap,
         target: "conclusion"
     }

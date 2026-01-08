@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { config } from '../config/environment';
 
 /**
- * ChainFund AI Assistant - Premium Black & White Design
+ * GreenForge AI Assistant - Premium Black & White Design
  */
 
 // Groq API Configuration from environment
@@ -12,7 +12,7 @@ const GROQ_API_KEY = config.groq.apiKey;
 const GROQ_MODEL = config.groq.model;
 
 // System prompt
-const SYSTEM_PROMPT = `You are the ChainFund AI Assistant. ChainFund is a crowdfunding platform on Stellar blockchain.
+const SYSTEM_PROMPT = `You are the GreenForge AI Assistant. GreenForge is a crowdfunding platform on Stellar blockchain.
 
 Help users with:
 - Creating crowdfunding campaigns
@@ -29,7 +29,7 @@ const ChatBot = () => {
   const [messages, setMessages] = useState([
     {
       role: 'assistant',
-      content: "Welcome to ChainFund. I'm here to help you navigate our crowdfunding platform. What would you like to know?"
+      content: "Welcome to GreenForge. I'm here to help you navigate our crowdfunding platform. What would you like to know?"
     }
   ]);
   const [inputValue, setInputValue] = useState('');
@@ -76,7 +76,7 @@ const ChatBot = () => {
       });
 
       const data = await response.json();
-      
+
       if (data.error) {
         throw new Error(data.error.message || 'API Error');
       }
@@ -85,9 +85,9 @@ const ChatBot = () => {
       setMessages(prev => [...prev, { role: 'assistant', content: assistantMessage }]);
     } catch (err) {
       console.error('Chat error:', err);
-      setMessages(prev => [...prev, { 
-        role: 'assistant', 
-        content: 'Connection error. Please check your network and try again.' 
+      setMessages(prev => [...prev, {
+        role: 'assistant',
+        content: 'Connection error. Please check your network and try again.'
       }]);
     } finally {
       setIsLoading(false);
@@ -143,7 +143,7 @@ const ChatBot = () => {
             className="fixed bottom-6 right-6 w-[360px] h-[520px] z-50"
           >
             <div className="h-full bg-black rounded-2xl border border-white/10 shadow-[0_0_60px_rgba(0,0,0,0.8)] flex flex-col overflow-hidden">
-              
+
               {/* Header */}
               <div className="px-5 py-4 border-b border-white/10 flex items-center">
                 <div className="flex items-center gap-3 flex-1">
@@ -153,11 +153,11 @@ const ChatBot = () => {
                     </svg>
                   </div>
                   <div>
-                    <h3 className="text-white font-medium text-sm">ChainFund AI</h3>
+                    <h3 className="text-white font-medium text-sm">GreenForge AI</h3>
                     <p className="text-white/40 text-xs">Always available</p>
                   </div>
                 </div>
-                
+
                 <div className="flex items-center gap-1">
                   <button
                     onClick={clearChat}
@@ -189,11 +189,10 @@ const ChatBot = () => {
                     className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
                   >
                     <div
-                      className={`max-w-[85%] px-4 py-3 rounded-2xl ${
-                        msg.role === 'user'
+                      className={`max-w-[85%] px-4 py-3 rounded-2xl ${msg.role === 'user'
                           ? 'bg-white text-black rounded-br-sm'
                           : 'bg-white/5 text-white/90 border border-white/5 rounded-bl-sm'
-                      }`}
+                        }`}
                     >
                       <p className="text-sm leading-relaxed">{msg.content}</p>
                     </div>
