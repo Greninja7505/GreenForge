@@ -7,6 +7,7 @@ import RecentPosts from "../components/home/RecentPosts";
 import Marquee from "../components/home/Marquee";
 import AnnouncementBanner from "../components/home/AnnouncementBanner";
 import ImpactGlobe from "../components/home/ImpactGlobe";
+import SocialFeed from "../components/SocialFeed";
 
 const Home = () => {
   return (
@@ -29,8 +30,13 @@ const Home = () => {
 
         {/* New: Detailed Core Features Cards */}
         <CoreFeatures />
+
         {/* Swapped: ProjectShowcase now comes before FeaturesGrid */}
         <ProjectShowcase />
+
+        {/* NEW: Social Feed */}
+        <SocialFeed />
+
         {/* New: Recent Posts Section */}
         <RecentPosts />
         {/* Marquee Section */}
