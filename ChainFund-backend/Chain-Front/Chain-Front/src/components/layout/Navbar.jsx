@@ -61,6 +61,7 @@ const Navbar = () => {
 
   // More dropdown items (always available)
   const moreItems = [
+    { name: "Digital Forest", path: "/digital-forest", desc: "Own tree NFTs" },
     { name: "Eco-Bounties", path: "/eco-bounties", desc: "Earn for impact" },
     { name: "Marketplace", path: "/marketplace", desc: "Carbon Cashback" },
     { name: "GIVeconomy", path: "/giveconomy", desc: "Token economics" },

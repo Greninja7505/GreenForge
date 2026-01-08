@@ -67,6 +67,7 @@ const Governance = lazy(() => import("./pages/Governance"));
 const CreateGig = lazy(() => import("./pages/CreateGig"));
 const EcoBounties = lazy(() => import("./pages/EcoBounties"));
 const Marketplace = lazy(() => import("./pages/Marketplace"));
+const DigitalForest = lazy(() => import("./pages/DigitalForest"));
 
 // Scroll to top component
 function ScrollToTop() {
@@ -228,6 +229,7 @@ function App() {
                       <Route path="/governance" element={<RoleBasedRoute feature="governance"><SuspenseWrapper><Governance /></SuspenseWrapper></RoleBasedRoute>} />
                       <Route path="/eco-bounties" element={<SuspenseWrapper><EcoBounties /></SuspenseWrapper>} />
                       <Route path="/marketplace" element={<SuspenseWrapper><Marketplace /></SuspenseWrapper>} />
+                      <Route path="/digital-forest" element={<SuspenseWrapper><DigitalForest /></SuspenseWrapper>} />
                       <Route path="*" element={<NotFound />} />
                     </Routes>
                   </AnimatePresence>
