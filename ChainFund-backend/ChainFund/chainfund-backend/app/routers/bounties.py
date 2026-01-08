@@ -71,7 +71,7 @@ async def get_bounty(bounty_id: int):
 async def create_bounty(bounty: BountyCreate, current_user: dict = Depends(get_current_user)):
     """Create a new bounty (Creator/Admin only)"""
     # Check role
-    roles = current_user.get('roles', [])
+    roles = current_user.roles
     if 'creator' not in roles and 'admin' not in roles:
         # Allow donors to create bounties too? Maybe "Eco-Bounty Sponsor"? 
         # For now, restrict to creators/admins or maybe anyone can post if they fund it?
@@ -88,7 +88,7 @@ async def create_bounty(bounty: BountyCreate, current_user: dict = Depends(get_c
         ''', (
             bounty.title, bounty.description, bounty.reward, bounty.currency,
             bounty.latitude, bounty.longitude, bounty.location_name,
-            current_user['wallet_address']
+            current_user.wallet_address
         ))
         conn.commit()
         bounty_id = cursor.lastrowid
@@ -111,7 +111,7 @@ async def claim_bounty(bounty_id: int, current_user: dict = Depends(get_current_
             
         cursor.execute('''
             UPDATE bounties SET status = 'assigned', assigned_to = ? WHERE id = ?
-        ''', (current_user['wallet_address'], bounty_id))
+        ''', (current_user.wallet_address, bounty_id))
         conn.commit()
         
         return {"message": "Bounty claimed successfully"}
@@ -126,7 +126,7 @@ async def submit_proof(bounty_id: int, proof: BountyProof, current_user: dict = 
         if not existing:
             raise HTTPException(status_code=404, detail="Bounty not found")
             
-        if existing['assigned_to'] != current_user['wallet_address']:
+        if existing['assigned_to'] != current_user.wallet_address:
             raise HTTPException(status_code=403, detail="You are not assigned to this bounty")
             
         cursor.execute('''
@@ -146,7 +146,7 @@ async def verify_bounty(bounty_id: int, current_user: dict = Depends(get_current
         if not existing:
             raise HTTPException(status_code=404, detail="Bounty not found")
             
-        if existing['creator_wallet'] != current_user['wallet_address'] and 'admin' not in current_user.get('roles', []):
+        if existing['creator_wallet'] != current_user.wallet_address and 'admin' not in current_user.roles:
              raise HTTPException(status_code=403, detail="Only creator can verify")
 
         cursor.execute('''
