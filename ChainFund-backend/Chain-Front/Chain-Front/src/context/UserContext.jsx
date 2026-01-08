@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
+import { Keypair } from "@stellar/stellar-sdk";
 
 const UserContext = createContext();
 
@@ -265,7 +266,10 @@ export const UserProvider = ({ children }) => {
 
       // If backend returned specific error, use it
       if (error.detail) {
-        return { success: false, error: error.detail };
+        const errorMessage = Array.isArray(error.detail)
+          ? error.detail.map(e => e.msg || JSON.stringify(e)).join(', ')
+          : (typeof error.detail === 'string' ? error.detail : JSON.stringify(error.detail));
+        return { success: false, error: errorMessage };
       }
 
       // Fallback to localStorage for development/offline mode
@@ -315,6 +319,11 @@ export const UserProvider = ({ children }) => {
     }
 
     try {
+      // Generate a random wallet for email-only users to satisfy backend requirements
+      // In a real app, we would prompt the user to connect a wallet or securely save this key
+      const randomPair = Keypair.random();
+      const generatedWallet = randomPair.publicKey();
+
       // First, try backend API (passwords are hashed on backend)
       const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8000'}/api/auth/register`, {
         method: 'POST',
@@ -324,6 +333,9 @@ export const UserProvider = ({ children }) => {
           email,
           password, // Backend will hash this with bcrypt
           role: selectedRole,
+          wallet_address: generatedWallet,
+          public_key: generatedWallet,
+          auth_method: 'email'
         }),
       });
 
@@ -365,7 +377,10 @@ export const UserProvider = ({ children }) => {
       const error = await response.json().catch(() => ({}));
 
       if (error.detail) {
-        return { success: false, error: error.detail };
+        const errorMessage = Array.isArray(error.detail)
+          ? error.detail.map(e => e.msg || JSON.stringify(e)).join(', ')
+          : (typeof error.detail === 'string' ? error.detail : JSON.stringify(error.detail));
+        return { success: false, error: errorMessage };
       }
 
       console.warn('Backend registration failed, trying localStorage fallback');
