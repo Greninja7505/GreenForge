@@ -33,19 +33,39 @@ const EcoBounties = () => {
             setLoading(true);
             const data = await api.get('/api/bounties');
             // Add visual coordinates if missing (mock mapping for demo map)
-            const mappedData = data.map((b, i) => ({
-                ...b,
-                // Simple deterministic position based on ID for demo map
-                coordinates: {
-                    top: `${20 + ((b.id * 13) % 60)}%`,
-                    left: `${20 + ((b.id * 7) % 60)}%`
-                },
-                difficulty: b.reward > 80 ? "Hard" : b.reward > 40 ? "Medium" : "Easy",
-                type: b.title.split(' ')[0], // Simple type inference
-                image: (b.proof_image && b.proof_image.startsWith('http') && !b.proof_image.includes('source.unsplash.com'))
-                    ? b.proof_image
-                    : getBountyImage(b.title)
-            }));
+            const mappedData = data.map((b, i) => {
+                // Assign realistic map positions based on location (on land, not water)
+                let coordinates = { top: "50%", left: "50%" }; // Default center
+
+                if (b.location_name?.includes("Mumbai")) {
+                    coordinates = { top: "45%", left: "62%" }; // India west coast
+                } else if (b.location_name?.includes("Bangalore")) {
+                    coordinates = { top: "48%", left: "63%" }; // India south
+                } else if (b.location_name?.includes("Austin") || b.location_name?.includes("TX")) {
+                    coordinates = { top: "42%", left: "25%" }; // Texas, USA
+                } else if (b.location_name?.includes("Bali") || b.location_name?.includes("ID")) {
+                    coordinates = { top: "55%", left: "75%" }; // Indonesia
+                } else {
+                    // Fallback: spread across land masses
+                    const positions = [
+                        { top: "35%", left: "30%" }, // North America
+                        { top: "40%", left: "50%" }, // Europe
+                        { top: "50%", left: "65%" }, // Asia
+                        { top: "60%", left: "55%" }  // Africa
+                    ];
+                    coordinates = positions[i % positions.length];
+                }
+
+                return {
+                    ...b,
+                    coordinates,
+                    difficulty: b.reward > 80 ? "Hard" : b.reward > 40 ? "Medium" : "Easy",
+                    type: b.title.split(' ')[0], // Simple type inference
+                    image: (b.proof_image && b.proof_image.startsWith('http') && !b.proof_image.includes('source.unsplash.com'))
+                        ? b.proof_image
+                        : getBountyImage(b.title)
+                };
+            });
             setBounties(mappedData);
         } catch (error) {
             console.error("Failed to fetch bounties:", error);
