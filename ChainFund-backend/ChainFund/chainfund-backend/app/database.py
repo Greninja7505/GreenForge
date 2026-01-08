@@ -361,17 +361,17 @@ def seed_data():
         if cursor.fetchone()['count'] == 0:
             print("🌱 Seeding initial bounties...")
             bounties = [
-                ("Clean Versova Beach", "Remove plastic waste specifically from the northern sector near the mangroves.", 50, "Mumbai, IN", 19.13, 72.80, "Cleanup", "Medium"),
-                ("Plant 50 Saplings", "Reforestation drive needs support. Saplings provided at check-in point.", 100, "Bangalore, IN", 12.97, 77.59, "Planting", "Hard"),
-                ("Verify Solar Panel Install", "Take photos of the newly installed solar array for the community energy grid.", 30, "Austin, TX", 30.26, -97.74, "Verification", "Easy"),
-                ("Ocean Plastic Audit", "Count and categorize waste types found on Kuta beach for research.", 75, "Bali, ID", -8.72, 115.17, "Audit", "Medium")
+                ("Clean Versova Beach", "Remove plastic waste specifically from the northern sector near the mangroves.", 50, "Mumbai, IN", 19.13, 72.80, "https://images.unsplash.com/photo-1549488331-5079a4918349?auto=format&fit=crop&q=80"),
+                ("Plant 50 Saplings", "Reforestation drive needs support. Saplings provided at check-in point.", 100, "Bangalore, IN", 12.97, 77.59, "https://images.unsplash.com/photo-1542385108-a4005697d81a?auto=format&fit=crop&q=80"),
+                ("Verify Solar Panel Install", "Take photos of the newly installed solar array for the community energy grid.", 30, "Austin, TX", 30.26, -97.74, "https://images.unsplash.com/photo-1594950393165-38507c6f08fb?auto=format&fit=crop&q=80"),
+                ("Ocean Plastic Audit", "Count and categorize waste types found on Kuta beach for research.", 75, "Bali, ID", -8.72, 115.17, "https://images.unsplash.com/photo-1707055726207-6b080f82df36?auto=format&fit=crop&q=80")
             ]
             
             for b in bounties:
                 cursor.execute('''
                     INSERT INTO bounties (title, description, reward, location_name, latitude, longitude, status, proof_image)
                     VALUES (?, ?, ?, ?, ?, ?, 'open', ?)
-                ''', (b[0], b[1], b[2], b[3], b[4], b[5], f"https://source.unsplash.com/random/800x600?{b[6]}")) # Using type as keyword for image
+                ''', (b[0], b[1], b[2], b[3], b[4], b[5], b[6]))
             
             conn.commit()
 

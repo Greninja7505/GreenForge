@@ -5,6 +5,18 @@ import ProofVerifier from "../components/project/ProofVerifier";
 import toast from "react-hot-toast";
 import { api } from "../utils/api";
 
+const getBountyImage = (title) => {
+    if (title.includes("Beach") || title.includes("Ocean") || title.includes("Water") || title.includes("Audit"))
+        return "/images/bounties/beach_cleanup.png";
+    if (title.includes("Plant") || title.includes("Tree") || title.includes("Forest") || title.includes("Saplings"))
+        return "/images/bounties/tree_planting.png";
+    if (title.includes("Solar") || title.includes("Energy"))
+        return "/images/bounties/solar_panels.png";
+    if (title.includes("Plastic") || title.includes("Waste"))
+        return "/images/bounties/ocean_plastic.png";
+    return "/images/bounties/beach_cleanup.png"; // Default
+};
+
 const EcoBounties = () => {
     const [bounties, setBounties] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -29,7 +41,10 @@ const EcoBounties = () => {
                     left: `${20 + ((b.id * 7) % 60)}%`
                 },
                 difficulty: b.reward > 80 ? "Hard" : b.reward > 40 ? "Medium" : "Easy",
-                type: b.title.split(' ')[0] // Simple type inference
+                type: b.title.split(' ')[0], // Simple type inference
+                image: (b.proof_image && b.proof_image.startsWith('http') && !b.proof_image.includes('source.unsplash.com'))
+                    ? b.proof_image
+                    : getBountyImage(b.title)
             }));
             setBounties(mappedData);
         } catch (error) {
@@ -39,12 +54,12 @@ const EcoBounties = () => {
             setBounties([
                 {
                     id: 1, title: "Clean Versova Beach", location: "Mumbai, IN", reward: 50, currency: "XLM",
-                    difficulty: "Medium", type: "Cleanup", image: "https://images.unsplash.com/photo-1618477461853-5f8dd68aa61f?q=80&w=1000",
+                    difficulty: "Medium", type: "Cleanup", image: getBountyImage("Clean Versova Beach"),
                     coordinates: { top: "40%", left: "60%" }, description: "Remove plastic waste."
                 },
                 {
                     id: 2, title: "Plant 50 Saplings", location: "Bangalore, IN", reward: 100, currency: "XLM",
-                    difficulty: "Hard", type: "Planting", image: "https://images.unsplash.com/photo-1542601906990-b4d3fb7d5b73?q=80&w=1000",
+                    difficulty: "Hard", type: "Planting", image: getBountyImage("Plant 50 Saplings"),
                     coordinates: { top: "45%", left: "58%" }, description: "Reforestation drive."
                 }
             ]);
