@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { Leaf, AlertTriangle, CheckCircle, Info, RefreshCw } from "lucide-react";
-import axios from "axios";
 import config from "../../config/environment";
 
 const SustainabilityAnalyzer = ({ title, description, category }) => {
@@ -19,20 +18,18 @@ const SustainabilityAnalyzer = ({ title, description, category }) => {
         setError(null);
 
         try {
-            // Direct call to our new backend endpoint
-            // Note: environment.js likely exports API_BASE_URL as '/api/v1' or 'http://localhost:8000/api'
-            // We need to match the new router structure '/api/ai/analyze-sustainability'
-
-            const response = await axios.post(`${config.api.baseUrl}/api/ai/analyze-sustainability`, {
-                title,
-                description,
-                category
+            const response = await fetch(`${config.api.baseUrl}/api/ai/analyze-sustainability`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ title, description, category })
             });
 
-            setResult(response.data);
+            if (!response.ok) throw new Error('Analysis failed');
+            const data = await response.json();
+            setResult(data);
         } catch (err) {
             console.error("AI Analysis failed:", err);
-            // Fallback for hackathon demo if backend fails
+            // Fallback for demo if backend fails
             setTimeout(() => {
                 setResult({
                     score: 75,
@@ -42,7 +39,9 @@ const SustainabilityAnalyzer = ({ title, description, category }) => {
                     impact_metrics: ["Carbon Reduction", "Community Awareness"],
                     summary: "Project shows promise but needs more concrete data."
                 });
+                setAnalyzing(false);
             }, 1500);
+            return;
         } finally {
             setAnalyzing(false);
         }
