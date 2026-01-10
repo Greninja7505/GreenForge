@@ -6,10 +6,10 @@ import toast from "react-hot-toast";
 
 const roleConfig = [
   {
-    role: USER_ROLES.DONOR,
+    role: USER_ROLES.USER,
     title: "User",
     icon: Heart,
-    description: "Support & Explore"
+    description: "Explore & Participate"
   },
   {
     role: USER_ROLES.ADMIN,
@@ -24,7 +24,7 @@ const RoleDropdown = ({ onChange }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
-  const currentRole = activeRole || USER_ROLES.DONOR;
+  const currentRole = activeRole || USER_ROLES.USER;
   const currentConfig = roleConfig.find(r => r.role === currentRole) || roleConfig[0];
   const CurrentIcon = currentConfig.icon;
 

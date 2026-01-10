@@ -221,7 +221,8 @@ const Donate = () => {
             amount: cryptoAmount,
             currency: selectedAsset,
             usdValue: totalUsdAmount,
-            chain: selectedAssetInfo?.chain,
+            chain: selectedAssetInfo?.chain || 'ethereum',
+            testnet: selectedAssetInfo?.network?.includes('sepolia') || selectedAssetInfo?.network?.includes('amoy') || false,
           });
           setShowTransactionModal(true);
         }
@@ -327,7 +328,10 @@ const Donate = () => {
         hash: escrowResult?.hash || transactionResult?.hash || 'pending',
         ledger: transactionResult?.ledger,
         testnet: network === "TESTNET",
-        escrow: !!escrowResult
+        escrow: !!escrowResult,
+        chain: 'stellar',
+        amount: xlmAmount.toFixed(7),
+        currency: 'XLM',
       });
 
       // Show the transaction details modal
@@ -386,6 +390,60 @@ const Donate = () => {
         />
       )}
 
+      {/* Processing Overlay */}
+      {isProcessing && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm"
+        >
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            className="bg-black border border-white/10 rounded-2xl p-8 max-w-sm mx-4 text-center"
+          >
+            <div className="relative w-20 h-20 mx-auto mb-6">
+              {/* Outer spinning ring */}
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                className="absolute inset-0 rounded-full border-4 border-transparent border-t-green-500 border-r-green-500/50"
+              />
+              {/* Inner spinning ring */}
+              <motion.div
+                animate={{ rotate: -360 }}
+                transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+                className="absolute inset-2 rounded-full border-4 border-transparent border-t-emerald-400 border-l-emerald-400/50"
+              />
+              {/* Center icon */}
+              <div className="absolute inset-0 flex items-center justify-center">
+                <Zap className="w-8 h-8 text-green-400" />
+              </div>
+            </div>
+            <h3 className="text-xl font-bold text-white mb-2">Processing Donation</h3>
+            <p className="text-gray-400 text-sm mb-4">Please confirm the transaction in your wallet</p>
+            <div className="flex items-center justify-center gap-2">
+              <motion.div
+                animate={{ scale: [1, 1.2, 1] }}
+                transition={{ duration: 1, repeat: Infinity }}
+                className="w-2 h-2 bg-green-400 rounded-full"
+              />
+              <motion.div
+                animate={{ scale: [1, 1.2, 1] }}
+                transition={{ duration: 1, repeat: Infinity, delay: 0.2 }}
+                className="w-2 h-2 bg-green-400 rounded-full"
+              />
+              <motion.div
+                animate={{ scale: [1, 1.2, 1] }}
+                transition={{ duration: 1, repeat: Infinity, delay: 0.4 }}
+                className="w-2 h-2 bg-green-400 rounded-full"
+              />
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -403,7 +461,7 @@ const Donate = () => {
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
-                className="w-20 h-20 bg-gradient-to-br from-gray-600 to-gray-500 rounded-full flex items-center justify-center mx-auto mb-6"
+                className="w-20 h-20 bg-gradient-to-br from-green-500 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg shadow-green-500/30"
               >
                 <Heart className="w-10 h-10 text-white" />
               </motion.div>
@@ -459,7 +517,7 @@ const Donate = () => {
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {/* Stellar Wallet */}
-                    <div className={`p-4 rounded-xl border-2 ${isConnected ? 'border-green-500/50 bg-green-500/10' : 'border-dark-700'}`}>
+                    <div className={`p-4 rounded-xl border-2 ${isConnected ? 'border-green-500/50 bg-green-500/10' : 'border-white/10 bg-black'}`}>
                       <div className="flex items-center justify-between mb-2">
                         <span className="text-sm font-medium text-white flex items-center gap-2">
                           <Sparkles className="w-4 h-4" /> Stellar (XLM)
@@ -482,7 +540,7 @@ const Donate = () => {
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
                           onClick={connectWallet}
-                          className="w-full mt-2 py-2 px-3 bg-black border border-white/30 rounded-lg text-white text-sm hover:bg-white/10"
+                          className="w-full mt-2 py-2 px-3 bg-gradient-to-r from-green-500 to-emerald-600 rounded-lg text-white text-sm font-medium hover:shadow-lg hover:shadow-green-500/25"
                         >
                           Connect Freighter
                         </motion.button>
@@ -490,7 +548,7 @@ const Donate = () => {
                     </div>
 
                     {/* EVM Wallet (MetaMask) */}
-                    <div className={`p-4 rounded-xl border-2 ${evmConnected ? 'border-purple-500/50 bg-purple-500/10' : 'border-dark-700'}`}>
+                    <div className={`p-4 rounded-xl border-2 ${evmConnected ? 'border-purple-500/50 bg-purple-500/10' : 'border-white/10 bg-black'}`}>
                       <div className="flex items-center justify-between mb-2">
                         <span className="text-sm font-medium text-white flex items-center gap-2">
                           <Layers className="w-4 h-4" /> EVM (ETH/MATIC)
@@ -513,7 +571,7 @@ const Donate = () => {
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
                           onClick={connectEVM}
-                          className="w-full mt-2 py-2 px-3 bg-purple-600 border border-purple-500/30 rounded-lg text-white text-sm hover:bg-purple-700"
+                          className="w-full mt-2 py-2 px-3 bg-gradient-to-r from-purple-500 to-purple-600 rounded-xl text-white text-sm font-medium hover:shadow-lg hover:shadow-purple-500/25 transition-all"
                         >
                           Connect MetaMask
                         </motion.button>
@@ -557,13 +615,13 @@ const Donate = () => {
                         whileTap={{ scale: 0.95 }}
                         onClick={() => setSelectedAsset(asset.code)}
                         className={`p-4 rounded-xl border-2 transition-all relative ${selectedAsset === asset.code
-                          ? "border-gray-500 bg-gray-500/10"
-                          : "border-dark-700 hover:border-gray-500/50"
+                          ? "border-green-500 bg-green-500/10"
+                          : "border-white/10 bg-black hover:border-green-500/30"
                           }`}
                         style={selectedAsset === asset.code ? { borderColor: asset.color } : {}}
                       >
                         {/* Chain indicator badge */}
-                        <div className="absolute -top-1 -right-1 text-[10px] px-1.5 py-0.5 rounded-full bg-dark-800 border border-dark-600 text-gray-400">
+                        <div className="absolute -top-1 -right-1 text-[10px] px-1.5 py-0.5 rounded-full bg-black border border-white/20 text-gray-400">
                           {asset.chain === 'stellar' ? '⭐' : asset.chain === 'ethereum' ? '💎' : '🔷'}
                         </div>
                         <asset.icon className="w-8 h-8 mx-auto mb-2" style={{ color: asset.color }} />
@@ -577,7 +635,7 @@ const Donate = () => {
 
                   {/* Show estimated crypto amount */}
                   {donationAmount && parseFloat(donationAmount) > 0 && (
-                    <div className="mt-4 p-3 bg-dark-800/50 rounded-lg">
+                    <div className="mt-4 p-3 bg-black border border-white/10 rounded-lg">
                       <p className="text-sm text-gray-400">
                         ${donationAmount} USD ≈{" "}
                         <span className="text-white font-semibold">
@@ -609,8 +667,8 @@ const Donate = () => {
                         whileTap={{ scale: 0.95 }}
                         onClick={() => setDonationAmount(amount.toString())}
                         className={`py-3 rounded-xl border-2 font-semibold transition-all ${donationAmount === amount.toString()
-                          ? "border-gray-500 bg-gray-500/10 text-white"
-                          : "border-dark-700 text-gray-400 hover:border-gray-500/50"
+                          ? "border-green-500 bg-green-500/10 text-white"
+                          : "border-white/10 bg-black text-gray-400 hover:border-green-500/30"
                           }`}
                       >
                         ${amount}
@@ -644,7 +702,7 @@ const Donate = () => {
                     Additional Options
                   </h3>
 
-                  <div className="flex items-center justify-between p-4 bg-dark-800/50 rounded-xl">
+                  <div className="flex items-center justify-between p-4 bg-black border border-white/10 rounded-xl">
                     <div className="flex-1">
                       <div className="font-medium text-white mb-1">
                         Recurring Donation
@@ -655,7 +713,7 @@ const Donate = () => {
                     </div>
                     <button
                       onClick={() => setIsRecurring(!isRecurring)}
-                      className={`relative w-14 h-8 rounded-full transition-all ${isRecurring ? "bg-gray-600" : "bg-dark-700"
+                      className={`relative w-14 h-8 rounded-full transition-all ${isRecurring ? "bg-green-500" : "bg-white/10"
                         }`}
                     >
                       <motion.div
@@ -665,7 +723,7 @@ const Donate = () => {
                     </button>
                   </div>
 
-                  <div className="flex items-center justify-between p-4 bg-dark-800/50 rounded-xl">
+                  <div className="flex items-center justify-between p-4 bg-black border border-white/10 rounded-xl">
                     <div className="flex-1">
                       <div className="font-medium text-white mb-1">
                         Anonymous Donation
@@ -676,7 +734,7 @@ const Donate = () => {
                     </div>
                     <button
                       onClick={() => setIsAnonymous(!isAnonymous)}
-                      className={`relative w-14 h-8 rounded-full transition-all ${isAnonymous ? "bg-gray-600" : "bg-dark-700"
+                      className={`relative w-14 h-8 rounded-full transition-all ${isAnonymous ? "bg-green-500" : "bg-white/10"
                         }`}
                     >
                       <motion.div
@@ -686,7 +744,7 @@ const Donate = () => {
                     </button>
                   </div>
 
-                  <div className="p-4 bg-dark-800/50 rounded-xl">
+                  <div className="p-4 bg-black border border-white/10 rounded-xl">
                     <div className="flex items-center justify-between mb-3">
                       <div className="font-medium text-white">
                         Support Stellar Giveth
@@ -784,13 +842,13 @@ const Donate = () => {
                       </div>
                     )}
 
-                    <div className="pt-4 border-t border-dark-700">
+                    <div className="pt-4 border-t border-white/10">
                       <div className="flex justify-between">
                         <span className="text-lg font-semibold text-white">
                           Total
                         </span>
                         <div className="text-right">
-                          <div className="text-2xl font-bold gradient-text">
+                          <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-400">
                             ${totalAmount}
                           </div>
                           {xlmPrice && (
@@ -803,7 +861,7 @@ const Donate = () => {
                     </div>
 
                     {xlmPrice && (
-                      <div className="pt-4 border-t border-dark-700/50">
+                      <div className="pt-4 border-t border-white/5">
                         <div className="text-xs text-gray-500 text-center">
                           Current XLM Price: ${xlmPrice.toFixed(4)} USD
                         </div>
@@ -841,8 +899,8 @@ const Donate = () => {
                     )}
                   </motion.button>
 
-                  <div className="flex items-start space-x-3 p-4 bg-white/5 border border-white/10 rounded-xl">
-                    <Lock className="w-5 h-5 text-gray-300 flex-shrink-0 mt-0.5" />
+                  <div className="flex items-start space-x-3 p-4 bg-black border border-white/10 rounded-xl">
+                    <Lock className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
                     <div className="text-sm text-gray-400">
                       <span className="text-white font-semibold">
                         Secure & Transparent:

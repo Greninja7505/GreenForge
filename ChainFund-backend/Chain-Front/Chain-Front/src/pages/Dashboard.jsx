@@ -237,7 +237,7 @@ const Dashboard = () => {
             }}
             className="text-white mb-6"
           >
-            Chain<span className="text-white/80">Fund</span> Dashboard
+            Green<span className="text-white/80">Forge</span> Dashboard
           </h1>
           <p
             style={{
@@ -248,7 +248,7 @@ const Dashboard = () => {
             }}
             className="text-gray-400"
           >
-            Welcome back, {user?.name || 'User'}! Your current role: <span className="text-cyan-400 font-medium capitalize">{activeRole || 'donor'}</span>
+            Welcome back, {user?.name || 'User'}! Your current role: <span className="text-cyan-400 font-medium capitalize">{activeRole || 'user'}</span>
           </p>
         </motion.div>
 
@@ -259,10 +259,18 @@ const Dashboard = () => {
           transition={{ duration: 0.6, delay: 0.1 }}
           className="mb-8"
         >
-          {activeRole === USER_ROLES.DONOR && <DonorDashboard />}
-          {activeRole === USER_ROLES.CREATOR && <CreatorDashboard />}
-          {activeRole === USER_ROLES.FREELANCER && <FreelancerDashboardWidget />}
-          {activeRole === USER_ROLES.GOVERNOR && <GovernorDashboardWidget />}
+          {activeRole === USER_ROLES.USER && <DonorDashboard />}
+          {activeRole === USER_ROLES.ADMIN && (
+            <div className="space-y-8">
+              <div className="bg-red-900/10 border border-red-500/20 p-4 rounded-xl">
+                <h3 className="text-red-400 font-medium mb-2">Admin View</h3>
+                <p className="text-sm text-gray-400">You have full access to all dashboard widgets.</p>
+              </div>
+              <CreatorDashboard />
+              <FreelancerDashboardWidget />
+              <GovernorDashboardWidget />
+            </div>
+          )}
         </motion.div>
 
         {/* Platform Overview Section */}

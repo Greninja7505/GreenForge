@@ -43,7 +43,7 @@
     "react-router-dom": "^6.18.0",
     "react-use": "^17.4.0",
     "recharts": "^2.9.0",
-    "three": "^0.182.0",
+    "three": "^0.160.0",
     "validator": "^13.11.0",
     "zustand": "^4.4.6"
   },

@@ -5,6 +5,7 @@ Zero-configuration database - no server needed!
 
 import sqlite3
 import json
+import threading
 from contextlib import contextmanager
 from pathlib import Path
 from typing import Optional, List, Dict, Any
@@ -21,9 +22,21 @@ def get_db_path() -> str:
 
 @contextmanager
 def get_db_connection():
-    """Context manager for database connections"""
-    conn = sqlite3.connect(str(DB_PATH))
+    """Optimized context manager with WAL mode for better concurrency"""
+    conn = sqlite3.connect(
+        str(DB_PATH),
+        timeout=30.0,
+        check_same_thread=False
+    )
     conn.row_factory = sqlite3.Row  # Enable dict-like access to rows
+    
+    # Performance optimizations (safe for existing data)
+    conn.execute("PRAGMA journal_mode=WAL")       # Write-Ahead Logging
+    conn.execute("PRAGMA synchronous=NORMAL")     # Faster writes
+    conn.execute("PRAGMA cache_size=-64000")      # 64MB cache
+    conn.execute("PRAGMA temp_store=MEMORY")      # Temp tables in RAM
+    conn.execute("PRAGMA busy_timeout=5000")      # 5s timeout
+    
     try:
         yield conn
     finally:
@@ -59,8 +72,8 @@ def init_database():
                 member_since TEXT,
                 is_verified INTEGER DEFAULT 0,
                 is_active INTEGER DEFAULT 1,
-                role TEXT DEFAULT 'donor',
-                roles TEXT DEFAULT '["donor"]',  -- JSON array
+                role TEXT DEFAULT 'user',
+                roles TEXT DEFAULT '["user"]',  -- JSON array
                 auth_method TEXT DEFAULT 'wallet',  -- wallet, email, both
                 primary_wallet TEXT,
                 stellar_public_key TEXT,
@@ -347,8 +360,89 @@ def init_database():
             )
         ''')
         
+        # ================================================================
+        # NEW TABLES FOR ENHANCED FUNCTIONALITY (Phase 5)
+        # ================================================================
+        
+        # Governance Proposals table
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS governance_proposals (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                title TEXT NOT NULL,
+                description TEXT,
+                proposer_wallet TEXT,
+                status TEXT DEFAULT 'active',
+                votes_for INTEGER DEFAULT 0,
+                votes_against INTEGER DEFAULT 0,
+                quorum_required INTEGER DEFAULT 100,
+                voting_ends_at TEXT,
+                created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (proposer_wallet) REFERENCES users(wallet_address)
+            )
+        ''')
+        
+        # Governance Votes table
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS governance_votes (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                proposal_id INTEGER NOT NULL,
+                voter_wallet TEXT NOT NULL,
+                vote_power INTEGER NOT NULL,
+                vote_direction TEXT NOT NULL,
+                created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+                UNIQUE(proposal_id, voter_wallet),
+                FOREIGN KEY (proposal_id) REFERENCES governance_proposals(id),
+                FOREIGN KEY (voter_wallet) REFERENCES users(wallet_address)
+            )
+        ''')
+        
+        # SBT Tokens table
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS sbt_tokens (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                owner_wallet TEXT NOT NULL,
+                role TEXT NOT NULL,
+                campaign_id INTEGER,
+                metadata_uri TEXT,
+                issued_at TEXT DEFAULT CURRENT_TIMESTAMP,
+                is_active INTEGER DEFAULT 1,
+                FOREIGN KEY (owner_wallet) REFERENCES users(wallet_address),
+                FOREIGN KEY (campaign_id) REFERENCES projects(id)
+            )
+        ''')
+        
+        # AI Verifications table
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS ai_verifications (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                milestone_id INTEGER NOT NULL,
+                project_id INTEGER NOT NULL,
+                image_path TEXT,
+                ai_result TEXT,
+                status TEXT DEFAULT 'pending',
+                verified_by TEXT,
+                created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (milestone_id) REFERENCES milestones(id),
+                FOREIGN KEY (project_id) REFERENCES projects(id)
+            )
+        ''')
+        
+        # Oracle Votes table (for multi-oracle consensus)
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS oracle_votes (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                milestone_id INTEGER NOT NULL,
+                oracle_address TEXT NOT NULL,
+                vote_result TEXT NOT NULL,
+                confidence INTEGER,
+                created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+                UNIQUE(milestone_id, oracle_address),
+                FOREIGN KEY (milestone_id) REFERENCES milestones(id)
+            )
+        ''')
+        
         conn.commit()
-        print("✅ Database tables created successfully!")
+        print("✅ Database tables created successfully (with new governance, SBT, AI, and oracle tables)!")
         seed_data()
 
 def seed_data():

@@ -46,7 +46,7 @@ const CoreFeatures = () => {
                         className="text-white mb-6"
                     >
                         PROTOCOL <br />
-                        <span style={{ fontWeight: "400" }}>INFRASTRUCTURE</span>
+                        <span style={{ fontWeight: "400" }} className="text-transparent bg-clip-text bg-gradient-to-r from-green-300 via-emerald-500 to-green-400 drop-shadow-[0_0_15px_rgba(74,222,128,0.15)]">INFRASTRUCTURE</span>
                     </h2>
                     <p
                         style={{

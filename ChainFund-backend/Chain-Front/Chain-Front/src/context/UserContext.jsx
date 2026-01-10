@@ -3,13 +3,10 @@ import { Keypair } from "@stellar/stellar-sdk";
 
 const UserContext = createContext();
 
-// User roles - exported at module level for use in other components
+// User roles - simplified to USER and ADMIN only
 export const USER_ROLES = {
-  DONOR: 'donor',           // Can donate to projects
-  CREATOR: 'creator',       // Can create projects
-  FREELANCER: 'freelancer', // Can offer services
-  GOVERNOR: 'governor',     // Can participate in governance
-  ADMIN: 'admin'            // Full access
+  USER: 'user',   // Standard user - can explore, donate, participate
+  ADMIN: 'admin'  // Full access - manage everything
 };
 
 export const useUser = () => {
@@ -47,7 +44,7 @@ export const UserProvider = ({ children }) => {
     if (stored && Object.values(USER_ROLES).includes(stored)) {
       return stored;
     }
-    return USER_ROLES.DONOR; // Default to donor
+    return USER_ROLES.USER; // Default to user
   });
 
   // Save active role to localStorage
@@ -62,16 +59,16 @@ export const UserProvider = ({ children }) => {
     }
   };
 
-  // Default role is donor for all users
+  // Default role is user for all users
   const getUserRole = (user) => {
     if (!user) return null;
-    return user.role || USER_ROLES.DONOR;
+    return user.role || USER_ROLES.USER;
   };
 
   // Check if user has specific role (uses activeRole for current session)
   const hasRole = (role) => {
-    // Everyone can donate regardless of active role
-    if (role === USER_ROLES.DONOR) return true;
+    // Everyone has user access
+    if (role === USER_ROLES.USER) return true;
     // Check against the currently active role (from navbar switcher)
     return activeRole === role || activeRole === USER_ROLES.ADMIN;
   };
@@ -83,14 +80,12 @@ export const UserProvider = ({ children }) => {
 
     // Use activeRole - the currently selected role from navbar
     switch (feature) {
-      case 'create_project':
-        return [USER_ROLES.CREATOR, USER_ROLES.ADMIN].includes(activeRole);
-      case 'freelancer':
-        return [USER_ROLES.FREELANCER, USER_ROLES.ADMIN].includes(activeRole);
-      case 'governance':
-        return [USER_ROLES.GOVERNOR, USER_ROLES.ADMIN].includes(activeRole);
       case 'admin':
         return activeRole === USER_ROLES.ADMIN;
+      case 'create_project':
+      case 'freelancer':
+      case 'governance':
+        return [USER_ROLES.USER, USER_ROLES.ADMIN].includes(activeRole);
       default:
         return true; // Default access for all roles
     }
@@ -113,7 +108,7 @@ export const UserProvider = ({ children }) => {
   const createProfile = (profileData) => {
     const newUser = {
       id: Date.now().toString(),
-      role: profileData.role || USER_ROLES.DONOR, // Default to donor
+      role: profileData.role || USER_ROLES.USER, // Default to user
       ...profileData,
       createdAt: new Date().toISOString(),
       totalDonations: 0,
@@ -254,7 +249,7 @@ export const UserProvider = ({ children }) => {
         const userData = data.user || data;
         // Ensure user has roles array
         if (!userData.roles) {
-          userData.roles = [userData.role || USER_ROLES.DONOR];
+          userData.roles = [userData.role || USER_ROLES.USER];
         }
         setUser(userData);
         setIsAnonymous(false);
@@ -294,7 +289,7 @@ export const UserProvider = ({ children }) => {
         const userWithoutPassword = { ...foundUser };
         delete userWithoutPassword.password;
         if (!userWithoutPassword.roles) {
-          userWithoutPassword.roles = [USER_ROLES.DONOR];
+          userWithoutPassword.roles = [USER_ROLES.USER];
         }
         setUser(userWithoutPassword);
         setIsAnonymous(false);
@@ -312,7 +307,7 @@ export const UserProvider = ({ children }) => {
     }
   };
 
-  const register = async (name, email, password, selectedRole = USER_ROLES.DONOR) => {
+  const register = async (name, email, password, selectedRole = USER_ROLES.USER) => {
     // Validate password strength first
     if (password.length < 6) {
       return { success: false, error: "Password must be at least 6 characters long." };

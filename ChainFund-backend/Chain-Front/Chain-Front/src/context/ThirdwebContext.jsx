@@ -142,21 +142,7 @@ export const ThirdwebProvider = ({ children }) => {
     // Default prices for development to avoid CORS issues
     const DEFAULT_ETH_PRICE = 3500;
     const DEFAULT_MATIC_PRICE = 0.85;
-    
-    try {
-      // Try fetching from CoinGecko via CORS proxy
-      const response = await fetch(
-        'https://corsproxy.io/?' + encodeURIComponent('https://api.coingecko.com/api/v3/simple/price?ids=ethereum,matic-network&vs_currencies=usd'),
-        { signal: AbortSignal.timeout(5000) } // 5 second timeout
-      );
-      const data = await response.json();
-      if (data.ethereum) setEthPrice(data.ethereum.usd);
-      if (data['matic-network']) setMaticPrice(data['matic-network'].usd);
-      return;
-    } catch (error) {
-      // Silently fall back to default prices
-      console.log('Using default crypto prices');
-    }
+
     setEthPrice(DEFAULT_ETH_PRICE);
     setMaticPrice(DEFAULT_MATIC_PRICE);
   };
@@ -304,7 +290,7 @@ export const ThirdwebProvider = ({ children }) => {
     setLoading(true);
     try {
       const amountWei = `0x${(amountInEth * 1e18).toString(16)}`;
-      
+
       const txHash = await window.ethereum.request({
         method: 'eth_sendTransaction',
         params: [{
@@ -316,13 +302,13 @@ export const ThirdwebProvider = ({ children }) => {
       });
 
       toast.success('Transaction sent!');
-      
+
       // Wait for confirmation
       await waitForTransaction(txHash);
-      
+
       // Refresh balance
       await fetchBalance();
-      
+
       return txHash;
     } catch (error) {
       console.error('Transaction error:', error);
@@ -341,7 +327,7 @@ export const ThirdwebProvider = ({ children }) => {
           method: 'eth_getTransactionReceipt',
           params: [txHash]
         });
-        
+
         if (receipt) {
           if (receipt.status === '0x1') {
             toast.success('Transaction confirmed!');
@@ -350,7 +336,7 @@ export const ThirdwebProvider = ({ children }) => {
             throw new Error('Transaction failed');
           }
         }
-        
+
         await new Promise(r => setTimeout(r, 2000));
       } catch (error) {
         if (i === maxAttempts - 1) throw error;
@@ -439,10 +425,10 @@ export const ThirdwebProvider = ({ children }) => {
     loading,
     ethPrice,
     maticPrice,
-    
+
     // Chains
     supportedChains: SUPPORTED_CHAINS,
-    
+
     // Methods
     connectWallet,
     disconnectWallet,

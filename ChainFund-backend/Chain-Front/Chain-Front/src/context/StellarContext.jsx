@@ -83,27 +83,8 @@ export const StellarProvider = ({ children }) => {
   }, [publicKey, network]);
 
   const fetchXlmPrice = async () => {
-    // Use default price for development to avoid CORS issues
+    // Use default price for development to avoid CORS/Rate-limit issues
     const DEFAULT_XLM_PRICE = 0.12;
-
-    try {
-      // Try fetching from CoinGecko directly first
-      const response = await fetch(
-        "https://api.coingecko.com/api/v3/simple/price?ids=stellar&vs_currencies=usd",
-        { signal: AbortSignal.timeout(3000) }
-      );
-      if (response.ok) {
-        const data = await response.json();
-        if (data.stellar?.usd) {
-          setXlmPrice(data.stellar.usd);
-          return;
-        }
-      }
-    } catch {
-      // Silently continue to fallback
-    }
-
-    // If direct API fails, use default price (CORS issues in dev are expected)
     setXlmPrice(DEFAULT_XLM_PRICE);
   };
 

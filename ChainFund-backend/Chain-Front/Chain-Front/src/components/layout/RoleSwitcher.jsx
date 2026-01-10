@@ -26,38 +26,15 @@ const RoleSwitcher = () => {
   }, []);
 
   // Role configuration with icons and descriptions
+  // Role configuration with icons and descriptions
   const roleConfig = {
-    [USER_ROLES.DONOR]: {
-      name: "Donor",
+    [USER_ROLES.USER]: {
+      name: "User",
       icon: User,
-      color: "from-blue-500 to-cyan-500",
-      bgColor: "bg-blue-500/10",
-      borderColor: "border-blue-500/30",
-      description: "Support projects",
-    },
-    [USER_ROLES.CREATOR]: {
-      name: "Creator",
-      icon: Code,
-      color: "from-purple-500 to-pink-500",
-      bgColor: "bg-purple-500/10",
-      borderColor: "border-purple-500/30",
-      description: "Build & fundraise",
-    },
-    [USER_ROLES.FREELANCER]: {
-      name: "Freelancer",
-      icon: Briefcase,
       color: "from-green-500 to-emerald-500",
       bgColor: "bg-green-500/10",
       borderColor: "border-green-500/30",
-      description: "Offer services",
-    },
-    [USER_ROLES.GOVERNOR]: {
-      name: "Governor",
-      icon: Vote,
-      color: "from-orange-500 to-amber-500",
-      bgColor: "bg-orange-500/10",
-      borderColor: "border-orange-500/30",
-      description: "Vote & govern",
+      description: "Explore & Participate",
     },
     [USER_ROLES.ADMIN]: {
       name: "Admin",
@@ -69,15 +46,12 @@ const RoleSwitcher = () => {
     },
   };
 
-  const currentRole = roleConfig[activeRole] || roleConfig[USER_ROLES.DONOR];
+  const currentRole = roleConfig[activeRole] || roleConfig[USER_ROLES.USER];
   const CurrentIcon = currentRole.icon;
 
-  // Available roles - all users can switch between these
+  // Available roles
   const availableRoles = [
-    USER_ROLES.DONOR,
-    USER_ROLES.CREATOR,
-    USER_ROLES.FREELANCER,
-    USER_ROLES.GOVERNOR,
+    USER_ROLES.USER,
   ];
 
   // Add admin if user is admin

@@ -86,38 +86,137 @@ class AIService:
             logger.error(f"Error calling Groq API: {e}")
             return self._mock_analysis(title, description)
 
-    async def verify_proof_of_work(self, milestone_title: str, image_bytes: bytes = None) -> Dict[str, Any]:
+    async def verify_proof_of_work(
+        self, 
+        milestone_title: str, 
+        image_bytes: bytes = None,
+        project_description: str = ""
+    ) -> Dict[str, Any]:
         """
         Verifies if an image provides visual proof of a milestone completion.
-        Simulates Computer Vision analysis.
+        Uses Groq Vision API (llama-3.2-90b-vision-preview) for real analysis.
+        Falls back to enhanced mock if API unavailable.
         """
-        # In a real hackathon flow, you'd send base64 image to GPT-4o or LLaVA.
-        # Here we simulate the AI "Audit" process for the demo.
+        import random
+        import asyncio
+        import base64
         
+        # If no client or no image, use enhanced mock
+        if not self.client or not image_bytes:
+            return await self._mock_verify_proof(milestone_title)
+        
+        try:
+            # Convert image to base64
+            b64_image = base64.b64encode(image_bytes).decode('utf-8')
+            
+            # Build verification prompt
+            prompt = f"""You are an auditor for a sustainability crowdfunding platform.
+Analyze this image as proof for milestone: "{milestone_title}"
+
+Project context: {project_description[:500] if project_description else "Environmental sustainability project"}
+
+Evaluate these criteria:
+1. Does the image show relevant work being done?
+2. Is there physical evidence of progress (people working, equipment, results)?
+3. Any signs this could be a stock photo or AI-generated image?
+4. Are there location clues matching project claims?
+
+Return ONLY valid JSON with this exact structure:
+{{
+    "verified": true or false,
+    "confidence": 0.0 to 1.0,
+    "analysis": "detailed 2-3 sentence explanation",
+    "objects_detected": ["list", "of", "visible", "objects"],
+    "red_flags": ["any", "concerns", "or", "empty", "array"],
+    "recommendation": "approve" or "needs_review" or "reject"
+}}"""
+
+            # Call Groq Vision API
+            chat_completion = self.client.chat.completions.create(
+                messages=[
+                    {
+                        "role": "user",
+                        "content": [
+                            {"type": "text", "text": prompt},
+                            {
+                                "type": "image_url",
+                                "image_url": {
+                                    "url": f"data:image/jpeg;base64,{b64_image}"
+                                }
+                            }
+                        ]
+                    }
+                ],
+                model="llama-3.2-90b-vision-preview",
+                temperature=0.3,
+                max_tokens=1024
+            )
+            
+            result_text = chat_completion.choices[0].message.content
+            
+            # Parse JSON from response (handle markdown code blocks)
+            if "```json" in result_text:
+                result_text = result_text.split("```json")[1].split("```")[0]
+            elif "```" in result_text:
+                result_text = result_text.split("```")[1].split("```")[0]
+            
+            result = json.loads(result_text.strip())
+            
+            # Ensure required fields exist
+            result.setdefault("verified", False)
+            result.setdefault("confidence", 0.5)
+            result.setdefault("analysis", "Analysis completed")
+            result.setdefault("objects_detected", [])
+            result.setdefault("red_flags", [])
+            result.setdefault("recommendation", "needs_review")
+            
+            logger.info(f"✅ Groq Vision verified '{milestone_title}': {result['verified']} ({result['confidence']*100:.0f}%)")
+            return result
+            
+        except json.JSONDecodeError as e:
+            logger.warning(f"Failed to parse Groq Vision response: {e}")
+            return await self._mock_verify_proof(milestone_title)
+        except Exception as e:
+            logger.error(f"Groq Vision API error: {e}")
+            return await self._mock_verify_proof(milestone_title)
+    
+    async def _mock_verify_proof(self, milestone_title: str) -> Dict[str, Any]:
+        """
+        Enhanced mock verification for demo/fallback.
+        Uses milestone keywords to provide more realistic responses.
+        """
         import random
         import asyncio
         
-        # Simulate processing time
-        await asyncio.sleep(2)
+        await asyncio.sleep(1.5)  # Simulate processing time
         
-        success = random.random() > 0.1 # 90% success rate for demo
+        # Keyword-based scoring for more realistic mock
+        positive_keywords = ["plant", "install", "build", "clean", "solar", "tree", 
+                           "recycle", "water", "forest", "wind", "energy"]
+        milestone_lower = milestone_title.lower()
         
-        if success:
-            return {
-                "verified": True,
-                "confidence": 0.95,
-                "analysis": f"AI Verification Successful: Image content matches milestone '{milestone_title}'. Identified: relevant physical evidence, location data consistency.",
-                "objects_detected": ["sapling", "gloves", "soil", "human_hand"],
-                "geotag_match": True
-            }
+        has_positive = any(k in milestone_lower for k in positive_keywords)
+        
+        if has_positive:
+            confidence = 0.82 + random.random() * 0.13  # 82-95%
+            verified = True
+            objects = ["equipment", "workers", "progress_visible", "site_conditions"]
         else:
-            return {
-                "verified": False,
-                "confidence": 0.20,
-                "analysis": "AI Verification Failed: Image appears unrelated or blurry. Please upload a clear photo of the completed work.",
-                "objects_detected": ["unknown_blur", "indoor_wall"],
-                "geotag_match": False
-            }
+            confidence = 0.55 + random.random() * 0.25  # 55-80%
+            verified = random.random() > 0.25
+            objects = ["generic_scene", "unclear_activity"]
+        
+        return {
+            "verified": verified,
+            "confidence": round(confidence, 2),
+            "analysis": f"[Demo Mode] Verification for '{milestone_title}'. " + 
+                       ("Image appears to show relevant progress." if verified 
+                        else "Image requires manual review for confirmation."),
+            "objects_detected": objects,
+            "red_flags": [] if verified else ["low_confidence", "unclear_context"],
+            "recommendation": "approve" if verified else "needs_review",
+            "geotag_match": verified  # Keep for backwards compatibility
+        }
 
     def _mock_analysis(self, title: str, description: str) -> Dict[str, Any]:
         """

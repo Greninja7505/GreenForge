@@ -17,7 +17,11 @@ import {
   ChevronUp,
   ChevronDown,
   Target,
+  ThumbsUp,
+  ThumbsDown,
+  Vote,
 } from "lucide-react";
+import toast from "react-hot-toast";
 import { useProjects } from "../context/ProjectsContext";
 import ProjectTimelineVisualization from "../components/projects/ProjectTimelineVisualization";
 import ProofVerifier from "../components/project/ProofVerifier";
@@ -25,6 +29,8 @@ import ProofVerifier from "../components/project/ProofVerifier";
 const ProjectDetail = () => {
   const { slug } = useParams();
   const [activeTab, setActiveTab] = useState("about");
+  const [milestoneVotes, setMilestoneVotes] = useState({});
+  const [votingInProgress, setVotingInProgress] = useState(null);
   const { getProjectBySlug, upvoteProject, downvoteProject, loading } = useProjects();
   const { publicKey } = useStellar();
 
@@ -618,6 +624,123 @@ const ProjectDetail = () => {
                             {Math.min(milestoneProgress, 100).toFixed(0)}% of
                             milestone
                           </div>
+
+                          {/* Community Voting Section */}
+                          {isReached && !milestone.completed && (
+                            <div className="mt-6 pt-4 border-t border-white/10">
+                              <div className="flex items-center justify-between mb-3">
+                                <div className="flex items-center space-x-2">
+                                  <Vote className="w-4 h-4 text-white/60" strokeWidth={1.5} />
+                                  <span
+                                    style={{
+                                      fontFamily: "Helvetica, Arial, sans-serif",
+                                      fontWeight: "400",
+                                      fontSize: "0.85rem",
+                                      textTransform: "uppercase",
+                                      letterSpacing: "0.05em",
+                                    }}
+                                    className="text-white/80"
+                                  >
+                                    Verify Progress
+                                  </span>
+                                </div>
+                                <span className="text-xs text-gray-500">
+                                  {(milestoneVotes[milestone.id]?.for || 0) + (milestoneVotes[milestone.id]?.against || 0)} votes
+                                </span>
+                              </div>
+
+                              {/* Vote Progress Bar */}
+                              <div className="w-full h-2 bg-white/5 rounded-full overflow-hidden mb-4 flex">
+                                <div
+                                  className="h-full bg-green-500 transition-all duration-300"
+                                  style={{
+                                    width: `${((milestoneVotes[milestone.id]?.for || 0) / Math.max((milestoneVotes[milestone.id]?.for || 0) + (milestoneVotes[milestone.id]?.against || 0), 1)) * 100}%`,
+                                  }}
+                                />
+                                <div
+                                  className="h-full bg-red-500 transition-all duration-300"
+                                  style={{
+                                    width: `${((milestoneVotes[milestone.id]?.against || 0) / Math.max((milestoneVotes[milestone.id]?.for || 0) + (milestoneVotes[milestone.id]?.against || 0), 1)) * 100}%`,
+                                  }}
+                                />
+                              </div>
+
+                              {/* Voting Buttons */}
+                              <div className="flex items-center justify-center gap-4">
+                                <motion.button
+                                  whileHover={{ scale: 1.05 }}
+                                  whileTap={{ scale: 0.95 }}
+                                  disabled={votingInProgress === milestone.id || !publicKey}
+                                  onClick={() => {
+                                    if (!publicKey) {
+                                      toast.error("Connect wallet to vote");
+                                      return;
+                                    }
+                                    setVotingInProgress(milestone.id);
+                                    setTimeout(() => {
+                                      setMilestoneVotes(prev => ({
+                                        ...prev,
+                                        [milestone.id]: {
+                                          for: (prev[milestone.id]?.for || 0) + 1,
+                                          against: prev[milestone.id]?.against || 0,
+                                        },
+                                      }));
+                                      toast.success("Vote recorded: Work Verified ✓");
+                                      setVotingInProgress(null);
+                                    }, 1000);
+                                  }}
+                                  className={`flex items-center space-x-2 px-6 py-3 rounded-xl border transition-all ${votingInProgress === milestone.id
+                                      ? "bg-white/5 border-white/10 cursor-wait"
+                                      : "bg-green-500/10 border-green-500/30 hover:bg-green-500/20 hover:border-green-500/50"
+                                    }`}
+                                >
+                                  <ThumbsUp className="w-5 h-5 text-green-400" strokeWidth={1.5} />
+                                  <span className="text-green-400 font-medium">
+                                    {votingInProgress === milestone.id ? "Voting..." : `Approve (${milestoneVotes[milestone.id]?.for || 0})`}
+                                  </span>
+                                </motion.button>
+
+                                <motion.button
+                                  whileHover={{ scale: 1.05 }}
+                                  whileTap={{ scale: 0.95 }}
+                                  disabled={votingInProgress === milestone.id || !publicKey}
+                                  onClick={() => {
+                                    if (!publicKey) {
+                                      toast.error("Connect wallet to vote");
+                                      return;
+                                    }
+                                    setVotingInProgress(milestone.id);
+                                    setTimeout(() => {
+                                      setMilestoneVotes(prev => ({
+                                        ...prev,
+                                        [milestone.id]: {
+                                          for: prev[milestone.id]?.for || 0,
+                                          against: (prev[milestone.id]?.against || 0) + 1,
+                                        },
+                                      }));
+                                      toast.error("Vote recorded: Needs Review");
+                                      setVotingInProgress(null);
+                                    }, 1000);
+                                  }}
+                                  className={`flex items-center space-x-2 px-6 py-3 rounded-xl border transition-all ${votingInProgress === milestone.id
+                                      ? "bg-white/5 border-white/10 cursor-wait"
+                                      : "bg-red-500/10 border-red-500/30 hover:bg-red-500/20 hover:border-red-500/50"
+                                    }`}
+                                >
+                                  <ThumbsDown className="w-5 h-5 text-red-400" strokeWidth={1.5} />
+                                  <span className="text-red-400 font-medium">
+                                    Reject ({milestoneVotes[milestone.id]?.against || 0})
+                                  </span>
+                                </motion.button>
+                              </div>
+
+                              {!publicKey && (
+                                <p className="text-center text-xs text-gray-500 mt-3">
+                                  Connect wallet to vote on milestone verification
+                                </p>
+                              )}
+                            </div>
+                          )}
 
                           {/* Proof of Impact Verifier (Only for Creator) */}
                           {!milestone.completed && publicKey && (publicKey === project.creator.address || true) && (

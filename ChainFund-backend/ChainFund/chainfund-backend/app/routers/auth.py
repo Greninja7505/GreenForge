@@ -71,12 +71,12 @@ class UserRegister(BaseModel):
     password: Optional[str] = None
     wallet_address: str
     public_key: str
-    role: str = "donor"
+    role: str = "user"
     auth_method: str = "wallet"  # wallet, email, both
     
     @validator('role')
     def validate_role(cls, v):
-        valid_roles = ['donor', 'creator', 'freelancer', 'governor', 'admin']
+        valid_roles = ['user', 'admin']
         if v not in valid_roles:
             raise ValueError(f'Role must be one of: {valid_roles}')
         return v
@@ -169,7 +169,7 @@ def create_user(user_data: dict) -> dict:
         
         # Prepare user data
         now = datetime.utcnow().isoformat()
-        roles_json = json.dumps([user_data.get('role', 'donor')])
+        roles_json = json.dumps([user_data.get('role', 'user')])
         
         cursor.execute('''
             INSERT INTO users (
@@ -182,7 +182,7 @@ def create_user(user_data: dict) -> dict:
             user_data.get('username'),
             user_data.get('email'),
             user_data.get('password_hash'),
-            user_data.get('role', 'donor'),
+            user_data.get('role', 'user'),
             roles_json,
             user_data.get('auth_method', 'wallet'),
             user_data['wallet_address'],

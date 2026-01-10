@@ -1,9 +1,7 @@
 import { motion } from "framer-motion";
 import { useUser, USER_ROLES } from "../context/UserContext";
 import {
-  Heart,
-  Rocket,
-  Briefcase,
+  Users,
   Shield,
   CheckCircle,
   ArrowRight
@@ -12,36 +10,20 @@ import toast from "react-hot-toast";
 
 const roleConfig = [
   {
-    role: USER_ROLES.DONOR,
-    title: "Donor",
-    description: "Support projects you believe in and earn GIV tokens for your contributions",
-    icon: Heart,
-    color: "from-pink-500 to-rose-500",
-    features: ["Donate to projects", "Earn GIV rewards", "Track your impact", "Vote on proposals"]
+    role: USER_ROLES.USER,
+    title: "User",
+    description: "Explore projects, donate, participate in bounties and governance",
+    icon: Users,
+    color: "from-green-500 to-emerald-500",
+    features: ["Explore projects", "Donate & earn rewards", "Join Eco-Bounties", "Participate in governance"]
   },
   {
-    role: USER_ROLES.CREATOR,
-    title: "Project Creator",
-    description: "Launch your project and receive funding from the community",
-    icon: Rocket,
-    color: "from-blue-500 to-cyan-500",
-    features: ["Create projects", "Receive donations", "Post updates", "All Donor features"]
-  },
-  {
-    role: USER_ROLES.FREELANCER,
-    title: "Freelancer",
-    description: "Offer your skills and get hired by projects in the ecosystem",
-    icon: Briefcase,
-    color: "from-purple-500 to-violet-500",
-    features: ["Create gigs", "Get hired by projects", "Earn through escrow", "All Donor features"]
-  },
-  {
-    role: USER_ROLES.GOVERNOR,
-    title: "DAO Governor",
-    description: "Participate in governance and help shape the platform's future",
+    role: USER_ROLES.ADMIN,
+    title: "Admin",
+    description: "Full platform access to manage projects, users and settings",
     icon: Shield,
-    color: "from-amber-500 to-orange-500",
-    features: ["Create proposals", "Quadratic voting", "Governance rewards", "All Donor features"]
+    color: "from-red-500 to-rose-500",
+    features: ["Manage all projects", "User administration", "Platform settings", "All User features"]
   }
 ];
 

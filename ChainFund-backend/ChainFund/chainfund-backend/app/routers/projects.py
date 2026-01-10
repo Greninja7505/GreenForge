@@ -96,7 +96,7 @@ def get_project_backers(project_id: int):
         cursor.execute("""
             SELECT DISTINCT u.id, u.email, u.username 
             FROM donations d
-            JOIN users u ON d.user_id = u.id
+            JOIN users u ON d.donor_wallet = u.wallet_address
             WHERE d.project_id = ?
         """, (project_id,))
         return [dict_from_row(row) for row in cursor.fetchall()]
@@ -127,19 +127,17 @@ async def create_project(
             slug = '-'.join(filter(None, slug.split('-')))
             
             # Check if slug exists
-            cursor.execute("SELECT id FROM campaigns WHERE slug = ?", (slug,))
+            cursor.execute("SELECT id FROM projects WHERE slug = ?", (slug,))
             if cursor.fetchone():
                 slug = f"{slug}-{int(datetime.now().timestamp())}"
             
-            # Insert project
+            # Insert project - Using columns that exist in database
             cursor.execute('''
-                INSERT INTO campaigns (
-                    creator_id, title, slug, description, full_description,
-                    category, goal, location, website, twitter, discord,
-                    status, created_at
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                INSERT INTO projects (
+                    title, slug, description, full_description,
+                    category, goal, location, status, created_at
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
             ''', (
-                user_id,
                 project.title,
                 slug,
                 project.description,
@@ -147,28 +145,24 @@ async def create_project(
                 project.category,
                 project.goal,
                 project.location,
-                project.website,
-                project.twitter,
-                project.discord,
                 'active',
                 now
             ))
             
             project_id = cursor.lastrowid
             
-            # Insert milestones
+            # Insert milestones - Using correct column names (project_id, target_date)
             for i, milestone in enumerate(project.milestones, 1):
                 cursor.execute('''
                     INSERT INTO milestones (
-                        campaign_id, title, description, amount, 
-                        milestone_order, deadline, status
-                    ) VALUES (?, ?, ?, ?, ?, ?, ?)
+                        project_id, title, description, amount, 
+                        target_date, status
+                    ) VALUES (?, ?, ?, ?, ?, ?)
                 ''', (
                     project_id,
                     milestone.title,
                     milestone.description,
                     milestone.amount,
-                    i,
                     milestone.deadline,
                     'pending'
                 ))
@@ -220,10 +214,7 @@ async def donate_to_project(
             
             # Get project info
             cursor.execute("""
-                SELECT c.*, u.email as creator_email, u.username as creator_name
-                FROM campaigns c
-                LEFT JOIN users u ON c.creator_id = u.id
-                WHERE c.id = ?
+                SELECT * FROM projects WHERE id = ?
             """, (project_id,))
             
             project_row = cursor.fetchone()
@@ -246,27 +237,25 @@ async def donate_to_project(
                     donor_name = donor.get('username', 'Anonymous') if not donation.anonymous else 'Anonymous Donor'
                     donor_email = donor.get('email')
             
-            # Record donation
+            # Record donation - Using correct column names from database schema
             cursor.execute('''
                 INSERT INTO donations (
-                    campaign_id, user_id, amount, currency, message,
-                    anonymous, tx_hash, created_at
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                    project_id, donor_name, amount,
+                    anonymous, transaction_hash, created_at
+                ) VALUES (?, ?, ?, ?, ?, ?)
             ''', (
                 project_id,
-                user_id,
+                donor_name,
                 donation.amount,
-                donation.currency,
-                donation.message,
                 1 if donation.anonymous else 0,
                 donation.tx_hash,
                 now
             ))
             
-            # Update project raised amount
+            # Update project raised amount - Using 'donors' not 'backers'
             cursor.execute('''
-                UPDATE campaigns 
-                SET raised = raised + ?, backers = backers + 1
+                UPDATE projects 
+                SET raised = raised + ?, donors = donors + 1
                 WHERE id = ?
             ''', (donation.amount, project_id))
             
@@ -330,10 +319,10 @@ async def complete_milestone(
             
             # Get milestone and project info
             cursor.execute("""
-                SELECT m.*, c.title as project_title
+                SELECT m.*, p.title as project_title
                 FROM milestones m
-                JOIN campaigns c ON m.campaign_id = c.id
-                WHERE m.id = ? AND m.campaign_id = ?
+                JOIN projects p ON m.project_id = p.id
+                WHERE m.id = ? AND m.project_id = ?
             """, (milestone_id, project_id))
             
             milestone_row = cursor.fetchone()
@@ -345,12 +334,12 @@ async def complete_milestone(
             
             milestone = dict_from_row(milestone_row)
             
-            # Update milestone status
+            # Update milestone status - using 'completed' column (1 for true)
             cursor.execute('''
                 UPDATE milestones 
-                SET status = 'completed', proof_url = ?, notes = ?, completed_at = ?
+                SET status = 'completed', completed = 1
                 WHERE id = ?
-            ''', (update.proof_url, update.notes, now, milestone_id))
+            ''', (milestone_id,))
             
             conn.commit()
             
@@ -395,7 +384,7 @@ async def list_projects(
         with get_db_connection() as conn:
             cursor = conn.cursor()
             
-            query = "SELECT * FROM campaigns WHERE status = ?"
+            query = "SELECT * FROM projects WHERE status = ?"
             params = [status]
             
             if category:
@@ -429,10 +418,7 @@ async def get_project(project_id: int):
             cursor = conn.cursor()
             
             cursor.execute("""
-                SELECT c.*, u.username as creator_name, u.wallet_address as creator_wallet
-                FROM campaigns c
-                LEFT JOIN users u ON c.creator_id = u.id
-                WHERE c.id = ?
+                SELECT * FROM projects WHERE id = ?
             """, (project_id,))
             
             project_row = cursor.fetchone()
@@ -444,21 +430,21 @@ async def get_project(project_id: int):
             
             project = dict_from_row(project_row)
             
-            # Get milestones
+            # Get milestones - using project_id column
             cursor.execute("""
                 SELECT * FROM milestones 
-                WHERE campaign_id = ? 
-                ORDER BY milestone_order
+                WHERE project_id = ? 
+                ORDER BY id
             """, (project_id,))
             
             project['milestones'] = [dict_from_row(row) for row in cursor.fetchall()]
             
-            # Get recent donations
+            # Get recent donations - using project_id and donor_wallet
             cursor.execute("""
-                SELECT d.*, u.username as donor_name
+                SELECT d.*, u.username as donor_username
                 FROM donations d
-                LEFT JOIN users u ON d.user_id = u.id
-                WHERE d.campaign_id = ?
+                LEFT JOIN users u ON d.donor_wallet = u.wallet_address
+                WHERE d.project_id = ?
                 ORDER BY d.created_at DESC
                 LIMIT 10
             """, (project_id,))

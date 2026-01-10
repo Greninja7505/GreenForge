@@ -355,7 +355,7 @@ Collaboration with local farmers, universities, and food companies ensures long-
     slug: "direct-air-capture-facility",
     title: "Direct Air Capture Facility",
     category: "carbon-capture-climate",
-    image: "https://images.unsplash.com/photo-1569163139394-de4e4f43e4e3?w=800&h=400&fit=crop",
+    image: "https://images.unsplash.com/photo-1611270629569-8b357cb88da9?w=800&h=400&fit=crop",
     description:
       "Industrial-scale direct air capture facility using novel electrochemical processes to remove CO2 from atmosphere at unprecedented efficiency.",
     fullDescription: `Cutting-edge carbon capture technology using advanced electrochemical systems to directly remove CO2 from ambient air, providing scalable climate solutions.

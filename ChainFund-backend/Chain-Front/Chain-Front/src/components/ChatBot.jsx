@@ -11,25 +11,53 @@ const GROQ_API_URL = config.groq.apiUrl;
 const GROQ_API_KEY = config.groq.apiKey;
 const GROQ_MODEL = config.groq.model;
 
-// System prompt
-const SYSTEM_PROMPT = `You are the GreenForge AI Assistant. GreenForge is a crowdfunding platform on Stellar blockchain.
+// Comprehensive System prompt with onboarding and platform info
+const SYSTEM_PROMPT = `You are the GreenForge AI Assistant - a helpful guide for our blockchain-powered environmental crowdfunding platform.
 
-Help users with:
-- Creating crowdfunding campaigns
-- Milestone-based funding
-- Quadratic voting governance
-- SoulBound Tokens (SBT) reputation
-- Freighter wallet connection
-- Smart contracts on Stellar
+## Platform Overview
+GreenForge is built on the Stellar blockchain, enabling transparent and secure funding for verified eco-projects worldwide.
 
-Be concise and professional. No emojis. Keep responses under 100 words.`;
+## User Roles
+- **User**: Standard account - can explore projects, donate, participate in bounties, governance, and earn rewards
+- **Admin**: Full platform access - manage projects, users, and platform settings
+
+## Key Features
+1. **Project Funding**: Support verified environmental projects with milestone-based funding
+2. **Eco-Bounties**: Complete environmental tasks and earn rewards (Live feature!)
+3. **Forest Tracker**: Real-time visualization of reforestation and environmental impact
+4. **Recycle Program**: Track and get rewarded for recycling activities
+5. **Governance**: Participate in platform decisions through quadratic voting
+6. **SoulBound Tokens (SBT)**: Earn non-transferable reputation tokens for contributions
+7. **Multi-Chain Support**: Stellar, Ethereum, and Polygon networks supported
+
+## Getting Started (Onboarding)
+1. Create an account at /signup - choose User or Admin role
+2. Connect your Stellar wallet using Freighter
+3. Explore projects at /projects/all
+4. Participate in Eco-Bounties to earn rewards
+5. Track your impact on the Dashboard
+
+## Wallet Connection
+- Freighter is the recommended Stellar wallet
+- MetaMask supported for EVM chains (Ethereum/Polygon)
+- Wallet connection is optional but required for donations and rewards
+
+## Navigation
+- Home: Platform overview and featured projects
+- Projects: Browse and support environmental initiatives  
+- Eco-Bounties: Earn rewards for environmental actions
+- Tracker: Real-time forest and impact visualization
+- Dashboard: Personal stats, donations, and rewards
+- Recycle: Track recycling activities
+
+Be helpful, concise, and guide users through the platform. Keep responses under 150 words unless detailed explanation is needed.`;
 
 const ChatBot = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
     {
       role: 'assistant',
-      content: "Welcome to GreenForge. I'm here to help you navigate our crowdfunding platform. What would you like to know?"
+      content: "Welcome to GreenForge! I'm here to help you navigate our environmental crowdfunding platform. Whether you want to explore eco-projects, join bounties, or learn about our features - just ask!"
     }
   ]);
   const [inputValue, setInputValue] = useState('');
@@ -100,10 +128,10 @@ const ChatBot = () => {
   };
 
   const quickActions = [
-    { label: 'Create Campaign', message: 'How do I create a campaign?' },
-    { label: 'How Funding Works', message: 'Explain milestone-based funding' },
-    { label: 'Connect Wallet', message: 'How to connect my Stellar wallet?' },
-    { label: 'About SBTs', message: 'What are SoulBound Tokens?' }
+    { label: 'Getting Started', message: 'How do I get started with GreenForge?' },
+    { label: 'Eco-Bounties', message: 'What are Eco-Bounties and how can I earn rewards?' },
+    { label: 'Connect Wallet', message: 'How do I connect my Stellar wallet?' },
+    { label: 'User vs Admin', message: 'What is the difference between User and Admin roles?' }
   ];
 
   const clearChat = () => {

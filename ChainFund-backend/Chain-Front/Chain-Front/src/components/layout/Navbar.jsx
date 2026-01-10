@@ -23,7 +23,7 @@ const Navbar = () => {
     loading,
   } = useStellar();
   const { user, isLoggedIn, activeRole } = useUser();
-  const currentRole = activeRole || USER_ROLES.DONOR;
+  const currentRole = activeRole || USER_ROLES.USER;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -33,31 +33,22 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Role-based navigation configuration - SIMPLIFIED (max 4 items per role)
+  // Role-based navigation configuration
   const roleNavConfig = {
-    // Default 'User' view (mapped to DONOR role)
-    [USER_ROLES.DONOR]: [
+    // Default 'User' view
+    [USER_ROLES.USER]: [
       { name: "Home", path: "/" },
       { name: "Projects", path: "/projects/all" },
-      { name: "Forest", path: "/forest" },
-      { name: "Recycle", path: "/recycle", badge: "New" },
+      { name: "Eco-Bounties", path: "/eco-bounties", badge: "Live" },
+      { name: "Tracker", path: "/forest" },
+      { name: "Recycle", path: "/recycle" },
     ],
     // Admin view
     [USER_ROLES.ADMIN]: [
       { name: "Dashboard", path: "/dashboard" },
       { name: "Projects", path: "/projects/all" },
       { name: "Users", path: "/admin/users" },
-    ],
-    // Keeping only these two active for now as per request
-    [USER_ROLES.CREATOR]: [
-      { name: "Dashboard", path: "/dashboard" },
-      { name: "Create", path: "/create-project" },
-    ],
-    [USER_ROLES.FREELANCER]: [
-      { name: "Gigs", path: "/freelancer/gigs" },
-    ],
-    [USER_ROLES.GOVERNOR]: [
-      { name: "Governance", path: "/governance" },
+      { name: "Eco-Bounties", path: "/eco-bounties" },
     ],
   };
 
@@ -71,7 +62,7 @@ const Navbar = () => {
   ];
 
   // Get navigation links based on current role
-  const navLinks = roleNavConfig[currentRole] || roleNavConfig[USER_ROLES.DONOR];
+  const navLinks = roleNavConfig[currentRole] || roleNavConfig[USER_ROLES.USER];
 
   const formatAddress = (address) => {
     if (!address) return "";
@@ -85,7 +76,6 @@ const Navbar = () => {
       try {
         await connectWallet();
       } catch (error) {
-        // Error handling is already done in the context
         console.error("Wallet connection error:", error);
       }
     }
@@ -95,19 +85,19 @@ const Navbar = () => {
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
-        ? "bg-black/95 backdrop-blur-xl shadow-2xl"
-        : "bg-transparent"
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b ${isScrolled
+        ? "bg-black/95 backdrop-blur-xl shadow-2xl border-white/10"
+        : "bg-black/20 backdrop-blur-sm border-transparent"
         }`}
     >
       <div className="container-custom">
         <div className="flex items-center justify-between h-20">
-          {/* Logo */}
-          <Link to="/" className="flex items-center group">
+          {/* Logo Container - Fixed Width to prevent shifting */}
+          <Link to="/" className="flex items-center group min-w-[200px]">
             <motion.img
               src="/Logo_Text.png"
               alt="GreenForge"
-              className="h-48 w-auto"
+              className="h-48 w-auto object-contain"
               whileHover={{ scale: 1.05 }}
               transition={{ duration: 0.2 }}
             />

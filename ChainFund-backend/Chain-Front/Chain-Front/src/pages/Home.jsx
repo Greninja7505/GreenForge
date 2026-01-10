@@ -1,49 +1,38 @@
 import { motion } from "framer-motion";
 import HeroSection from "../components/home/HeroSection";
 import CoreFeatures from "../components/home/CoreFeatures";
-import FeaturesGrid from "../components/home/FeaturesGrid";
 import ProjectShowcase from "../components/home/ProjectShowcase";
-import RecentPosts from "../components/home/RecentPosts";
-import Marquee from "../components/home/Marquee";
-import AnnouncementBanner from "../components/home/AnnouncementBanner";
 import ImpactGlobe from "../components/home/ImpactGlobe";
+import Marquee from "../components/home/Marquee";
 import SocialFeed from "../components/SocialFeed";
 
 const Home = () => {
   return (
-    <>
-      {/* Announcement Banner - at bottom of window */}
-      <AnnouncementBanner position="bottom" />
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      <HeroSection />
 
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <HeroSection />
+      {/* Living Globe 3D Visualization */}
+      <section className="bg-black py-0 border-y border-white/10">
+        <ImpactGlobe />
+      </section>
 
-        {/* Living Globe 3D Visualization */}
-        <section className="bg-black py-0 border-y border-white/10">
-          <ImpactGlobe />
-        </section>
+      {/* Core Features */}
+      <CoreFeatures />
 
-        {/* New: Detailed Core Features Cards */}
-        <CoreFeatures />
+      {/* Project Showcase */}
+      <ProjectShowcase />
 
-        {/* Swapped: ProjectShowcase now comes before FeaturesGrid */}
-        <ProjectShowcase />
+      {/* Community Updates / Instagram-style Feed */}
+      <SocialFeed />
 
-        {/* NEW: Social Feed */}
-        <SocialFeed />
-
-
-        {/* Marquee Section */}
-        <Marquee />
-        {/* Swapped: FeaturesGrid (NEED HELP? GET IN TOUCH!) now at the bottom */}
-        <FeaturesGrid />
-      </motion.div>
-    </>
+      {/* Marquee Testimonials */}
+      <Marquee />
+    </motion.div>
   );
 };
 

@@ -71,21 +71,18 @@ const TokenRewardModal = ({ isOpen, onClose, rewardData }) => {
           height={height}
           recycle={false}
           numberOfPieces={180}
-          colors={['#00ffff', '#007bff', '#ffffff']}
+          colors={['#10b981', '#34d399', '#6ee7b7', '#ffffff', '#22c55e']}
         />
       )}
 
       {/* Modal Overlay */}
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm">
         {/* Modal Content */}
         <div
-          className="relative max-w-md w-full mx-4 bg-gradient-to-br from-[#0d1117]/90 to-black/90 backdrop-blur-xl border border-white/20 rounded-2xl shadow-2xl p-8
+          className="relative max-w-md w-full mx-4 bg-black backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl p-8
           transform transition-all duration-500 ease-out scale-100 opacity-100"
           style={{
-            background: 'rgba(13,17,23,0.85)',
-            boxShadow: '0 8px 32px 0 rgba(0, 123, 255, 0.25)',
-            border: '1px solid rgba(255,255,255,0.08)',
-            backdropFilter: 'blur(16px)',
+            boxShadow: '0 8px 32px 0 rgba(16, 185, 129, 0.25)',
           }}
         >
           {/* Close Button */}
@@ -113,7 +110,7 @@ const TokenRewardModal = ({ isOpen, onClose, rewardData }) => {
             </div>
             <div className="flex justify-between items-center">
               <span className="text-gray-300">Tokens Earned:</span>
-              <span className="text-transparent bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text font-bold text-lg">
+              <span className="text-transparent bg-gradient-to-r from-green-400 to-emerald-500 bg-clip-text font-bold text-lg">
                 {tokensAwarded} CFND
               </span>
             </div>
@@ -143,21 +140,21 @@ const TokenRewardModal = ({ isOpen, onClose, rewardData }) => {
             <button
               onClick={handleRewardClaim}
               disabled={claimingReward}
-              className={`flex-1 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 
+              className={`flex-1 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 
                 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 transform 
-                ${claimingReward ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105'} shadow-lg`}
+                ${claimingReward ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105'} shadow-lg shadow-green-500/25`}
             >
               {claimingReward ? 'Processing...' : 'Claim Rewards'}
             </button>
             <button
               onClick={() => window.location.href = '/dashboard'}
-              className="flex-1 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg"
+              className="flex-1 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg shadow-green-500/25"
             >
               View Dashboard
             </button>
             <button
               onClick={onClose}
-              className="flex-1 bg-transparent border border-white/30 text-white hover:bg-white/10 font-semibold py-3 px-6 rounded-xl transition-all duration-300"
+              className="flex-1 bg-black border border-white/20 text-white hover:bg-white/10 font-semibold py-3 px-6 rounded-xl transition-all duration-300"
             >
               Close
             </button>
