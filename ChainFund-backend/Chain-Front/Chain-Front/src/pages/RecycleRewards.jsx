@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { SMART_BINS, MOCK_PRODUCT_DB } from '../data/recycleData';
-import Navbar from '../components/layout/Navbar';
 
 // --- Sub-Components ---
 
@@ -184,11 +183,10 @@ const RecycleRewards = () => {
     };
 
     return (
-        <div className="h-screen bg-black text-white flex flex-col font-sans overflow-hidden">
-            <Navbar />
-
+        <div className="h-screen bg-black text-white flex flex-col font-sans overflow-hidden pt-16">
+            
             {/* Dashboard Container (Takes remaining height below Navbar) */}
-            <div className="flex-1 flex pt-20 h-full">
+            <div className="flex-1 flex h-full relative z-0">
 
                 {/* LEFT: The Map (Hero) - 60% */}
                 <div className="w-[60%] relative bg-[#0a0a0a] border-r border-white/10">

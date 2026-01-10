@@ -1,741 +1,433 @@
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { MapPin, TreePine, Leaf, Globe, Award, ChevronRight, X, Check, Wallet, Info, AlertCircle, Loader } from "lucide-react";
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
+import { MapPin, RefreshCw, Box, ArrowRight, Zap, Target } from "lucide-react";
 import { useStellar } from "../context/StellarContext";
-import toast from "react-hot-toast";
-import ForestMap from "../components/ForestMap";
 
-const DigitalForest = () => {
-    const { publicKey, isConnected, connectWallet } = useStellar();
-    const [selectedRegion, setSelectedRegion] = useState(null);
-    const [plantingFlow, setPlantingFlow] = useState(null);
-    const [selectedPlot, setSelectedPlot] = useState(null);
-    const [selectedSpecies, setSelectedSpecies] = useState(null);
-    const [loading, setLoading] = useState(false);
-    const [plotsData, setPlotsData] = useState({});
+// --- Fix for Leaflet Default Icons (Just in case) ---
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+    iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
+    iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
+    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+});
 
-    const [stats, setStats] = useState({
-        totalTrees: 12547,
-        co2Absorbed: 3421,
-        forestsActive: 23,
-        availablePlots: 156
-    });
+// --- Mock Data ---
 
-    // Real forest locations in India
-    const forestRegions = [
-        {
-            id: 1,
-            name: "Western Ghats Restoration",
-            location: "Karnataka, India",
-            coordinates: { lat: 13.0827, lng: 77.5877 },
-            treesPlanted: 4532,
-            totalPlots: 100,
-            co2Offset: 1245,
-            area: "45 hectares",
-            status: "Active",
-            pricePerTree: 25,
-            priceInXLM: 5,
-            image: "/images/bounties/tree_planting.png",
-            description: "Restoring biodiversity in one of the world's eight hottest biodiversity hotspots",
-            species: [
-                { name: "Teak", scientificName: "Tectona grandis", co2PerYear: 22, maturityYears: 25 },
-                { name: "Rosewood", scientificName: "Dalbergia latifolia", co2PerYear: 18, maturityYears: 20 },
-                { name: "Sandalwood", scientificName: "Santalum album", co2PerYear: 15, maturityYears: 15 },
-                { name: "Bamboo", scientificName: "Bambusa bambos", co2PerYear: 35, maturityYears: 5 }
-            ],
-            soilType: "Laterite",
-            rainfall: "2500mm/year",
-            partner: "Karnataka Forest Department",
-            verificationMethod: "IoT sensors + Satellite imagery",
-            updateFrequency: "Weekly"
-        },
-        {
-            id: 2,
-            name: "Mangrove Conservation",
-            location: "Mumbai, Maharashtra",
-            coordinates: { lat: 19.0760, lng: 72.8777 },
-            treesPlanted: 3214,
-            totalPlots: 80,
-            co2Offset: 892,
-            area: "28 hectares",
-            status: "Active",
-            pricePerTree: 30,
-            priceInXLM: 6,
-            image: "/images/bounties/beach_cleanup.png",
-            description: "Protecting coastal ecosystems and preventing erosion along Mumbai's coastline",
-            species: [
-                { name: "Avicennia", scientificName: "Avicennia marina", co2PerYear: 40, maturityYears: 10 },
-                { name: "Rhizophora", scientificName: "Rhizophora mucronata", co2PerYear: 38, maturityYears: 12 },
-                { name: "Sonneratia", scientificName: "Sonneratia alba", co2PerYear: 35, maturityYears: 15 }
-            ],
-            soilType: "Saline",
-            rainfall: "2200mm/year",
-            partner: "Mumbai Mangrove Conservation Unit",
-            verificationMethod: "Drone surveys + Ground verification",
-            updateFrequency: "Bi-weekly"
-        },
-        {
-            id: 3,
-            name: "Himalayan Reforestation",
-            location: "Uttarakhand, India",
-            coordinates: { lat: 30.0668, lng: 79.0193 },
-            treesPlanted: 2891,
-            totalPlots: 120,
-            co2Offset: 756,
-            area: "62 hectares",
-            status: "Active",
-            pricePerTree: 35,
-            priceInXLM: 7,
-            image: "/images/bounties/tree_planting.png",
-            description: "Combating deforestation and soil erosion in the Himalayan foothills",
-            species: [
-                { name: "Deodar Cedar", scientificName: "Cedrus deodara", co2PerYear: 28, maturityYears: 30 },
-                { name: "Oak", scientificName: "Quercus leucotrichophora", co2PerYear: 25, maturityYears: 25 },
-                { name: "Pine", scientificName: "Pinus roxburghii", co2PerYear: 30, maturityYears: 20 },
-                { name: "Rhododendron", scientificName: "Rhododendron arboreum", co2PerYear: 20, maturityYears: 15 }
-            ],
-            soilType: "Mountain",
-            rainfall: "1800mm/year",
-            partner: "Uttarakhand Forest Department",
-            verificationMethod: "Ground teams + Satellite monitoring",
-            updateFrequency: "Monthly"
-        }
-    ];
+const CUSTOMERS = [
+    { id: 'C1', name: "Tech Solutions Inc.", location: "Pune, MH", lat: 18.5204, lng: 73.8567, type: 'Customer', status: 'Active' },
+    { id: 'C2', name: "Green Earth Cafe", location: "Nashik, MH", lat: 19.9975, lng: 73.7898, type: 'Customer', status: 'Active' },
+    { id: 'C3', name: "Urban Retailers", location: "Surat, GJ", lat: 21.1702, lng: 72.8311, type: 'Customer', status: 'Active' },
+    { id: 'C4', name: "Eco Mart", location: "Indore, MP", lat: 22.7196, lng: 75.8577, type: 'Customer', status: 'Active' }
+];
 
-    // Simulate fetching plot availability from backend
+const WAREHOUSES = [
+    { id: 'W1', name: "Central Hub - Mumbai", location: "Mumbai, MH", lat: 19.0760, lng: 72.8777, type: 'Warehouse', capacity: '85%', stock: 4320 },
+    { id: 'W2', name: "Northern Distribution", location: "Delhi, DL", lat: 28.7041, lng: 77.1025, type: 'Warehouse', capacity: '60%', stock: 2100 },
+    { id: 'W3', name: "Southern Logistics", location: "Bangalore, KA", lat: 12.9716, lng: 77.5946, type: 'Warehouse', capacity: '45%', stock: 1540 }
+];
+
+const PACKAGES = [
+    { id: "PKG-8821", from: 'W1', to: 'C1', status: 'In Transit', progress: 65, type: 'Reusable Crate', co2Saved: '2.4kg', eta: '2h 15m' },
+    { id: "PKG-9932", from: 'W2', to: 'C4', status: 'Sorting', progress: 15, type: 'Bio-Box', co2Saved: '1.2kg', eta: '14h 30m' },
+    { id: "PKG-7745", from: 'C2', to: 'W1', status: 'Returning', progress: 40, type: 'Empty Container', co2Saved: '0.8kg', eta: '5h 45m' }, // Circular flow
+    { id: "PKG-6623", from: 'W3', to: 'C3', status: 'Delivered', progress: 100, type: 'Reusable Crate', co2Saved: '2.4kg', eta: 'Completed' },
+];
+
+// --- Map Component ---
+
+const LogisticsMap = ({ warehouses, customers, packages, selectedNode, onNodeClick }) => {
+    const mapRef = useRef(null);
+    const mapInstanceRef = useRef(null);
+    const markersRef = useRef(null); // Initialize as null
+
+    // 1. Initialize Map
     useEffect(() => {
-        const fetchPlotData = async () => {
-            // In production, this would be an API call
-            const mockPlotData = {};
-            forestRegions.forEach(region => {
-                const plots = [];
-                for (let i = 1; i <= region.totalPlots; i++) {
-                    plots.push({
-                        plotNumber: i,
-                        available: Math.random() > 0.3, // 70% available
-                        owner: Math.random() > 0.3 ? null : `0x${Math.random().toString(16).substr(2, 8)}...`,
-                        plantedDate: Math.random() > 0.3 ? null : new Date(Date.now() - Math.random() * 365 * 24 * 60 * 60 * 1000).toISOString()
-                    });
-                }
-                mockPlotData[region.id] = plots;
-            });
-            setPlotsData(mockPlotData);
-        };
+        if (!mapRef.current || mapInstanceRef.current) return;
 
-        fetchPlotData();
-    }, []);
-
-    const handlePlantTree = (region) => {
-        if (!isConnected) {
-            toast.error("Please connect your Stellar wallet first");
-            connectWallet();
-            return;
-        }
-        setSelectedRegion(region);
-        setPlantingFlow('select-plot');
-    };
-
-    const handlePlotSelection = (plot) => {
-        if (!plot.available) {
-            toast.error("This plot is already taken");
-            return;
-        }
-        setSelectedPlot(plot);
-        setPlantingFlow('select-species');
-    };
-
-    const handleSpeciesSelection = (species) => {
-        setSelectedSpecies(species);
-        setPlantingFlow('payment');
-    };
-
-    const handleStellarPayment = async () => {
-        if (!isConnected) {
-            toast.error("Please connect your wallet");
-            return;
-        }
-
-        setLoading(true);
         try {
-            // In production, this would create a Stellar transaction
-            // const transaction = await createTreeNFTTransaction({
-            //   region: selectedRegion.id,
-            //   plot: selectedPlot.plotNumber,
-            //   species: selectedSpecies.name,
-            //   price: selectedRegion.priceInXLM
-            // });
+            const map = L.map(mapRef.current, {
+                center: [20.5937, 78.9629],
+                zoom: 5,
+                zoomControl: false,
+                attributionControl: false,
+                scrollWheelZoom: true
+            });
 
-            // Simulate blockchain transaction
-            await new Promise(resolve => setTimeout(resolve, 2000));
+            // Dark/Matrix Theme
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+                maxZoom: 20
+            }).addTo(map);
 
-            toast.success("Payment successful! Minting your Tree NFT...");
+            // Initialize LayerGroup
+            const layerGroup = L.layerGroup().addTo(map);
+            markersRef.current = layerGroup;
+            mapInstanceRef.current = map;
 
-            // Simulate NFT minting
-            await new Promise(resolve => setTimeout(resolve, 1500));
-
-            setPlantingFlow('confirmation');
-
-            // Update plot data
-            setPlotsData(prev => ({
-                ...prev,
-                [selectedRegion.id]: prev[selectedRegion.id].map(p =>
-                    p.plotNumber === selectedPlot.plotNumber
-                        ? { ...p, available: false, owner: publicKey, plantedDate: new Date().toISOString() }
-                        : p
-                )
-            }));
+            // Fix for resize issues
+            setTimeout(() => {
+                map.invalidateSize();
+            }, 500);
 
         } catch (error) {
-            toast.error("Payment failed: " + error.message);
-        } finally {
-            setLoading(false);
+            console.error("Error initializing map:", error);
         }
-    };
 
-    const closePlantingFlow = () => {
-        setPlantingFlow(null);
-        setSelectedRegion(null);
-        setSelectedPlot(null);
-        setSelectedSpecies(null);
-    };
+        return () => {
+            if (mapInstanceRef.current) {
+                mapInstanceRef.current.remove();
+                mapInstanceRef.current = null;
+                markersRef.current = null;
+            }
+        };
+    }, []);
 
-    const availablePlots = selectedRegion && plotsData[selectedRegion.id]
-        ? plotsData[selectedRegion.id].filter(p => p.available).length
-        : 0;
+    // 2. Update Markers
+    useEffect(() => {
+        const map = mapInstanceRef.current;
+        const group = markersRef.current;
+
+        // Safety check
+        if (!map || !group) return;
+
+        try {
+            group.clearLayers();
+
+            const createIcon = (type, isSelected, name) => {
+                if (type === 'warehouse') {
+                    return L.divIcon({
+                        className: 'custom-marker-wh',
+                        html: `
+                            <div class="relative flex items-center justify-center">
+                                <div class="absolute w-12 h-12 bg-blue-500/30 rounded-full animate-ping"></div>
+                                <div class="relative w-8 h-8 bg-blue-600 border-2 border-white rounded-full flex items-center justify-center shadow-[0_0_15px_rgba(37,99,235,0.6)] z-10 transition-transform hover:scale-110">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21v-8a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v8"/><path d="M12 3l9 7h-9V3z"/><path d="M3 10h18"/><path d="M12 10v11"/></svg>
+                                </div>
+                                ${isSelected ? `<div class="absolute -top-10 bg-blue-900/90 text-blue-100 text-xs px-2 py-1 rounded border border-blue-500/50 whitespace-nowrap">${name}</div>` : ''}
+                            </div>
+                        `,
+                        iconSize: [32, 32],
+                        iconAnchor: [16, 16]
+                    });
+                } else {
+                    return L.divIcon({
+                        className: 'custom-marker-cust',
+                        html: `
+                            <div class="relative flex items-center justify-center">
+                                 <div class="w-4 h-4 bg-teal-500 border-2 border-white rounded-full shadow-[0_0_10px_rgba(20,184,166,0.5)] transition-transform hover:scale-125"></div>
+                                 ${isSelected ? `<div class="absolute -top-8 bg-black/80 text-teal-200 text-xs px-2 py-1 rounded border border-teal-500/30 whitespace-nowrap">${name}</div>` : ''}
+                            </div>
+                        `,
+                        iconSize: [16, 16],
+                        iconAnchor: [8, 8]
+                    });
+                }
+            };
+
+            // Warehouses
+            warehouses.forEach(wh => {
+                const marker = L.marker([wh.lat, wh.lng], {
+                    icon: createIcon('warehouse', selectedNode?.id === wh.id, wh.name)
+                }).addTo(group);
+
+                marker.on('click', () => {
+                    onNodeClick(wh);
+                    map.flyTo([wh.lat, wh.lng], 9, { duration: 1.5 });
+                });
+            });
+
+            // Customers
+            customers.forEach(cust => {
+                const marker = L.marker([cust.lat, cust.lng], {
+                    icon: createIcon('customer', selectedNode?.id === cust.id, cust.name)
+                }).addTo(group);
+
+                marker.on('click', () => {
+                    onNodeClick(cust);
+                    map.flyTo([cust.lat, cust.lng], 10, { duration: 1 });
+                });
+            });
+
+            // Routes
+            packages.forEach(pkg => {
+                if (pkg.status === 'Delivered') return;
+
+                const fromNode = [...warehouses, ...customers].find(n => n.id === pkg.from);
+                const toNode = [...warehouses, ...customers].find(n => n.id === pkg.to);
+
+                if (fromNode && toNode) {
+                    const isReturn = pkg.status === 'Returning';
+                    const color = isReturn ? '#fbbf24' : '#3b82f6';
+
+                    L.polyline([[fromNode.lat, fromNode.lng], [toNode.lat, toNode.lng]], {
+                        color: color,
+                        weight: 2,
+                        dashArray: '5, 10',
+                        opacity: 0.6
+                    }).addTo(group);
+                }
+            });
+
+        } catch (error) {
+            console.error("Error updating markers:", error);
+        }
+
+    }, [warehouses, customers, packages, selectedNode]);
+
+    return <div ref={mapRef} style={{ width: '100%', height: '100%', background: '#111' }} />;
+};
+
+
+// --- Main Component ---
+
+const PackageTracker = () => {
+    const [selectedNode, setSelectedNode] = useState(null);
+    const [activeTab, setActiveTab] = useState('active');
+
+    // Safely get user context, fallback if not available
+    // Use Context (Must be top level)
+    const stellar = useStellar();
+    const publicKey = stellar?.publicKey;
+
+    // Filter Packages
+    const filteredPackages = PACKAGES.filter(pkg => {
+        if (activeTab === 'active') return pkg.status !== 'Delivered';
+        if (activeTab === 'completed') return pkg.status === 'Delivered';
+        return true;
+    });
+
+    // Stats for Circular Economy
+    const stats = {
+        totalCirculating: 142,
+        returnRate: '94%',
+        activeRoutes: 12,
+        co2Avoided: '458kg'
+    };
 
     return (
-        <div className="min-h-screen bg-black pt-20">
-            <div className="container-custom py-12">
-                {/* Header */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="text-center mb-12"
-                >
-                    <h1 className="text-5xl md:text-6xl font-bold text-white mb-4">
-                        Digital Twin Forests
-                    </h1>
-                    <p className="text-xl text-gray-400 max-w-3xl mx-auto mb-8">
-                        Own real trees as NFTs. Track their growth, CO₂ absorption, and earn carbon credits.
-                        Every tree is mapped, monitored, and verified on the blockchain.
-                    </p>
+        <div className="h-screen bg-black text-white flex flex-col font-sans overflow-hidden pt-16">
+            
+            <div className="flex-1 flex h-full relative z-0">
 
-                    {/* Global Stats */}
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
-                        {[
-                            { label: "Trees Planted", value: stats.totalTrees.toLocaleString(), icon: TreePine, color: "text-green-400" },
-                            { label: "CO₂ Absorbed", value: `${stats.co2Absorbed} tons`, icon: Leaf, color: "text-blue-400" },
-                            { label: "Active Forests", value: stats.forestsActive, icon: Globe, color: "text-purple-400" },
-                            { label: "Available Plots", value: stats.availablePlots, icon: MapPin, color: "text-yellow-400" }
-                        ].map((stat, i) => (
-                            <motion.div
-                                key={i}
-                                initial={{ opacity: 0, scale: 0.9 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                transition={{ delay: i * 0.1 }}
-                                className="bg-white/5 border border-white/10 rounded-xl p-4"
-                            >
-                                <stat.icon className={`w-6 h-6 ${stat.color} mx-auto mb-2`} />
-                                <div className="text-2xl font-bold text-white">{stat.value}</div>
-                                <div className="text-xs text-gray-400">{stat.label}</div>
-                            </motion.div>
-                        ))}
+                {/* LEFT: Map Visualization (60%) */}
+                <div className="w-[60%] relative border-r border-white/10 z-0">
+
+                    {/* Header Overlay */}
+                    <div className="absolute top-6 left-6 z-[400] pointer-events-none">
+                        <motion.div
+                            initial={{ x: -20, opacity: 0 }}
+                            animate={{ x: 0, opacity: 1 }}
+                            className="bg-black/90 backdrop-blur border border-white/10 p-5 rounded-2xl shadow-2xl"
+                        >
+                            <h1 className="text-2xl font-bold flex items-center gap-2">
+                                <RefreshCw className="w-6 h-6 text-green-500 animate-spin-slow" />
+                                Circular<span className="text-gray-400 font-light">Flow</span>
+                            </h1>
+                            <div className="text-xs text-gray-500 mt-1 uppercase tracking-widest font-mono">
+                                Sustainable Logistics Network
+                            </div>
+                        </motion.div>
                     </div>
-                </motion.div>
 
-                {/* Real Interactive Map with Leaflet */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.2 }}
-                    className="mb-12"
-                >
-                    <h2 className="text-3xl font-bold text-white mb-6">Live Forest Map</h2>
-
-                    <ForestMap
-                        forestRegions={forestRegions}
-                        onRegionClick={setSelectedRegion}
-                        onPlantClick={handlePlantTree}
+                    <LogisticsMap
+                        warehouses={WAREHOUSES}
+                        customers={CUSTOMERS}
+                        packages={PACKAGES}
+                        selectedNode={selectedNode}
+                        onNodeClick={setSelectedNode}
                     />
 
-                    {/* Wallet Connection Notice */}
-                    {!isConnected && (
-                        <div className="mt-4 bg-yellow-500/20 border border-yellow-500/50 rounded-xl p-4 max-w-md mx-auto">
-                            <div className="flex items-center gap-2 text-yellow-400 font-semibold mb-2">
-                                <AlertCircle className="w-5 h-5" />
-                                <span>Wallet Not Connected</span>
-                            </div>
-                            <p className="text-gray-300 text-sm mb-3">
-                                Connect your Stellar wallet to plant trees and mint NFTs
-                            </p>
-                            <button
-                                onClick={connectWallet}
-                                className="w-full px-4 py-2 bg-yellow-500 text-black rounded-lg hover:bg-yellow-600 transition-colors text-sm font-semibold"
-                            >
-                                Connect Wallet
-                            </button>
+                    {/* Legend / Key */}
+                    <div className="absolute bottom-6 left-6 z-[400] flex gap-4 pointer-events-none">
+                        <div className="bg-black/80 backdrop-blur px-3 py-1.5 rounded-full border border-blue-500/30 flex items-center gap-2 text-xs">
+                            <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse" /> Warehouse
                         </div>
-                    )}
-                </motion.div>
-
-                {/* Forest Regions Grid */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.4 }}
-                >
-                    <h2 className="text-3xl font-bold text-white mb-6">Active Forest Regions</h2>
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {forestRegions.map((region, index) => (
-                            <motion.div
-                                key={region.id}
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: index * 0.1 }}
-                                whileHover={{ y: -5 }}
-                                className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden hover:border-green-500/50 transition-all"
-                            >
-                                {/* Image */}
-                                <div className="relative h-48 bg-gradient-to-br from-green-900/40 to-blue-900/40 overflow-hidden">
-                                    <img
-                                        src={region.image}
-                                        alt={region.name}
-                                        className="w-full h-full object-cover opacity-60 hover:scale-110 transition-transform duration-700"
-                                    />
-                                    <div className={`absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-semibold ${region.status === 'Active' ? 'bg-green-500/20 text-green-400 border border-green-500/50' : 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/50'
-                                        }`}>
-                                        {region.status}
-                                    </div>
-                                </div>
-
-                                {/* Content */}
-                                <div className="p-6">
-                                    <h3 className="text-xl font-bold text-white mb-2">{region.name}</h3>
-                                    <div className="flex items-center gap-2 text-gray-400 text-sm mb-4">
-                                        <MapPin className="w-4 h-4" />
-                                        <span>{region.location}</span>
-                                    </div>
-                                    <p className="text-gray-400 text-sm mb-4">{region.description}</p>
-
-                                    {/* Key Info */}
-                                    <div className="space-y-2 mb-4 text-sm">
-                                        <div className="flex justify-between">
-                                            <span className="text-gray-400">Partner:</span>
-                                            <span className="text-white font-medium">{region.partner}</span>
-                                        </div>
-                                        <div className="flex justify-between">
-                                            <span className="text-gray-400">Verification:</span>
-                                            <span className="text-white font-medium">{region.verificationMethod}</span>
-                                        </div>
-                                        <div className="flex justify-between">
-                                            <span className="text-gray-400">Updates:</span>
-                                            <span className="text-white font-medium">{region.updateFrequency}</span>
-                                        </div>
-                                    </div>
-
-                                    {/* Stats */}
-                                    <div className="grid grid-cols-2 gap-4 mb-4">
-                                        <div className="bg-black/40 rounded-lg p-3">
-                                            <div className="text-green-400 text-2xl font-bold">{region.treesPlanted.toLocaleString()}</div>
-                                            <div className="text-gray-400 text-xs">Trees Planted</div>
-                                        </div>
-                                        <div className="bg-black/40 rounded-lg p-3">
-                                            <div className="text-yellow-400 text-2xl font-bold">{plotsData[region.id]?.filter(p => p.available).length || 0}</div>
-                                            <div className="text-gray-400 text-xs">Available Plots</div>
-                                        </div>
-                                    </div>
-
-                                    <button
-                                        onClick={() => handlePlantTree(region)}
-                                        className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors font-semibold"
-                                    >
-                                        Plant Tree ({region.priceInXLM} XLM)
-                                        <ChevronRight className="w-4 h-4" />
-                                    </button>
-                                </div>
-                            </motion.div>
-                        ))}
+                        <div className="bg-black/80 backdrop-blur px-3 py-1.5 rounded-full border border-teal-500/30 flex items-center gap-2 text-xs">
+                            <div className="w-2 h-2 bg-teal-500 rounded-full" /> Customer
+                        </div>
+                        <div className="bg-black/80 backdrop-blur px-3 py-1.5 rounded-full border border-yellow-500/30 flex items-center gap-2 text-xs">
+                            <div className="w-2 h-2 border-b-2 border-dashed border-yellow-500" /> Return Loop
+                        </div>
                     </div>
-                </motion.div>
-            </div>
+                </div>
 
-            {/* Tree Planting Flow Modal */}
-            <AnimatePresence>
-                {plantingFlow && selectedRegion && (
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        className="fixed inset-0 bg-black/90 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto"
-                        onClick={closePlantingFlow}
-                    >
-                        <motion.div
-                            initial={{ scale: 0.9, y: 20 }}
-                            animate={{ scale: 1, y: 0 }}
-                            exit={{ scale: 0.9, y: 20 }}
-                            onClick={(e) => e.stopPropagation()}
-                            className="bg-gradient-to-br from-gray-900 to-black border border-green-500/30 rounded-3xl p-8 max-w-4xl w-full my-8"
-                        >
-                            {/* Close Button */}
-                            <button
-                                onClick={closePlantingFlow}
-                                className="absolute top-4 right-4 p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors"
-                            >
-                                <X className="w-5 h-5 text-white" />
-                            </button>
+                {/* RIGHT: Control Panel (40%) */}
+                <div className="w-[40%] flex flex-col bg-[#050505] relative z-10">
 
-                            {/* Step 1: Select Plot */}
-                            {plantingFlow === 'select-plot' && (
-                                <div>
-                                    <h2 className="text-3xl font-bold text-white mb-2">Select Your Plot</h2>
-                                    <p className="text-gray-400 mb-2">{selectedRegion.name}, {selectedRegion.location}</p>
-                                    <p className="text-sm text-gray-500 mb-6">
-                                        {availablePlots} of {selectedRegion.totalPlots} plots available
-                                    </p>
-
-                                    {/* Plot Grid - Visual representation */}
-                                    <div className="grid grid-cols-10 gap-2 mb-6 max-h-96 overflow-y-auto p-4 bg-black/40 rounded-xl">
-                                        {plotsData[selectedRegion.id]?.map((plot) => (
-                                            <motion.button
-                                                key={plot.plotNumber}
-                                                whileHover={plot.available ? { scale: 1.1 } : {}}
-                                                whileTap={plot.available ? { scale: 0.95 } : {}}
-                                                onClick={() => handlePlotSelection(plot)}
-                                                disabled={!plot.available}
-                                                className={`aspect-square rounded-lg border-2 flex items-center justify-center text-xs font-bold transition-all ${selectedPlot?.plotNumber === plot.plotNumber
-                                                    ? 'border-green-500 bg-green-500/30 text-green-400'
-                                                    : plot.available
-                                                        ? 'border-white/20 bg-white/5 text-white hover:border-green-500/50 hover:bg-green-500/10'
-                                                        : 'border-red-500/30 bg-red-500/10 text-red-400 cursor-not-allowed opacity-50'
-                                                    }`}
-                                                title={plot.available ? `Plot #${plot.plotNumber} - Available` : `Plot #${plot.plotNumber} - Taken by ${plot.owner}`}
-                                            >
-                                                {plot.plotNumber}
-                                            </motion.button>
-                                        ))}
-                                    </div>
-
-                                    {/* Legend */}
-                                    <div className="flex items-center gap-6 mb-6 text-sm">
-                                        <div className="flex items-center gap-2">
-                                            <div className="w-6 h-6 border-2 border-white/20 bg-white/5 rounded" />
-                                            <span className="text-gray-400">Available</span>
-                                        </div>
-                                        <div className="flex items-center gap-2">
-                                            <div className="w-6 h-6 border-2 border-red-500/30 bg-red-500/10 rounded" />
-                                            <span className="text-gray-400">Taken</span>
-                                        </div>
-                                        <div className="flex items-center gap-2">
-                                            <div className="w-6 h-6 border-2 border-green-500 bg-green-500/30 rounded" />
-                                            <span className="text-gray-400">Selected</span>
-                                        </div>
-                                    </div>
-
-                                    {/* Selected Plot Info */}
-                                    {selectedPlot && (
-                                        <div className="bg-white/5 border border-white/10 rounded-xl p-6 mb-6">
-                                            <h3 className="text-white font-semibold mb-4">Plot #{selectedPlot.plotNumber} Details</h3>
-                                            <div className="grid grid-cols-2 gap-4 text-sm">
-                                                <div>
-                                                    <div className="text-gray-400 mb-1">GPS Coordinates</div>
-                                                    <div className="text-white font-mono text-xs">
-                                                        {(selectedRegion.coordinates.lat + (selectedPlot.plotNumber * 0.0001)).toFixed(6)},
-                                                        {(selectedRegion.coordinates.lng + (selectedPlot.plotNumber * 0.0001)).toFixed(6)}
-                                                    </div>
-                                                </div>
-                                                <div>
-                                                    <div className="text-gray-400 mb-1">Soil Type</div>
-                                                    <div className="text-white">{selectedRegion.soilType}</div>
-                                                </div>
-                                                <div>
-                                                    <div className="text-gray-400 mb-1">Annual Rainfall</div>
-                                                    <div className="text-white">{selectedRegion.rainfall}</div>
-                                                </div>
-                                                <div>
-                                                    <div className="text-gray-400 mb-1">Area</div>
-                                                    <div className="text-white">100 m²</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    )}
-
+                    {/* 1. Top Section: Node Details or Network Stats */}
+                    <div className="h-1/2 border-b border-white/10 flex flex-col">
+                        <div className="p-5 border-b border-white/5 bg-[#0a0a0a] flex justify-between items-center">
+                            <h2 className="text-sm font-bold uppercase tracking-wider text-gray-400">
+                                {selectedNode ? 'Node Inspector' : 'Network Pulse'}
+                            </h2>
+                            <div className="flex gap-2">
+                                {['active', 'completed'].map(tab => (
                                     <button
-                                        onClick={() => selectedPlot && setPlantingFlow('select-species')}
-                                        disabled={!selectedPlot}
-                                        className="w-full px-6 py-4 bg-green-500 text-white font-bold rounded-xl hover:bg-green-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                        key={tab}
+                                        onClick={() => !selectedNode && setActiveTab(tab)}
+                                        className={`text-[10px] px-2 py-1 rounded uppercase font-bold transition-colors ${activeTab === tab && !selectedNode ? 'bg-white text-black' : 'text-gray-600 hover:text-white'}`}
                                     >
-                                        Continue to Species Selection
+                                        {tab}
                                     </button>
-                                </div>
-                            )}
+                                ))}
+                            </div>
+                        </div>
 
-                            {/* Step 2: Select Species */}
-                            {plantingFlow === 'select-species' && (
-                                <div>
-                                    <h2 className="text-3xl font-bold text-white mb-2">Choose Tree Species</h2>
-                                    <p className="text-gray-400 mb-6">Plot #{selectedPlot.plotNumber} - {selectedRegion.name}</p>
-
-                                    <div className="grid md:grid-cols-2 gap-4 mb-6">
-                                        {selectedRegion.species.map((species, index) => (
-                                            <motion.button
-                                                key={index}
-                                                whileHover={{ scale: 1.02 }}
-                                                whileTap={{ scale: 0.98 }}
-                                                onClick={() => handleSpeciesSelection(species)}
-                                                className={`text-left p-6 rounded-xl border-2 transition-all ${selectedSpecies?.name === species.name
-                                                    ? 'border-green-500 bg-green-500/20'
-                                                    : 'border-white/10 bg-white/5 hover:border-green-500/50'
-                                                    }`}
-                                            >
-                                                <div className="flex items-start justify-between mb-3">
-                                                    <div>
-                                                        <h3 className="text-white font-bold text-lg">{species.name}</h3>
-                                                        <p className="text-gray-400 text-sm italic">{species.scientificName}</p>
-                                                    </div>
-                                                    {selectedSpecies?.name === species.name && (
-                                                        <Check className="w-6 h-6 text-green-400" />
-                                                    )}
-                                                </div>
-                                                <div className="grid grid-cols-2 gap-3 text-sm">
-                                                    <div>
-                                                        <div className="text-gray-400">CO₂/Year</div>
-                                                        <div className="text-green-400 font-bold">{species.co2PerYear} kg</div>
-                                                    </div>
-                                                    <div>
-                                                        <div className="text-gray-400">Maturity</div>
-                                                        <div className="text-white font-semibold">{species.maturityYears} years</div>
-                                                    </div>
-                                                </div>
-                                            </motion.button>
-                                        ))}
-                                    </div>
-
-                                    {selectedSpecies && (
-                                        <div className="bg-blue-500/10 border border-blue-500/30 rounded-xl p-4 mb-6">
-                                            <div className="flex items-start gap-3">
-                                                <Info className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
-                                                <div className="text-sm">
-                                                    <div className="text-blue-400 font-semibold mb-1">Estimated Impact</div>
-                                                    <div className="text-gray-300">
-                                                        Your {selectedSpecies.name} will absorb approximately <span className="text-green-400 font-bold">{selectedSpecies.co2PerYear * selectedSpecies.maturityYears} kg of CO₂</span> over its lifetime ({selectedSpecies.maturityYears} years).
-                                                        You'll earn <span className="text-yellow-400 font-bold">{(selectedSpecies.co2PerYear * selectedSpecies.maturityYears / 1000).toFixed(2)} carbon credits</span>.
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    )}
-
-                                    <div className="flex gap-4">
-                                        <button
-                                            onClick={() => setPlantingFlow('select-plot')}
-                                            className="flex-1 px-6 py-4 bg-white/5 border border-white/10 text-white font-semibold rounded-xl hover:bg-white/10 transition-colors"
-                                        >
-                                            Back
-                                        </button>
-                                        <button
-                                            onClick={() => selectedSpecies && setPlantingFlow('payment')}
-                                            disabled={!selectedSpecies}
-                                            className="flex-1 px-6 py-4 bg-green-500 text-white font-bold rounded-xl hover:bg-green-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                                        >
-                                            Continue to Payment
-                                        </button>
-                                    </div>
-                                </div>
-                            )}
-
-                            {/* Step 3: Payment */}
-                            {plantingFlow === 'payment' && (
-                                <div>
-                                    <h2 className="text-3xl font-bold text-white mb-2">Complete Payment</h2>
-                                    <p className="text-gray-400 mb-6">Plot #{selectedPlot.plotNumber} - {selectedSpecies.name}</p>
-
-                                    {/* Order Summary */}
-                                    <div className="bg-white/5 border border-white/10 rounded-xl p-6 mb-6">
-                                        <h3 className="text-white font-semibold mb-4">Order Summary</h3>
-                                        <div className="space-y-3 mb-4">
-                                            <div className="flex justify-between text-sm">
-                                                <span className="text-gray-400">Tree NFT ({selectedSpecies.name})</span>
-                                                <span className="text-white font-semibold">{selectedRegion.priceInXLM} XLM</span>
-                                            </div>
-                                            <div className="flex justify-between text-sm">
-                                                <span className="text-gray-400">Plot #{selectedPlot.plotNumber}</span>
-                                                <span className="text-gray-500">Included</span>
-                                            </div>
-                                            <div className="flex justify-between text-sm">
-                                                <span className="text-gray-400">Blockchain Fee</span>
-                                                <span className="text-white font-semibold">0.1 XLM</span>
-                                            </div>
-                                            <div className="flex justify-between text-sm">
-                                                <span className="text-gray-400">Verification & Monitoring (1 year)</span>
-                                                <span className="text-white font-semibold">0.5 XLM</span>
-                                            </div>
-                                            <div className="border-t border-white/10 pt-3 flex justify-between text-lg">
-                                                <span className="text-white font-bold">Total</span>
-                                                <span className="text-green-400 font-bold">{(selectedRegion.priceInXLM + 0.6).toFixed(1)} XLM</span>
-                                            </div>
-                                            <div className="text-xs text-gray-500 text-right">
-                                                ≈ ${((selectedRegion.priceInXLM + 0.6) * 0.12).toFixed(2)} USD
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    {/* Payment Method */}
-                                    <div className="bg-white/5 border border-white/10 rounded-xl p-6 mb-6">
-                                        <h3 className="text-white font-semibold mb-4">Payment Method</h3>
-                                        <div className="flex items-center justify-between p-4 bg-green-500/10 border border-green-500/30 rounded-lg">
-                                            <div className="flex items-center gap-3">
-                                                <Wallet className="w-6 h-6 text-green-400" />
-                                                <div>
-                                                    <div className="text-white font-semibold">Stellar Wallet</div>
-                                                    <div className="text-gray-400 text-sm font-mono">{publicKey?.slice(0, 8)}...{publicKey?.slice(-6)}</div>
-                                                </div>
-                                            </div>
-                                            <Check className="w-5 h-5 text-green-400" />
-                                        </div>
-                                    </div>
-
-                                    {/* What Happens Next */}
-                                    <div className="bg-blue-500/10 border border-blue-500/30 rounded-xl p-4 mb-6">
-                                        <h3 className="text-blue-400 font-semibold mb-3 flex items-center gap-2">
-                                            <Info className="w-5 h-5" />
-                                            What Happens Next
-                                        </h3>
-                                        <ol className="space-y-2 text-sm text-gray-300">
-                                            <li className="flex gap-2">
-                                                <span className="text-blue-400">1.</span>
-                                                <span>Payment processed via Stellar blockchain</span>
-                                            </li>
-                                            <li className="flex gap-2">
-                                                <span className="text-blue-400">2.</span>
-                                                <span>Tree NFT minted to your wallet</span>
-                                            </li>
-                                            <li className="flex gap-2">
-                                                <span className="text-blue-400">3.</span>
-                                                <span>Physical tree planted by {selectedRegion.partner}</span>
-                                            </li>
-                                            <li className="flex gap-2">
-                                                <span className="text-blue-400">4.</span>
-                                                <span>IoT sensors installed for monitoring</span>
-                                            </li>
-                                            <li className="flex gap-2">
-                                                <span className="text-blue-400">5.</span>
-                                                <span>Weekly updates sent to your dashboard</span>
-                                            </li>
-                                            <li className="flex gap-2">
-                                                <span className="text-blue-400">6.</span>
-                                                <span>Carbon credits earned as tree grows</span>
-                                            </li>
-                                        </ol>
-                                    </div>
-
-                                    <div className="flex gap-4">
-                                        <button
-                                            onClick={() => setPlantingFlow('select-species')}
-                                            disabled={loading}
-                                            className="flex-1 px-6 py-4 bg-white/5 border border-white/10 text-white font-semibold rounded-xl hover:bg-white/10 transition-colors disabled:opacity-50"
-                                        >
-                                            Back
-                                        </button>
-                                        <button
-                                            onClick={handleStellarPayment}
-                                            disabled={loading}
-                                            className="flex-1 px-6 py-4 bg-green-500 text-white font-bold rounded-xl hover:bg-green-600 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
-                                        >
-                                            {loading ? (
-                                                <>
-                                                    <Loader className="w-5 h-5 animate-spin" />
-                                                    Processing...
-                                                </>
-                                            ) : (
-                                                <>
-                                                    <Wallet className="w-5 h-5" />
-                                                    Pay {(selectedRegion.priceInXLM + 0.6).toFixed(1)} XLM
-                                                </>
-                                            )}
-                                        </button>
-                                    </div>
-                                </div>
-                            )}
-
-                            {/* Step 4: Confirmation */}
-                            {plantingFlow === 'confirmation' && (
-                                <div className="text-center">
+                        <div className="flex-1 overflow-y-auto custom-scrollbar p-0">
+                            <AnimatePresence mode="wait">
+                                {selectedNode ? (
                                     <motion.div
-                                        initial={{ scale: 0 }}
-                                        animate={{ scale: 1 }}
-                                        className="w-24 h-24 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6"
+                                        key="node-details"
+                                        initial={{ x: 50, opacity: 0 }}
+                                        animate={{ x: 0, opacity: 1 }}
+                                        exit={{ x: 50, opacity: 0 }}
+                                        className="p-6"
                                     >
-                                        <Check className="w-12 h-12 text-green-400" />
+                                        <div className="flex items-start justify-between mb-6">
+                                            <div>
+                                                <div className="text-xs text-blue-500 font-mono mb-1">{selectedNode.type.toUpperCase()}</div>
+                                                <h3 className="text-3xl font-bold text-white mb-1">{selectedNode.name}</h3>
+                                                <p className="text-gray-400 flex items-center gap-1.5 text-sm">
+                                                    <MapPin className="w-3.5 h-3.5" /> {selectedNode.location}
+                                                </p>
+                                            </div>
+                                            <button onClick={() => setSelectedNode(null)} className="p-2 hover:bg-white/10 rounded-full transition-colors">
+                                                <ArrowRight className="w-5 h-5 text-gray-400" />
+                                            </button>
+                                        </div>
+
+                                        {/* Detailed Stats for Node */}
+                                        <div className="grid grid-cols-2 gap-4 mb-6">
+                                            <div className="bg-white/5 p-4 rounded-xl border border-white/5">
+                                                <div className="text-gray-500 text-xs uppercase mb-1">Active Shipments</div>
+                                                <div className="text-2xl font-mono text-white">24</div>
+                                            </div>
+                                            <div className="bg-white/5 p-4 rounded-xl border border-white/5">
+                                                <div className="text-gray-500 text-xs uppercase mb-1">Efficiency Score</div>
+                                                <div className="text-2xl font-mono text-green-400">98.2%</div>
+                                            </div>
+                                            {selectedNode.type === 'Warehouse' && (
+                                                <div className="col-span-2 bg-gradient-to-r from-blue-900/20 to-purple-900/20 p-4 rounded-xl border border-blue-500/20">
+                                                    <div className="flex justify-between items-end mb-2">
+                                                        <span className="text-sm text-blue-300">Storage Capacity</span>
+                                                        <span className="text-xl font-bold text-white">{selectedNode.capacity}</span>
+                                                    </div>
+                                                    <div className="w-full bg-gray-800 h-1.5 rounded-full overflow-hidden">
+                                                        <div className="bg-blue-500 h-full" style={{ width: selectedNode.capacity }}></div>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        <div className="text-xs text-gray-500 font-mono text-center">
+                                            NODE ID: {selectedNode.id} • LAT: {selectedNode.lat} • LNG: {selectedNode.lng}
+                                        </div>
                                     </motion.div>
-
-                                    <h2 className="text-3xl font-bold text-white mb-2">Tree Planted Successfully!</h2>
-                                    <p className="text-gray-400 mb-8">Your tree NFT has been minted and is now growing</p>
-
-                                    {/* NFT Card */}
-                                    <div className="bg-gradient-to-br from-green-500/10 to-blue-500/10 border border-green-500/30 rounded-2xl p-8 mb-8 max-w-md mx-auto">
-                                        <div className="text-7xl mb-4">🌳</div>
-                                        <div className="text-green-400 font-mono text-sm font-semibold mb-2">
-                                            TREE-{String(selectedRegion.id).padStart(2, '0')}{String(selectedPlot.plotNumber).padStart(3, '0')}
-                                        </div>
-                                        <div className="text-white font-bold text-2xl mb-1">{selectedSpecies.name}</div>
-                                        <div className="text-gray-400 text-sm mb-6">
-                                            Plot #{selectedPlot.plotNumber}, {selectedRegion.location}
-                                        </div>
-
-                                        <div className="grid grid-cols-3 gap-3 mb-6">
-                                            <div className="bg-black/40 rounded-lg p-3">
-                                                <div className="text-gray-400 text-xs mb-1">Age</div>
-                                                <div className="text-white font-bold">0 days</div>
-                                            </div>
-                                            <div className="bg-black/40 rounded-lg p-3">
-                                                <div className="text-gray-400 text-xs mb-1">CO₂ Absorbed</div>
-                                                <div className="text-green-400 font-bold">0 kg</div>
-                                            </div>
-                                            <div className="bg-black/40 rounded-lg p-3">
-                                                <div className="text-gray-400 text-xs mb-1">Health</div>
-                                                <div className="text-white font-bold">100%</div>
-                                            </div>
-                                        </div>
-
-                                        <div className="bg-black/40 rounded-lg p-4 text-left">
-                                            <div className="text-gray-400 text-xs mb-2">Blockchain Details</div>
-                                            <div className="space-y-1 text-xs font-mono">
-                                                <div className="flex justify-between">
-                                                    <span className="text-gray-500">NFT ID:</span>
-                                                    <span className="text-white">0x{Math.random().toString(16).substr(2, 8)}</span>
+                                ) : (
+                                    <div className="divide-y divide-white/5">
+                                        {filteredPackages.length > 0 ? filteredPackages.map((pkg, i) => (
+                                            <motion.div
+                                                layout
+                                                initial={{ opacity: 0 }}
+                                                animate={{ opacity: 1 }}
+                                                exit={{ opacity: 0 }}
+                                                key={pkg.id}
+                                                className="p-4 hover:bg-white/5 transition-colors cursor-pointer group"
+                                            >
+                                                <div className="flex justify-between items-center mb-2">
+                                                    <div className="flex items-center gap-3">
+                                                        <div className={`w-8 h-8 rounded-full flex items-center justify-center ${pkg.status === 'Returning' ? 'bg-yellow-500/10 text-yellow-500' : 'bg-blue-500/10 text-blue-500'}`}>
+                                                            {pkg.status === 'Returning' ? <RefreshCw className="w-4 h-4" /> : <Box className="w-4 h-4" />}
+                                                        </div>
+                                                        <div>
+                                                            <div className="text-sm font-bold text-white group-hover:text-blue-400 transition-colors">{pkg.id}</div>
+                                                            <div className="text-[10px] text-gray-500 uppercase">{pkg.type}</div>
+                                                        </div>
+                                                    </div>
+                                                    <div className={`text-xs px-2 py-1 rounded font-mono ${pkg.status === 'Returning' ? 'bg-yellow-500/20 text-yellow-400' : 'bg-blue-500/20 text-blue-400'}`}>
+                                                        {pkg.status}
+                                                    </div>
                                                 </div>
-                                                <div className="flex justify-between">
-                                                    <span className="text-gray-500">Network:</span>
-                                                    <span className="text-white">Stellar Mainnet</span>
+
+                                                {/* Progress Bar for Transit */}
+                                                <div className="mt-3">
+                                                    <div className="flex justify-between text-[10px] text-gray-500 mb-1">
+                                                        <span>{pkg.from}</span>
+                                                        <span>{pkg.eta}</span>
+                                                        <span>{pkg.to}</span>
+                                                    </div>
+                                                    <div className="w-full bg-gray-800 h-1 rounded-full overflow-hidden relative">
+                                                        <div className={`h-full ${pkg.status === 'Returning' ? 'bg-yellow-500' : 'bg-blue-500'}`} style={{ width: `${pkg.progress}%` }}></div>
+                                                    </div>
                                                 </div>
-                                                <div className="flex justify-between">
-                                                    <span className="text-gray-500">Owner:</span>
-                                                    <span className="text-white">{publicKey?.slice(0, 6)}...{publicKey?.slice(-4)}</span>
-                                                </div>
+                                            </motion.div>
+                                        )) : (
+                                            <div className="p-8 text-center text-gray-500 text-sm font-mono">
+                                                No {activeTab} packages found.
                                             </div>
-                                        </div>
+                                        )}
                                     </div>
+                                )}
+                            </AnimatePresence>
+                        </div>
+                    </div>
 
-                                    <div className="space-y-3 max-w-md mx-auto">
-                                        <button className="w-full px-6 py-4 bg-green-500 text-white font-bold rounded-xl hover:bg-green-600 transition-colors">
-                                            View My Tree Dashboard
-                                        </button>
-                                        <button
-                                            onClick={closePlantingFlow}
-                                            className="w-full px-6 py-3 bg-white/5 border border-white/10 text-white font-semibold rounded-xl hover:bg-white/10 transition-colors"
-                                        >
-                                            Plant Another Tree
-                                        </button>
+                    {/* 2. Bottom Section: Circular Economy Impact Terminal */}
+                    <div className="h-1/2 flex flex-col bg-black border-t border-white/10">
+                        <div className="p-3 bg-[#111] border-b border-white/10 flex justify-between items-center">
+                            <div className="flex items-center gap-2">
+                                <Zap className="w-4 h-4 text-green-500" />
+                                <span className="text-xs font-mono text-green-500 tracking-wider">ECO_RATING_LIVE</span>
+                            </div>
+                            <div className="text-[10px] text-gray-600 font-mono">UPDATED: {new Date().toLocaleTimeString()}</div>
+                        </div>
+
+                        <div className="flex-1 p-6 flex flex-col justify-center">
+                            <div className="grid grid-cols-2 gap-6">
+                                <div className="bg-gradient-to-br from-green-900/10 to-transparent border border-green-500/20 p-5 rounded-2xl relative overflow-hidden group">
+                                    <div className="absolute right-0 top-0 p-3 opacity-10 group-hover:opacity-20 transition-opacity">
+                                        <RefreshCw className="w-16 h-16 text-green-500" />
+                                    </div>
+                                    <div className="text-3xl font-bold text-white mb-1 group-hover:scale-105 transition-transform origin-left">{stats.returnRate}</div>
+                                    <div className="text-xs text-green-400 uppercase tracking-wider font-semibold">Packaging Return Rate</div>
+                                    <div className="text-[10px] text-gray-500 mt-2">Target: 95% by 2026</div>
+                                </div>
+
+                                <div className="bg-gradient-to-br from-blue-900/10 to-transparent border border-blue-500/20 p-5 rounded-2xl relative overflow-hidden group">
+                                    <div className="absolute right-0 top-0 p-3 opacity-10 group-hover:opacity-20 transition-opacity">
+                                        <Target className="w-16 h-16 text-blue-500" />
+                                    </div>
+                                    <div className="text-3xl font-bold text-white mb-1 group-hover:scale-105 transition-transform origin-left">{stats.co2Avoided}</div>
+                                    <div className="text-xs text-blue-400 uppercase tracking-wider font-semibold">CO₂ Emissions Avoided</div>
+                                    <div className="text-[10px] text-gray-500 mt-2">Vs. Single-Use Plastics</div>
+                                </div>
+
+                                <div className="col-span-2 bg-[#0a0a0a] border border-white/5 rounded-xl p-4 font-mono text-xs">
+                                    <div className="text-gray-500 mb-2">System Events</div>
+                                    <div className="space-y-1.5 h-24 overflow-y-auto custom-scrollbar">
+                                        <div className="flex gap-2 text-gray-400"><span className="text-green-500">{">>>"}</span> PKG-7745 returned to Central Hub</div>
+                                        <div className="flex gap-2 text-gray-400"><span className="text-blue-500">{">>>"}</span> New delivery scheduled for Tech Solutions</div>
+                                        <div className="flex gap-2 text-gray-400"><span className="text-green-500">{">>>"}</span> CO2 Validation complete block #992831</div>
+                                        <div className="flex gap-2 text-gray-400"><span className="text-yellow-500">{">>>"}</span> Optimizing route for Driver-04</div>
                                     </div>
                                 </div>
-                            )}
-                        </motion.div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
-        </div>
+                            </div>
+                        </div>
+
+                        {/* Footer / Wallet Status */}
+                        <div className="p-4 bg-[#0a0a0a] border-t border-white/5 text-xs text-gray-500 flex justify-between items-center font-mono">
+                            <div>NETWORK: STELLAR MAINNET</div>
+                            <div className={publicKey ? "text-green-500" : "text-gray-500"}>
+                                {publicKey ? `PAIRED: ${publicKey.slice(0, 4)}...${publicKey.slice(-4)}` : "WALLET NOT DETECTED"}
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div >
     );
 };
 
-export default DigitalForest;
+export default PackageTracker;
