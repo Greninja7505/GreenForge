@@ -5,7 +5,7 @@
 
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import toast from 'react-hot-toast';
-import { SUPPORTED_CHAINS, CHAIN_IDS, getChainById, PRICE_FEEDS, FALLBACK_PRICES } from '../config/chains';
+import { SUPPORTED_CHAINS, CHAIN_IDS, getChainById, FALLBACK_PRICES } from '../config/chains';
 
 const EVMContext = createContext();
 
@@ -59,79 +59,15 @@ export const EVMProvider = ({ children }) => {
     }
   }, [chainId]);
 
-  // Fetch crypto prices with fallback support - skip API if recently failed
-  const [apiFailedAt, setApiFailedAt] = useState(null);
-  
+  // Fetch crypto prices - use fallback prices directly to avoid CORS issues
   const fetchPrices = async () => {
-    // Skip API calls for 5 minutes after a failure to avoid rate limits
-    if (apiFailedAt && Date.now() - apiFailedAt < 5 * 60 * 1000) {
-      console.log('Using fallback prices (API cooldown)');
-      setPrices({ eth: FALLBACK_PRICES.ethereum, matic: FALLBACK_PRICES.polygon });
-      return;
-    }
-    
-    try {
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 5000);
-      
-      const [ethRes, maticRes] = await Promise.all([
-        fetch(PRICE_FEEDS.ethereum, { signal: controller.signal }).catch(() => null),
-        fetch(PRICE_FEEDS.polygon, { signal: controller.signal }).catch(() => null),
-      ]);
-      
-      clearTimeout(timeoutId);
-      
-      let ethPrice = FALLBACK_PRICES.ethereum;
-      let maticPrice = FALLBACK_PRICES.polygon;
-      let hadError = false;
-      
-      if (ethRes?.ok) {
-        try {
-          const ethData = await ethRes.json();
-          ethPrice = ethData.ethereum?.usd || FALLBACK_PRICES.ethereum;
-        } catch { hadError = true; }
-      } else {
-        hadError = true;
-      }
-      
-      if (maticRes?.ok) {
-        try {
-          const maticData = await maticRes.json();
-          maticPrice = maticData['matic-network']?.usd || FALLBACK_PRICES.polygon;
-        } catch { hadError = true; }
-      } else {
-        hadError = true;
-      }
-      
-      if (hadError) {
-        setApiFailedAt(Date.now());
-      }
-      
-      setPrices({
-        eth: ethPrice,
-        matic: maticPrice,
-      });
-    } catch (error) {
-      console.log('Price API unavailable, using fallback prices');
-      setApiFailedAt(Date.now());
-      setPrices({ eth: FALLBACK_PRICES.ethereum, matic: FALLBACK_PRICES.polygon });
-    }
+    // Use fallback prices directly - API calls disabled to prevent CORS errors in production
+    setPrices({ eth: FALLBACK_PRICES.ethereum, matic: FALLBACK_PRICES.polygon });
   };
 
   useEffect(() => {
     // Set fallback prices immediately
     setPrices({ eth: FALLBACK_PRICES.ethereum, matic: FALLBACK_PRICES.polygon });
-    
-    // Delayed initial fetch to avoid immediate API calls on page load
-    const initialTimeout = setTimeout(fetchPrices, 3000);
-    
-    // Update every 5 minutes instead of every minute to avoid rate limits
-    const interval = setInterval(fetchPrices, 5 * 60 * 1000);
-    
-    return () => {
-      clearTimeout(initialTimeout);
-      clearInterval(interval);
-    };
   }, []);
 
   // Handle account changes
@@ -196,16 +132,16 @@ export const EVMProvider = ({ children }) => {
       const accounts = await window.ethereum.request({
         method: 'eth_requestAccounts',
       });
-      
+
       if (accounts.length > 0) {
         setAddress(accounts[0]);
         setIsConnected(true);
-        
+
         const chainIdHex = await window.ethereum.request({
           method: 'eth_chainId',
         });
         setChainId(parseInt(chainIdHex, 16));
-        
+
         toast.success('EVM Wallet connected!');
         return true;
       }
@@ -287,7 +223,7 @@ export const EVMProvider = ({ children }) => {
     setLoading(true);
     try {
       const amountWei = `0x${(parseFloat(amountEth) * 1e18).toString(16)}`;
-      
+
       const txHash = await window.ethereum.request({
         method: 'eth_sendTransaction',
         params: [{
@@ -353,7 +289,7 @@ export const EVMProvider = ({ children }) => {
     loading,
     prices,
     hasMetaMask,
-    
+
     // Actions
     connect,
     disconnect,
@@ -361,12 +297,12 @@ export const EVMProvider = ({ children }) => {
     sendTransaction,
     signMessage,
     loadBalance,
-    
+
     // Helpers
     getCurrentChain,
     getNativeCurrency,
     getUSDValue,
-    
+
     // Formatted address
     shortAddress: address ? `${address.slice(0, 6)}...${address.slice(-4)}` : null,
   };

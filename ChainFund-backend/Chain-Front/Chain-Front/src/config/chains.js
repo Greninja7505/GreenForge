@@ -128,15 +128,9 @@ export const DEFAULT_NETWORKS = {
   polygon: 'amoy',
 };
 
-// Price feed configuration
-// Note: Direct CoinGecko calls work if you have an API key or use public rate limits
-// Using multiple fallback proxies for reliability
-export const PRICE_FEEDS = {
-  // Primary: Direct CoinGecko (works with demo API key or public tier)
-  stellar: 'https://api.coingecko.com/api/v3/simple/price?ids=stellar&vs_currencies=usd',
-  ethereum: 'https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd',
-  polygon: 'https://api.coingecko.com/api/v3/simple/price?ids=matic-network&vs_currencies=usd',
-};
+// Price configuration - Using static prices to avoid CORS issues in production
+// These are approximate values updated periodically
+export const PRICE_FEEDS = null; // Disabled to prevent CORS errors
 
 // Fallback prices when API is unavailable (updated periodically)
 export const FALLBACK_PRICES = {
