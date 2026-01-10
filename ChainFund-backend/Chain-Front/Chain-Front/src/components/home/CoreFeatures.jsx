@@ -9,18 +9,18 @@ const features = [
     },
     {
         icon: Users,
-        title: "Institutional Governance",
-        description: "Decentralized decision-making ensures that platform capital is allocated to high-integrity projects with proven roadmaps.",
+        title: "Community Governance",
+        description: "Decentralized decision-making ensures that platform capital is allocated to high-impact green projects with proven roadmaps.",
     },
     {
         icon: Globe,
-        title: "Instant Global Settlement",
-        description: "Powered by Stellar's L1, providing 5-second settlement times and fractional-penny fees for cross-border capital flow.",
+        title: "Transparent Impact",
+        description: "Powered by Stellar's L1, providing 5-second settlement times and complete traceability for every donation to eco-initiatives.",
     },
     {
         icon: Zap,
-        title: "Verified Talent Network",
-        description: "A curated layer of blockchain engineers and technical founders vetted through on-chain reputation and past performance.",
+        title: "Verified Green Projects",
+        description: "A curated layer of environmental engineers and sustainable founders vetted through on-chain reputation and past performance.",
     },
 ];
 

@@ -69,6 +69,8 @@ const EcoBounties = lazy(() => import("./pages/EcoBounties"));
 const Marketplace = lazy(() => import("./pages/Marketplace"));
 const PackageTracker = lazy(() => import("./pages/DigitalForest"));
 const RecycleRewards = lazy(() => import("./pages/RecycleRewards"));
+const Security = lazy(() => import("./pages/Security"));
+const AdminUsers = lazy(() => import("./pages/admin/Users"));
 
 // Scroll to top component
 function ScrollToTop() {
@@ -146,13 +148,13 @@ function ProtectedRoute({ children }) {
 function LayoutWrapper({ children }) {
   const location = useLocation();
   const hideNavFooter = ["/signin", "/signup"].includes(location.pathname);
+  const isLandingPage = location.pathname === "/";
 
   return (
     <>
       {!hideNavFooter && <Navbar />}
-      {!hideNavFooter && <DemoModeBadge />}
       {children}
-      {!hideNavFooter && <Footer />}
+      {isLandingPage && <Footer />}
     </>
   );
 }
@@ -232,6 +234,8 @@ function App() {
                       <Route path="/marketplace" element={<SuspenseWrapper><Marketplace /></SuspenseWrapper>} />
                       <Route path="/forest" element={<SuspenseWrapper><PackageTracker /></SuspenseWrapper>} />
                       <Route path="/recycle" element={<SuspenseWrapper><RecycleRewards /></SuspenseWrapper>} />
+                      <Route path="/security" element={<SuspenseWrapper><Security /></SuspenseWrapper>} />
+                      <Route path="/admin/users" element={<RoleBasedRoute feature="admin"><SuspenseWrapper><AdminUsers /></SuspenseWrapper></RoleBasedRoute>} />
                       <Route path="*" element={<NotFound />} />
                     </Routes>
                   </AnimatePresence>

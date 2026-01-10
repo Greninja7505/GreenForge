@@ -3,8 +3,24 @@ import { Link } from "react-router-dom";
 import { Heart, CheckCircle, TrendingUp } from "lucide-react";
 import { getCategoryDisplayName } from "../../utils/categories";
 
+// Default images by category for cards without images
+const getCategoryImage = (category) => {
+  const categoryImages = {
+    "solar-renewable-energy": "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800&h=400&fit=crop",
+    "ocean-cleanup-marine": "https://images.unsplash.com/photo-1583212292454-1fe6229603b7?w=800&h=400&fit=crop",
+    "regenerative-agriculture": "https://images.unsplash.com/photo-1500651230702-0e2d8a49d4ad?w=800&h=400&fit=crop",
+    "carbon-capture-climate": "https://images.unsplash.com/photo-1590055531615-f16d36ffe8ec?w=800&h=400&fit=crop",
+    "biodiversity-wildlife": "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=800&h=400&fit=crop",
+    "sustainable-transportation": "https://images.unsplash.com/photo-1593941707874-ef25b8b4a92b?w=800&h=400&fit=crop",
+    "circular-economy-waste": "https://images.unsplash.com/photo-1532996122724-e3bc8a3334b9?w=800&h=400&fit=crop",
+    "green-building-infrastructure": "https://images.unsplash.com/photo-1518005068251-37900150dfca?w=800&h=400&fit=crop",
+  };
+  return categoryImages[category] || "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&h=400&fit=crop";
+};
+
 const ProjectCard = ({ project, index, viewMode = "grid" }) => {
   const progressPercentage = (project.raised / project.goal) * 100;
+  const cardImage = project.image || getCategoryImage(project.category);
 
   if (viewMode === "list") {
     return (
@@ -22,16 +38,13 @@ const ProjectCard = ({ project, index, viewMode = "grid" }) => {
             {/* Image */}
             <div className="w-full md:w-64 h-48 bg-gradient-to-br from-gray-800/50 to-gray-700/50 rounded-xl flex-shrink-0 relative overflow-hidden">
               <img
-                src={project.image}
+                src={cardImage}
                 alt={project.title}
                 className="w-full h-full object-cover"
                 onError={(e) => {
-                  e.target.style.display = 'none';
+                  e.target.src = getCategoryImage(project.category);
                 }}
               />
-              <div className="absolute inset-0 flex items-center justify-center">
-                <Heart className="w-16 h-16 text-white/20" />
-              </div>
 
               {/* Badges */}
               <div className="absolute top-4 left-4 flex flex-wrap gap-2">
@@ -144,16 +157,13 @@ const ProjectCard = ({ project, index, viewMode = "grid" }) => {
           {/* Project Image */}
           <div className="relative w-full h-48 bg-gradient-to-br from-gray-800/50 to-gray-700/50 rounded-xl mb-6 overflow-hidden">
             <img
-              src={project.image}
+              src={cardImage}
               alt={project.title}
               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
               onError={(e) => {
-                e.target.style.display = 'none';
+                e.target.src = getCategoryImage(project.category);
               }}
             />
-            <div className="absolute inset-0 flex items-center justify-center">
-              <Heart className="w-16 h-16 text-white/20" />
-            </div>
 
             {/* Gradient overlay */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />

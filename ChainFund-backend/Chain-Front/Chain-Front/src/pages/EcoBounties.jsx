@@ -123,10 +123,10 @@ const EcoBounties = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="min-h-screen pt-32 pb-20"
+            className="h-screen pt-20 pb-4 overflow-hidden flex flex-col"
         >
-            <div className="container-custom">
-                <div className="text-center mb-12">
+            <div className="container-custom flex-1 flex flex-col h-full overflow-hidden">
+                <div className="text-center mb-6 flex-shrink-0">
                     <h1 className="text-4xl md:text-6xl font-light text-white mb-4 uppercase tracking-tighter">
                         Eco-Bounties
                     </h1>
@@ -136,7 +136,7 @@ const EcoBounties = () => {
                 </div>
 
                 {/* Filters & Toggle */}
-                <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+                <div className="flex flex-col md:flex-row justify-between items-center mb-4 gap-4 flex-shrink-0">
                     <div className="flex space-x-2 bg-white/5 p-1 rounded-lg border border-white/10">
                         <button
                             onClick={() => setView("map")}
@@ -165,11 +165,11 @@ const EcoBounties = () => {
                 </div>
 
                 {/* Content Area */}
-                <div className="min-h-[600px]">
+                <div className="flex-1 overflow-hidden min-h-0">
                     {view === 'map' ? (
-                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 h-[600px]">
+                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 h-full">
                             {/* Map Area */}
-                            <div className="lg:col-span-2 bg-gray-900/50 rounded-2xl border border-white/10 relative overflow-hidden group">
+                            <div className="lg:col-span-2 bg-gray-900/50 rounded-2xl border border-white/10 relative overflow-hidden group h-full">
                                 {/* Mock Map Background */}
                                 <div
                                     className="absolute inset-0 opacity-40 bg-[url('https://upload.wikimedia.org/wikipedia/commons/e/ec/World_map_blank_without_borders.svg')] bg-cover bg-center grayscale"
@@ -227,7 +227,7 @@ const EcoBounties = () => {
                             </div>
 
                             {/* Sidebar / Active Tasks */}
-                            <div className="space-y-6 overflow-y-auto">
+                            <div className="space-y-6 overflow-y-auto h-full pr-2 custom-scrollbar">
                                 {activeTask ? (
                                     <div className="bg-gradient-to-br from-green-900/20 to-black border border-green-500/30 rounded-xl p-6">
                                         <div className="flex items-center gap-2 mb-4 text-green-400 text-sm font-medium uppercase tracking-wider">
@@ -285,7 +285,7 @@ const EcoBounties = () => {
                             </div>
                         </div>
                     ) : (
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 overflow-y-auto h-full pr-2 custom-scrollbar pb-20">
                             {bounties.map((bounty) => (
                                 <motion.div
                                     key={bounty.id}

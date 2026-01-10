@@ -35,28 +35,29 @@ const Navbar = () => {
 
   // Role-based navigation configuration - SIMPLIFIED (max 4 items per role)
   const roleNavConfig = {
+    // Default 'User' view (mapped to DONOR role)
     [USER_ROLES.DONOR]: [
       { name: "Home", path: "/" },
       { name: "Projects", path: "/projects/all" },
       { name: "Forest", path: "/forest" },
       { name: "Recycle", path: "/recycle", badge: "New" },
     ],
-    [USER_ROLES.CREATOR]: [
-      { name: "Home", path: "/" },
+    // Admin view
+    [USER_ROLES.ADMIN]: [
       { name: "Dashboard", path: "/dashboard" },
-      { name: "Create Project", path: "/create-project" },
+      { name: "Projects", path: "/projects/all" },
+      { name: "Users", path: "/admin/users" },
+    ],
+    // Keeping only these two active for now as per request
+    [USER_ROLES.CREATOR]: [
+      { name: "Dashboard", path: "/dashboard" },
+      { name: "Create", path: "/create-project" },
     ],
     [USER_ROLES.FREELANCER]: [
-      { name: "Home", path: "/" },
-      { name: "Dashboard", path: "/freelancer/dashboard" },
       { name: "Gigs", path: "/freelancer/gigs" },
-      { name: "Orders", path: "/freelancer/orders" },
     ],
     [USER_ROLES.GOVERNOR]: [
-      { name: "Home", path: "/" },
-      { name: "Governance", path: "/governance", badge: "DAO" },
-      { name: "Recycle", path: "/recycle", badge: "New" },
-      { name: "Causes", path: "/causes/all" },
+      { name: "Governance", path: "/governance" },
     ],
   };
 
@@ -65,6 +66,7 @@ const Navbar = () => {
     { name: "Eco-Bounties", path: "/eco-bounties", desc: "Earn for impact" },
     { name: "Marketplace", path: "/marketplace", desc: "Carbon Cashback" },
     { name: "Community", path: "/join", desc: "Join us" },
+    { name: "Security & Regulation", path: "/security", desc: "Compliance" },
     { name: "About", path: "/about", desc: "Learn more" },
   ];
 
@@ -198,25 +200,10 @@ const Navbar = () => {
               </div>
             </div>
 
-            {/* Right Actions: Role, Profile, Network, Wallet */}
+            {/* Right Actions: Role, Profile, Wallet, Network */}
             <div className="flex items-center space-x-3 ml-auto">
               {/* Role Dropdown */}
               <RoleDropdown />
-
-              {/* Network Selector - Only show when connected */}
-              {isConnected && (
-                <div className="relative">
-                  <select
-                    value={network}
-                    onChange={(e) => switchNetwork(e.target.value)}
-                    className="appearance-none px-3 py-2 pr-8 bg-white/5 border border-white/10 rounded-lg text-sm text-gray-300 hover:border-white/20 focus:outline-none focus:border-white/30 transition-all duration-300 cursor-pointer"
-                  >
-                    <option value="TESTNET">Testnet</option>
-                    <option value="PUBLIC">Mainnet</option>
-                  </select>
-                  <ChevronDown className="w-3 h-3 text-gray-400 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none" />
-                </div>
-              )}
 
               {/* Circular Profile Button */}
               <Link to="/profile">
@@ -273,6 +260,14 @@ const Navbar = () => {
                   </>
                 )}
               </motion.button>
+
+              {/* Network Badge - Stellar Testnet indicator */}
+              <div className="hidden lg:flex items-center gap-1.5 px-2.5 py-1.5 bg-green-500/10 border border-green-500/20 rounded-lg">
+                <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" />
+                <span className="text-[10px] font-medium text-green-400 uppercase tracking-wider">
+                  {network === "TESTNET" ? "Testnet" : "Mainnet"}
+                </span>
+              </div>
             </div>
           </div>
 

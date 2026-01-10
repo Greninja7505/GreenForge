@@ -140,7 +140,7 @@ const About = () => {
                 }}
                 className="text-white/40 font-light"
               >
-                Stellar Forge is revolutionizing blockchain crowdfunding by connecting innovative projects with global supporters through transparent, decentralized giving. We provide a secure platform where verified projects can raise funds for sustainable development, emerging technologies, and social impact initiatives, all powered by Stellar's efficient blockchain infrastructure.
+                Stellar Forge is revolutionizing blockchain crowdfunding by connecting innovative green projects with global supporters through transparent, decentralized giving. We provide a secure platform where verified sustainability initiatives can raise funds for environmental restoration, clean energy, and social impact, all powered by Stellar's carbon-efficient blockchain infrastructure.
               </p>
             </div>
           </div>
@@ -167,7 +167,7 @@ const About = () => {
                 }}
                 className="text-white mb-4 uppercase tracking-tight"
               >
-                Our Vision
+                Our Green Vision
               </h2>
               <p
                 style={{
@@ -179,7 +179,7 @@ const About = () => {
                 }}
                 className="text-white/40 font-light"
               >
-                We envision a world where blockchain crowdfunding empowers every innovative project to access global funding transparently and efficiently. Where supporters can directly fund real-world impact in sustainable development, education, healthcare, and emerging technologies. Where decentralized giving creates lasting positive change without intermediaries or barriers.
+                We envision a future where every eco-friendly initiative has the resources to thrive. A world where blockchain technology accelerates our transition to a sustainable economy, allowing supporters to directly fund real-world environmental impact—from reforestation to renewable energy—without intermediaries.
               </p>
             </div>
           </div>
@@ -321,9 +321,9 @@ const About = () => {
               ))}
             </div>
 
-            {/* Second row - 3 members */}
+            {/* Second row - 2 members (Previously 3, Removed Aditya) */}
             <div className="flex flex-wrap justify-center gap-8">
-              {team.slice(2, 5).map((member, index) => (
+              {team.slice(2, 4).map((member, index) => (
                 <motion.div
                   key={index + 2}
                   initial={{ opacity: 0, scale: 0.9 }}

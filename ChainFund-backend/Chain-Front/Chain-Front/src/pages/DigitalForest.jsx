@@ -99,28 +99,36 @@ const LogisticsMap = ({ warehouses, customers, packages, selectedNode, onNodeCli
                     return L.divIcon({
                         className: 'custom-marker-wh',
                         html: `
-                            <div class="relative flex items-center justify-center">
-                                <div class="absolute w-12 h-12 bg-blue-500/30 rounded-full animate-ping"></div>
-                                <div class="relative w-8 h-8 bg-blue-600 border-2 border-white rounded-full flex items-center justify-center shadow-[0_0_15px_rgba(37,99,235,0.6)] z-10 transition-transform hover:scale-110">
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21v-8a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v8"/><path d="M12 3l9 7h-9V3z"/><path d="M3 10h18"/><path d="M12 10v11"/></svg>
-                                </div>
-                                ${isSelected ? `<div class="absolute -top-10 bg-blue-900/90 text-blue-100 text-xs px-2 py-1 rounded border border-blue-500/50 whitespace-nowrap">${name}</div>` : ''}
+                            <div class="relative flex items-center justify-center transition-transform hover:scale-110">
+                                <div class="absolute w-8 h-8 bg-blue-500/10 rounded-full animate-ping opacity-50"></div>
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="#3B82F6" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="filter: drop-shadow(0 4px 6px rgba(0,0,0,0.5));">
+                                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                                    <path d="M3.27 6.96 12 12.01l8.73-5.05"/>
+                                    <path d="M12 22.08V12"/>
+                                </svg>
+                                ${isSelected ? `<div class="absolute -top-8 bg-blue-900/95 text-blue-100 text-[10px] px-2 py-0.5 rounded border border-blue-500/50 whitespace-nowrap shadow-xl">${name}</div>` : ''}
                             </div>
                         `,
-                        iconSize: [32, 32],
-                        iconAnchor: [16, 16]
+                        iconSize: [24, 24],
+                        iconAnchor: [12, 12]
                     });
                 } else {
                     return L.divIcon({
                         className: 'custom-marker-cust',
                         html: `
-                            <div class="relative flex items-center justify-center">
-                                 <div class="w-4 h-4 bg-teal-500 border-2 border-white rounded-full shadow-[0_0_10px_rgba(20,184,166,0.5)] transition-transform hover:scale-125"></div>
-                                 ${isSelected ? `<div class="absolute -top-8 bg-black/80 text-teal-200 text-xs px-2 py-1 rounded border border-teal-500/30 whitespace-nowrap">${name}</div>` : ''}
+                            <div class="relative flex items-center justify-center transition-transform hover:scale-125">
+                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="#10B981" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="filter: drop-shadow(0 4px 6px rgba(0,0,0,0.5));">
+                                    <path d="M3 21h18"/>
+                                    <path d="M5 21V7"/>
+                                    <path d="M19 21V7"/>
+                                    <path d="M2 7h20"/>
+                                    <path d="M12 2L2 7h20L12 2z"/>
+                                 </svg>
+                                 ${isSelected ? `<div class="absolute -top-8 bg-black/90 text-teal-200 text-[10px] px-2 py-0.5 rounded border border-teal-500/40 whitespace-nowrap shadow-xl">${name}</div>` : ''}
                             </div>
                         `,
-                        iconSize: [16, 16],
-                        iconAnchor: [8, 8]
+                        iconSize: [18, 18],
+                        iconAnchor: [9, 9]
                     });
                 }
             };
@@ -207,7 +215,7 @@ const PackageTracker = () => {
 
     return (
         <div className="h-screen bg-black text-white flex flex-col font-sans overflow-hidden pt-16">
-            
+
             <div className="flex-1 flex h-full relative z-0">
 
                 {/* LEFT: Map Visualization (60%) */}

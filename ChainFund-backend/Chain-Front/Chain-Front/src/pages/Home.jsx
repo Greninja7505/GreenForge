@@ -37,8 +37,7 @@ const Home = () => {
         {/* NEW: Social Feed */}
         <SocialFeed />
 
-        {/* New: Recent Posts Section */}
-        <RecentPosts />
+
         {/* Marquee Section */}
         <Marquee />
         {/* Swapped: FeaturesGrid (NEED HELP? GET IN TOUCH!) now at the bottom */}

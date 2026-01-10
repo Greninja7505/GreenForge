@@ -4,6 +4,20 @@ import { Heart, TrendingUp, ExternalLink, CheckCircle } from "lucide-react";
 import { useProjects } from "../../context/ProjectsContext";
 import { getCategoryDisplayName } from "../../utils/categories";
 
+const getCategoryImage = (category) => {
+  const categoryImages = {
+    "solar-renewable-energy": "https://images.unsplash.com/photo-1548613053-220e3966fb10?w=800&h=400&fit=crop",
+    "ocean-cleanup-marine": "https://images.unsplash.com/photo-1618477461853-586eff3f7233?w=800&h=400&fit=crop",
+    "regenerative-agriculture": "https://images.unsplash.com/photo-1628258334105-2a0b3d6efcd1?w=800&h=400&fit=crop",
+    "carbon-capture-climate": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&h=400&fit=crop",
+    "biodiversity-wildlife": "https://images.unsplash.com/photo-1550989460-0adf9ea622e2?w=800&h=400&fit=crop", // NEW: Lush Rainforest
+    "sustainable-transportation": "https://images.unsplash.com/photo-1519750783826-e2420f4d687f?w=800&h=400&fit=crop",
+    "circular-economy-waste": "https://images.unsplash.com/photo-1530587191026-aa1cfa4746b5?w=800&h=400&fit=crop", // NEW: Recycling/Circular
+    "green-building-infrastructure": "https://images.unsplash.com/photo-1518005068251-37900150dfca?w=800&h=400&fit=crop",
+  };
+  return categoryImages[category] || "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=800&h=400&fit=crop";
+};
+
 const ProjectShowcase = () => {
   // Get top 3 featured projects by raised amount
   const { getFeaturedProjects } = useProjects();
@@ -74,16 +88,14 @@ const ProjectShowcase = () => {
                   {/* Project Image */}
                   <div className="w-full h-48 bg-gradient-to-br from-gray-800/50 to-gray-700/50 rounded-xl mb-6 overflow-hidden relative">
                     <img
-                      src={project.image}
+                      src={project.image || getCategoryImage(project.category)}
                       alt={project.title}
                       className="w-full h-full object-cover"
                       onError={(e) => {
-                        e.target.style.display = 'none';
+                        e.target.src = getCategoryImage(project.category);
                       }}
                     />
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <Heart className="w-16 h-16 text-white/20" />
-                    </div>
+
 
                     {/* Badges */}
                     <div className="absolute top-4 left-4 flex space-x-2">

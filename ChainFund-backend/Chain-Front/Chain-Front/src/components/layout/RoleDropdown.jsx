@@ -7,27 +7,15 @@ import toast from "react-hot-toast";
 const roleConfig = [
   {
     role: USER_ROLES.DONOR,
-    title: "Donor",
+    title: "User",
     icon: Heart,
-    description: "Support projects"
+    description: "Support & Explore"
   },
   {
-    role: USER_ROLES.CREATOR,
-    title: "Creator",
-    icon: Rocket,
-    description: "Launch projects"
-  },
-  {
-    role: USER_ROLES.FREELANCER,
-    title: "Freelancer",
-    icon: Briefcase,
-    description: "Offer services"
-  },
-  {
-    role: USER_ROLES.GOVERNOR,
-    title: "Governor",
+    role: USER_ROLES.ADMIN,
+    title: "Admin",
     icon: Shield,
-    description: "DAO governance"
+    description: "Platform Control"
   }
 ];
 

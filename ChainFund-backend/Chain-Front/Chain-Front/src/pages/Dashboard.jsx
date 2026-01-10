@@ -114,9 +114,9 @@ const Dashboard = () => {
 
   // Format currency
   const formatCurrency = (amount) => {
-    return new Intl.NumberFormat("en-US", {
+    return new Intl.NumberFormat("en-IN", {
       style: "currency",
-      currency: "USD",
+      currency: "INR",
       minimumFractionDigits: 0,
       maximumFractionDigits: 0,
     }).format(amount);
@@ -343,7 +343,7 @@ const Dashboard = () => {
           </motion.div>
         </div>
 
-        {/* Advanced Visualizations */}
+        {/* Advanced Visualizations - Replaced Pie Charts with Graphs */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -352,28 +352,30 @@ const Dashboard = () => {
             className="bg-black border border-white/10 rounded-xl p-6 hover:border-white/30 transition-all duration-300"
           >
             <h2 className="text-xl font-semibold mb-4 text-white flex items-center gap-2">
-              <PieIcon className="w-5 h-5 text-white" />
-              Category Distribution
+              <BarChart3 className="w-5 h-5 text-white" />
+              Category Performance
             </h2>
             <div className="h-80">
               <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={categoryChartData}
-                    cx="50%"
-                    cy="50%"
-                    outerRadius={100}
-                    dataKey="value"
-                    label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-                  >
-                    {categoryChartData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                    ))}
-                  </Pie>
+                <BarChart data={categoryChartData} layout="vertical" margin={{ top: 5, right: 30, left: 10, bottom: 5 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#374151" horizontal={false} />
+                  <XAxis type="number" stroke="#9ca3af" tickFormatter={(value) => `${value}`} />
+                  <YAxis
+                    type="category"
+                    dataKey="name"
+                    stroke="#9ca3af"
+                    width={180}
+                    tick={{ fontSize: 11 }}
+                    interval={0}
+                  />
                   <Tooltip
                     contentStyle={{ backgroundColor: "#1f2937", border: "1px solid #374151", borderRadius: "8px", color: "#f9fafb" }}
+                    cursor={{ fill: 'rgba(255, 255, 255, 0.05)' }}
                   />
-                </PieChart>
+                  <Legend />
+                  <Bar dataKey="raised" name="Funds Raised ($)" fill="#10b981" radius={[0, 4, 4, 0]} barSize={20} />
+                  <Bar dataKey="value" name="Project Count" fill="#06b6d4" radius={[0, 4, 4, 0]} barSize={20} />
+                </BarChart>
               </ResponsiveContainer>
             </div>
           </motion.div>
@@ -386,28 +388,32 @@ const Dashboard = () => {
           >
             <h2 className="text-xl font-semibold mb-4 text-white flex items-center gap-2">
               <Activity className="w-5 h-5 text-white/70" />
-              Funding Status
+              Funding Distribution
             </h2>
             <div className="h-80">
               <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={fundingStatusData}
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={40}
-                    outerRadius={100}
-                    dataKey="value"
-                    label={({ name, value }) => `${name}: ${value}`}
-                  >
+                <BarChart data={fundingStatusData} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#374151" vertical={false} />
+                  <XAxis
+                    dataKey="name"
+                    stroke="#9ca3af"
+                    tick={{ fontSize: 11 }}
+                    interval={0}
+                    angle={-15}
+                    textAnchor="end"
+                    height={60}
+                  />
+                  <YAxis stroke="#9ca3af" allowDecimals={false} />
+                  <Tooltip
+                    contentStyle={{ backgroundColor: "#1f2937", border: "1px solid #374151", borderRadius: "8px", color: "#f9fafb" }}
+                    cursor={{ fill: 'rgba(255, 255, 255, 0.05)' }}
+                  />
+                  <Bar dataKey="value" name="Projects" fill="#8b5cf6" radius={[4, 4, 0, 0]} barSize={40}>
                     {fundingStatusData.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={entry.fill} />
                     ))}
-                  </Pie>
-                  <Tooltip
-                    contentStyle={{ backgroundColor: "#1f2937", border: "1px solid #374151", borderRadius: "8px", color: "#f9fafb" }}
-                  />
-                </PieChart>
+                  </Bar>
+                </BarChart>
               </ResponsiveContainer>
             </div>
           </motion.div>

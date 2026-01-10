@@ -104,7 +104,7 @@ const Projects = () => {
             }}
             className="text-white mb-6 tracking-tight"
           >
-            FIND <span style={{ fontWeight: "400" }}>TALENT</span>
+            FIND <span style={{ fontWeight: "400" }}>PROJECTS</span>
           </h1>
           <p
             style={{
@@ -115,7 +115,7 @@ const Projects = () => {
             }}
             className="text-gray-400 max-w-3xl mx-auto"
           >
-            Discover skilled freelancers from around the world ready to bring your vision to life
+            Discover impactful sustainability projects making a real difference for our planet
           </p>
 
           {/* Stats */}
@@ -124,7 +124,7 @@ const Projects = () => {
               <span className="text-3xl font-bold text-white">
                 {filteredProjects.length}
               </span>
-              <span className="text-gray-400 ml-2">Freelancers</span>
+              <span className="text-gray-400 ml-2">Projects</span>
             </div>
             <div className="w-px h-8 bg-dark-700" />
             <div>
@@ -146,17 +146,23 @@ const Projects = () => {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="mb-12"
         >
-          {/* Search Bar */}
+          {/* Premium Search Bar */}
           <div className="flex flex-col lg:flex-row gap-4 mb-8">
-            <div className="flex-1 relative">
-              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500" />
-              <input
-                type="text"
-                placeholder="Search freelancers by skills, expertise..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="input pl-12"
-              />
+            <div className="flex-1 relative group">
+              {/* Subtle glow effect on focus */}
+              <div className="absolute -inset-0.5 bg-gradient-to-r from-white/5 via-white/10 to-white/5 rounded-2xl blur-sm opacity-0 group-focus-within:opacity-100 transition-opacity duration-500" />
+
+              {/* Search container */}
+              <div className="relative flex items-center">
+                <Search className="absolute left-5 w-4 h-4 text-gray-500 group-focus-within:text-white/60 transition-colors duration-300" />
+                <input
+                  type="text"
+                  placeholder="Search projects by name, category, or impact..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full pl-14 pr-5 py-4 bg-black/40 backdrop-blur-sm border border-white/[0.08] rounded-2xl text-gray-100 placeholder:text-gray-500 placeholder:font-light focus:outline-none focus:border-white/20 focus:bg-black/60 transition-all duration-300 shadow-[inset_0_1px_1px_rgba(0,0,0,0.3),0_1px_0_rgba(255,255,255,0.03)]"
+                />
+              </div>
             </div>
 
             <select

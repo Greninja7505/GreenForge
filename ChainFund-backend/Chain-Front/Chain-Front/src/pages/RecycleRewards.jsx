@@ -183,8 +183,8 @@ const RecycleRewards = () => {
     };
 
     return (
-        <div className="h-screen bg-black text-white flex flex-col font-sans overflow-hidden pt-16">
-            
+        <div className="h-screen bg-black text-white flex flex-col font-sans overflow-hidden pt-20">
+
             {/* Dashboard Container (Takes remaining height below Navbar) */}
             <div className="flex-1 flex h-full relative z-0">
 

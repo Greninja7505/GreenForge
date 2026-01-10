@@ -8,6 +8,7 @@ const Marketplace = () => {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [cart, setCart] = useState([]);
+    const [selectedCategory, setSelectedCategory] = useState("All");
 
     useEffect(() => {
         fetchProducts();
@@ -27,17 +28,70 @@ const Marketplace = () => {
         } catch (error) {
             console.error("Failed to fetch products:", error);
             toast.error("Using offline mode for marketplace");
-            // Fallback mock data
+            // Fallback mock data with expanded products
             setProducts([
+                // Tech Products
                 {
-                    id: 1, name: "Bamboo Toothbrush Set", price: 15, cashback: 2,
+                    id: 1, name: "Solar Phone Charger", price: 45, cashback: 8,
+                    image: "https://images.unsplash.com/photo-1545259741-2ea3ebf61fa3?q=80&w=800",
+                    category: "Tech", promo: "Top Seller"
+                },
+                {
+                    id: 2, name: "Eco Smart Watch", price: 129, cashback: 15,
+                    image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=800",
+                    category: "Tech"
+                },
+                {
+                    id: 3, name: "Bamboo Wireless Keyboard", price: 65, cashback: 10,
+                    image: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?q=80&w=800",
+                    category: "Tech"
+                },
+                {
+                    id: 4, name: "Recycled Laptop Stand", price: 35, cashback: 5,
+                    image: "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?q=80&w=800",
+                    category: "Tech"
+                },
+                {
+                    id: 5, name: "Solar Power Bank 20000mAh", price: 55, cashback: 9,
+                    image: "https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?q=80&w=800",
+                    category: "Tech", promo: "New"
+                },
+                // Fashion Products
+                {
+                    id: 6, name: "Organic Cotton T-Shirt", price: 35, cashback: 4,
+                    image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?q=80&w=800",
+                    category: "Fashion"
+                },
+                {
+                    id: 7, name: "Recycled Denim Jacket", price: 89, cashback: 12,
+                    image: "https://images.unsplash.com/photo-1551028719-00167b16eac5?q=80&w=800",
+                    category: "Fashion", promo: "Top Seller"
+                },
+                {
+                    id: 8, name: "Hemp Sneakers", price: 95, cashback: 14,
+                    image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=800",
+                    category: "Fashion"
+                },
+                {
+                    id: 9, name: "Eco Bamboo Sunglasses", price: 45, cashback: 6,
+                    image: "https://images.unsplash.com/photo-1572635196237-14b3f281503f?q=80&w=800",
+                    category: "Fashion"
+                },
+                {
+                    id: 10, name: "Cork Leather Wallet", price: 55, cashback: 7,
+                    image: "https://images.unsplash.com/photo-1627123424574-724758594e93?q=80&w=800",
+                    category: "Fashion", promo: "New"
+                },
+                // Home Products
+                {
+                    id: 11, name: "Bamboo Toothbrush Set", price: 15, cashback: 2,
                     image: "https://images.unsplash.com/photo-1607613009820-a29f7bb6dcaf?q=80&w=800",
                     category: "Home"
                 },
                 {
-                    id: 2, name: "Solar Phone Charger", price: 45, cashback: 8,
-                    image: "https://images.unsplash.com/photo-1545259741-2ea3ebf61fa3?q=80&w=800",
-                    category: "Tech", promo: "Top Seller"
+                    id: 12, name: "Reusable Beeswax Wraps", price: 22, cashback: 3,
+                    image: "https://images.unsplash.com/photo-1591079406020-7a4c8b3489e4?q=80&w=800",
+                    category: "Home"
                 }
             ]);
         } finally {
@@ -135,9 +189,18 @@ const Marketplace = () => {
                         </div>
 
                         <div className="flex bg-black/50 backdrop-blur-md border border-white/10 rounded-lg p-1 mt-6 md:mt-0">
-                            <button className="px-6 py-2 bg-white/10 rounded-md text-white text-sm font-medium">All</button>
-                            <button className="px-6 py-2 hover:bg-white/5 rounded-md text-gray-400 hover:text-white text-sm transition-colors">Tech</button>
-                            <button className="px-6 py-2 hover:bg-white/5 rounded-md text-gray-400 hover:text-white text-sm transition-colors">Fashion</button>
+                            <button
+                                onClick={() => setSelectedCategory("All")}
+                                className={`px-6 py-2 rounded-md text-sm font-medium transition-colors ${selectedCategory === "All" ? "bg-white/10 text-white" : "text-gray-400 hover:text-white hover:bg-white/5"}`}
+                            >All</button>
+                            <button
+                                onClick={() => setSelectedCategory("Tech")}
+                                className={`px-6 py-2 rounded-md text-sm font-medium transition-colors ${selectedCategory === "Tech" ? "bg-white/10 text-white" : "text-gray-400 hover:text-white hover:bg-white/5"}`}
+                            >Tech</button>
+                            <button
+                                onClick={() => setSelectedCategory("Fashion")}
+                                className={`px-6 py-2 rounded-md text-sm font-medium transition-colors ${selectedCategory === "Fashion" ? "bg-white/10 text-white" : "text-gray-400 hover:text-white hover:bg-white/5"}`}
+                            >Fashion</button>
                         </div>
                     </div>
                 </div>
@@ -164,65 +227,67 @@ const Marketplace = () => {
 
                 {/* Products Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {products.map((product) => (
-                        <motion.div
-                            key={product.id}
-                            whileHover={{ y: -5 }}
-                            className="group bg-black border border-white/10 rounded-xl overflow-hidden hover:border-green-500/30 transition-all duration-300"
-                        >
-                            {/* Image */}
-                            <div className="relative h-64 overflow-hidden">
-                                <img
-                                    src={product.image}
-                                    alt={product.name}
-                                    className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
-                                />
-                                {product.promo && (
-                                    <div className="absolute top-4 left-4 bg-yellow-400 text-black text-xs font-bold px-3 py-1 uppercase tracking-wider rounded-sm">
-                                        {product.promo}
+                    {products
+                        .filter(p => selectedCategory === "All" || p.category === selectedCategory)
+                        .map((product) => (
+                            <motion.div
+                                key={product.id}
+                                whileHover={{ y: -5 }}
+                                className="group bg-black border border-white/10 rounded-xl overflow-hidden hover:border-green-500/30 transition-all duration-300"
+                            >
+                                {/* Image */}
+                                <div className="relative h-64 overflow-hidden">
+                                    <img
+                                        src={product.image}
+                                        alt={product.name}
+                                        className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+                                    />
+                                    {product.promo && (
+                                        <div className="absolute top-4 left-4 bg-yellow-400 text-black text-xs font-bold px-3 py-1 uppercase tracking-wider rounded-sm">
+                                            {product.promo}
+                                        </div>
+                                    )}
+                                    <div className="absolute top-4 right-4 bg-black/60 backdrop-blur-md rounded-full p-2 border border-white/10 group-hover:border-green-500/50 transition-colors">
+                                        <Leaf className="w-4 h-4 text-green-400" />
                                     </div>
-                                )}
-                                <div className="absolute top-4 right-4 bg-black/60 backdrop-blur-md rounded-full p-2 border border-white/10 group-hover:border-green-500/50 transition-colors">
-                                    <Leaf className="w-4 h-4 text-green-400" />
-                                </div>
 
-                                <div className="absolute bottom-4 right-4 bg-black/80 backdrop-blur-md text-green-400 text-xs font-mono px-3 py-1 rounded-full border border-green-500/30 flex items-center gap-1 shadow-lg">
-                                    <Zap className="w-3 h-3" />
-                                    Earn {product.cashback} CCT
-                                </div>
-                            </div>
-
-                            {/* Details */}
-                            <div className="p-6">
-                                <div className="flex justify-between items-start mb-2">
-                                    <div>
-                                        <h3 className="text-lg text-white font-medium mb-1">{product.name}</h3>
-                                        <p className="text-xs text-gray-500 uppercase tracking-widest mb-2">{product.category}</p>
-                                    </div>
-                                    <div className="text-xl font-light text-white">
-                                        ${product.price}
+                                    <div className="absolute bottom-4 right-4 bg-black/80 backdrop-blur-md text-green-400 text-xs font-mono px-3 py-1 rounded-full border border-green-500/30 flex items-center gap-1 shadow-lg">
+                                        <Zap className="w-3 h-3" />
+                                        Earn {product.cashback} CCT
                                     </div>
                                 </div>
 
-                                {/* Impact Metric */}
-                                <div className="mb-6 py-2 px-3 bg-white/5 rounded-lg border border-white/5 flex items-center justify-between">
-                                    <span className="text-xs text-gray-400">Impact Score</span>
-                                    <div className="flex gap-1">
-                                        {[1, 2, 3, 4, 5].map(i => (
-                                            <div key={i} className={`w-1.5 h-6 rounded-full ${i <= 4 ? 'bg-green-500' : 'bg-gray-700'}`} />
-                                        ))}
+                                {/* Details */}
+                                <div className="p-6">
+                                    <div className="flex justify-between items-start mb-2">
+                                        <div>
+                                            <h3 className="text-lg text-white font-medium mb-1">{product.name}</h3>
+                                            <p className="text-xs text-gray-500 uppercase tracking-widest mb-2">{product.category}</p>
+                                        </div>
+                                        <div className="text-xl font-light text-white">
+                                            ${product.price}
+                                        </div>
                                     </div>
-                                </div>
 
-                                <button
-                                    onClick={() => addToCart(product)}
-                                    className="w-full py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-sm text-white transition-all flex items-center justify-center gap-2 group-hover:bg-green-600 group-hover:border-green-500 group-hover:text-black font-medium overflow-hidden relative"
-                                >
-                                    <span className="relative z-10 flex items-center gap-2"><ShoppingBag className="w-4 h-4" /> Add to Cart</span>
-                                </button>
-                            </div>
-                        </motion.div>
-                    ))}
+                                    {/* Impact Metric */}
+                                    <div className="mb-6 py-2 px-3 bg-white/5 rounded-lg border border-white/5 flex items-center justify-between">
+                                        <span className="text-xs text-gray-400">Impact Score</span>
+                                        <div className="flex gap-1">
+                                            {[1, 2, 3, 4, 5].map(i => (
+                                                <div key={i} className={`w-1.5 h-6 rounded-full ${i <= 4 ? 'bg-green-500' : 'bg-gray-700'}`} />
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    <button
+                                        onClick={() => addToCart(product)}
+                                        className="w-full py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-sm text-white transition-all flex items-center justify-center gap-2 group-hover:bg-green-600 group-hover:border-green-500 group-hover:text-black font-medium overflow-hidden relative"
+                                    >
+                                        <span className="relative z-10 flex items-center gap-2"><ShoppingBag className="w-4 h-4" /> Add to Cart</span>
+                                    </button>
+                                </div>
+                            </motion.div>
+                        ))}
                 </div>
 
                 {/* Cart Floating Action Button (Mock) */}

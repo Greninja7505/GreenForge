@@ -20,7 +20,7 @@ Key innovations:
 The project will deploy 500MW of solar capacity across three states, creating 2,000 construction jobs and 500 permanent maintenance positions. Our AI-driven energy management system will optimize power distribution, reducing waste by 40% compared to traditional grids.
 
 Partnerships with major utilities and government incentives make this project financially viable while delivering substantial environmental benefits.`,
-    raised: 285000,
+    raised: 475000,
     goal: 500000,
     donors: 1247,
     upvotes: 892,
@@ -137,7 +137,7 @@ Technology features:
 Our system can collect 500 tons of ocean plastic annually, preventing it from breaking down into microplastics that enter the food chain. The collected plastic is recycled into new products, creating a circular economy solution.
 
 Partnerships with major shipping companies and coastal governments ensure global deployment and regulatory support.`,
-    raised: 198000,
+    raised: 35000,
     goal: 350000,
     donors: 956,
     upvotes: 723,
@@ -472,7 +472,7 @@ Strategic partnerships with major corporations and governments ensure offtake ag
     slug: "amazon-rainforest-restoration",
     title: "Amazon Rainforest Restoration",
     category: "biodiversity-wildlife",
-    image: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=800&h=400&fit=crop",
+    image: "https://images.unsplash.com/photo-1550989460-0adf9ea622e2?w=800&h=400&fit=crop",
     description:
       "Comprehensive rainforest restoration project combining reforestation, wildlife corridors, and indigenous community development in the Brazilian Amazon.",
     fullDescription: `Large-scale ecosystem restoration initiative focused on regenerating degraded rainforest areas while protecting biodiversity and supporting indigenous communities.
@@ -706,7 +706,7 @@ Economic impact includes 5,000 construction jobs and ongoing maintenance positio
     slug: "circular-economy-marketplace",
     title: "Circular Economy Marketplace",
     category: "circular-economy-waste",
-    image: "https://images.unsplash.com/photo-1532996122724-e3bc8a3334b9?w=800&h=400&fit=crop",
+    image: "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=800&h=400&fit=crop",
     description:
       "Digital platform connecting businesses for material reuse, upcycling, and waste-to-resource conversion, creating a zero-waste industrial ecosystem.",
     fullDescription: `Comprehensive circular economy platform digitizing material flows between businesses to eliminate waste and maximize resource efficiency.

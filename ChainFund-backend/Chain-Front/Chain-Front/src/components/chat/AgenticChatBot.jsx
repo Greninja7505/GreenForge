@@ -84,8 +84,8 @@ const MessageBubble = ({ message, isUser, action, onActionExecute, actionExecute
       <div className={`flex items-start gap-2 max-w-[90%] ${isUser ? 'flex-row-reverse' : ''}`}>
         {/* Avatar */}
         <div className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 ${isUser
-            ? 'bg-white text-black'
-            : 'bg-gradient-to-br from-white/20 to-white/5 border border-white/10'
+          ? 'bg-white text-black'
+          : 'bg-gradient-to-br from-white/20 to-white/5 border border-white/10'
           }`}>
           {isUser ? (
             <User className="w-3.5 h-3.5" />
@@ -98,8 +98,8 @@ const MessageBubble = ({ message, isUser, action, onActionExecute, actionExecute
           {/* Message Text */}
           <div
             className={`px-4 py-3 rounded-2xl ${isUser
-                ? 'bg-white text-black rounded-br-sm'
-                : 'bg-white/5 text-white/90 border border-white/5 rounded-bl-sm'
+              ? 'bg-white text-black rounded-br-sm'
+              : 'bg-white/5 text-white/90 border border-white/5 rounded-bl-sm'
               }`}
           >
             <p className="text-sm leading-relaxed whitespace-pre-wrap">{message}</p>
@@ -334,7 +334,7 @@ const AgenticChatBot = () => {
 
               {/* Main button */}
               <motion.div
-                className="relative w-14 h-14 bg-black rounded-full flex items-center justify-center border border-white/20 shadow-[0_0_40px_rgba(255,255,255,0.15)]"
+                className="relative w-10 h-10 bg-black rounded-full flex items-center justify-center border border-white/20 shadow-[0_0_30px_rgba(255,255,255,0.1)]"
                 animate={{
                   boxShadow: [
                     "0 0 30px rgba(255,255,255,0.1)",
@@ -348,13 +348,12 @@ const AgenticChatBot = () => {
                   animate={{ rotate: [0, 10, -10, 0] }}
                   transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
                 >
-                  <Sparkles className="w-6 h-6 text-white" />
+                  <Sparkles className="w-4 h-4 text-white" />
                 </motion.div>
               </motion.div>
 
-              {/* Status dot */}
               <motion.span
-                className="absolute top-0 right-0 w-3 h-3 bg-green-400 rounded-full border-2 border-black"
+                className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-green-400 rounded-full border-2 border-black"
                 animate={{ scale: [1, 1.2, 1] }}
                 transition={{ duration: 1.5, repeat: Infinity }}
               />

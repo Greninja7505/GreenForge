@@ -9,7 +9,7 @@ const SocialFeed = () => {
             project: "Ocean Cleanup Initiative",
             author: "Sarah Chen",
             avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah",
-            timestamp: "2 hours ago",
+            timestamp: "2h ago",
             location: "Mumbai, India",
             content: "Amazing progress today! We removed over 200kg of plastic from Versova Beach. 🌊",
             image: "/images/bounties/beach_cleanup.png",
@@ -23,13 +23,69 @@ const SocialFeed = () => {
             project: "Reforestation Drive",
             author: "Marcus Johnson",
             avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Marcus",
-            timestamp: "5 hours ago",
+            timestamp: "5h ago",
             location: "Bangalore, India",
             content: "Milestone reached! 🎉 We've planted 1,000 saplings this month. Thank you to all our supporters!",
             image: "/images/bounties/tree_planting.png",
             likes: 567,
             comments: 89,
             shares: 34,
+            liked: true
+        },
+        {
+            id: 3,
+            project: "Solar Education",
+            author: "Elena Rodriguez",
+            avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Elena",
+            timestamp: "1d ago",
+            location: "Madrid, Spain",
+            content: "Teaching the next generation about renewable energy. The future is bright! ☀️",
+            image: "/images/bounties/solar_panels.png",
+            likes: 892,
+            comments: 120,
+            shares: 56,
+            liked: false
+        },
+        {
+            id: 4,
+            project: "Urban Garden",
+            author: "David Kim",
+            avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=David",
+            timestamp: "2d ago",
+            location: "Seoul, Korea",
+            content: "Our rooftop garden is finally ready for harvest. Fresh veggies for the community! 🥬",
+            image: "https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?w=800&h=1000&fit=crop",
+            likes: 445,
+            comments: 32,
+            shares: 8,
+            liked: true
+        },
+        {
+            id: 5,
+            project: "E-Waste Drive",
+            author: "Priya Patel",
+            avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Priya",
+            timestamp: "3d ago",
+            location: "London, UK",
+            content: "Collected 500+ old laptops for refurbishment. Reducing e-waste one device at a time. 💻",
+            image: "https://images.unsplash.com/photo-1550009158-9ebf69173e03?w=800&h=1000&fit=crop",
+            likes: 321,
+            comments: 28,
+            shares: 15,
+            liked: false
+        },
+        {
+            id: 6,
+            project: "Coral Protection",
+            author: "James Wilson",
+            avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=James",
+            timestamp: "4d ago",
+            location: "Cairns, Australia",
+            content: "Monitoring reef health today. The new protection measures seem to be working! 🐠",
+            image: "https://images.unsplash.com/photo-1546026423-cc4642628d2b?w=800&h=1000&fit=crop",
+            likes: 678,
+            comments: 95,
+            shares: 42,
             liked: true
         }
     ]);
@@ -44,7 +100,7 @@ const SocialFeed = () => {
 
     return (
         <div className="w-full py-12 bg-black">
-            <div className="container-custom max-w-3xl">
+            <div className="container-custom max-w-6xl">
                 {/* Header - More Compact */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -61,8 +117,8 @@ const SocialFeed = () => {
                     </p>
                 </motion.div>
 
-                {/* Feed - Compact */}
-                <div className="space-y-4">
+                {/* Feed - Grid Layout */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     {posts.map((post, index) => (
                         <motion.div
                             key={post.id}
@@ -72,81 +128,72 @@ const SocialFeed = () => {
                             transition={{ duration: 0.5, delay: index * 0.1 }}
                             className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-xl overflow-hidden hover:border-white/20 transition-all duration-300"
                         >
-                            {/* Post Header - Compact */}
-                            <div className="p-4 pb-3">
-                                <div className="flex items-start justify-between mb-3">
-                                    <div className="flex items-center gap-2.5">
-                                        <img
-                                            src={post.avatar}
-                                            alt={post.author}
-                                            className="w-10 h-10 rounded-full border-2 border-white/20"
-                                        />
-                                        <div>
-                                            <h3 className="text-white font-semibold text-sm">{post.author}</h3>
-                                            <p className="text-xs text-gray-400">{post.project}</p>
-                                            <div className="flex items-center gap-2 mt-0.5 text-[10px] text-gray-500">
-                                                <span className="flex items-center gap-0.5">
-                                                    <Calendar className="w-2.5 h-2.5" />
-                                                    {post.timestamp}
-                                                </span>
-                                                <span className="flex items-center gap-0.5">
-                                                    <MapPin className="w-2.5 h-2.5" />
-                                                    {post.location}
-                                                </span>
-                                            </div>
+                            {/* Instagram Style Layout */}
+
+                            {/* 1. Header */}
+                            <div className="p-4 flex items-center justify-between">
+                                <div className="flex items-center gap-3">
+                                    <img
+                                        src={post.avatar}
+                                        alt={post.author}
+                                        className="w-8 h-8 rounded-full border border-white/10"
+                                    />
+                                    <div>
+                                        <div className="flex items-center gap-2">
+                                            <h3 className="text-white text-sm font-semibold">{post.author}</h3>
+                                            <span className="text-gray-500 text-xs">• {post.timestamp}</span>
                                         </div>
+                                        <p className="text-[11px] text-gray-400">{post.location}</p>
                                     </div>
                                 </div>
-
-                                {/* Post Content - Compact */}
-                                <p className="text-gray-300 text-sm leading-relaxed mb-3">
-                                    {post.content}
-                                </p>
+                                <button className="text-gray-400 hover:text-white">
+                                    <div className="flex gap-1">
+                                        <div className="w-1 h-1 bg-current rounded-full" />
+                                        <div className="w-1 h-1 bg-current rounded-full" />
+                                        <div className="w-1 h-1 bg-current rounded-full" />
+                                    </div>
+                                </button>
                             </div>
 
-                            {/* Post Image - Smaller aspect ratio */}
+                            {/* 2. Image (4:5 Aspect Ratio) */}
                             {post.image && (
-                                <div className="relative aspect-[16/9] bg-black/40 overflow-hidden">
+                                <div className="relative aspect-[4/5] bg-black/40">
                                     <img
                                         src={post.image}
                                         alt="Post"
-                                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
+                                        className="w-full h-full object-cover"
                                     />
                                 </div>
                             )}
 
-                            {/* Post Actions - Compact */}
-                            <div className="p-4 pt-3">
-                                <div className="flex items-center justify-between mb-3 text-xs text-gray-400">
-                                    <span>{post.likes} likes</span>
-                                    <div className="flex items-center gap-3">
-                                        <span>{post.comments} comments</span>
-                                        <span>{post.shares} shares</span>
+                            {/* 3. Actions */}
+                            <div className="p-4 pb-2">
+                                <div className="flex items-center justify-between mb-3">
+                                    <div className="flex items-center gap-4">
+                                        <motion.button
+                                            whileTap={{ scale: 0.9 }}
+                                            onClick={() => handleLike(post.id)}
+                                            className="text-white hover:text-gray-300 transition-colors"
+                                        >
+                                            <Heart className={`w-6 h-6 ${post.liked ? 'fill-red-500 text-red-500' : ''}`} />
+                                        </motion.button>
+                                        <button className="text-white hover:text-gray-300 transition-colors">
+                                            <MessageCircle className="w-6 h-6" />
+                                        </button>
+                                        <button className="text-white hover:text-gray-300 transition-colors">
+                                            <Share2 className="w-6 h-6" />
+                                        </button>
                                     </div>
                                 </div>
 
-                                <div className="flex items-center gap-1.5 pt-3 border-t border-white/10">
-                                    <motion.button
-                                        whileTap={{ scale: 0.95 }}
-                                        onClick={() => handleLike(post.id)}
-                                        className={`flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${post.liked
-                                                ? 'text-red-400 bg-red-500/10 hover:bg-red-500/20'
-                                                : 'text-gray-400 hover:text-white hover:bg-white/5'
-                                            }`}
-                                    >
-                                        <Heart className={`w-4 h-4 ${post.liked ? 'fill-current' : ''}`} />
-                                        <span>Like</span>
-                                    </motion.button>
-
-                                    <button className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg text-sm font-medium text-gray-400 hover:text-white hover:bg-white/5 transition-all duration-300">
-                                        <MessageCircle className="w-4 h-4" />
-                                        <span>Comment</span>
-                                    </button>
-
-                                    <button className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg text-sm font-medium text-gray-400 hover:text-white hover:bg-white/5 transition-all duration-300">
-                                        <Share2 className="w-4 h-4" />
-                                        <span>Share</span>
-                                    </button>
+                                {/* 4. Likes & Content */}
+                                <div className="space-y-2">
+                                    <p className="text-sm font-semibold text-white">{post.likes.toLocaleString()} likes</p>
+                                    <p className="text-sm text-gray-300 leading-relaxed">
+                                        <span className="font-semibold text-white mr-2">{post.author}</span>
+                                        {post.content}
+                                    </p>
+                                    <p className="text-xs text-gray-500 uppercase tracking-wide pt-1">View all {post.comments} comments</p>
                                 </div>
                             </div>
                         </motion.div>

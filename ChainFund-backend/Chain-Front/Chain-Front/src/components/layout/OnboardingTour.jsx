@@ -94,9 +94,9 @@ const OnboardingTour = () => {
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 onClick={() => setIsOpen(true)}
-                className="fixed bottom-6 left-6 z-[60] w-12 h-12 bg-white text-black rounded-full flex items-center justify-center shadow-[0_0_30px_rgba(255,255,255,0.2)] border border-white/20 transition-all"
+                className="fixed bottom-6 left-6 z-[60] w-10 h-10 bg-white text-black rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(255,255,255,0.15)] border border-white/20 transition-all"
             >
-                <HelpCircle className="w-6 h-6" />
+                <HelpCircle className="w-4 h-4" />
             </motion.button>
 
             {/* Tour Modal Overlay */}
