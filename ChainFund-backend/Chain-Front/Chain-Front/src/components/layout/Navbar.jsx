@@ -38,7 +38,8 @@ const Navbar = () => {
     [USER_ROLES.DONOR]: [
       { name: "Home", path: "/" },
       { name: "Projects", path: "/projects/all" },
-      { name: "Causes", path: "/causes/all" },
+      { name: "Forest", path: "/forest" },
+      { name: "Recycle", path: "/recycle", badge: "New" },
     ],
     [USER_ROLES.CREATOR]: [
       { name: "Home", path: "/" },
@@ -54,7 +55,7 @@ const Navbar = () => {
     [USER_ROLES.GOVERNOR]: [
       { name: "Home", path: "/" },
       { name: "Governance", path: "/governance", badge: "DAO" },
-      { name: "Projects", path: "/projects/all" },
+      { name: "Recycle", path: "/recycle", badge: "New" },
       { name: "Causes", path: "/causes/all" },
     ],
   };
