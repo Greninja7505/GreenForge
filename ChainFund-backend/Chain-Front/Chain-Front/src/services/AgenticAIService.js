@@ -11,9 +11,9 @@ const GROQ_API_KEY = config.groq.apiKey;
 const GROQ_MODEL = config.groq.model;
 
 // Agentic system prompt with function calling
-const AGENTIC_SYSTEM_PROMPT = `You are ChainFund AI Agent - an intelligent assistant that can UNDERSTAND and EXECUTE actions on the ChainFund platform.
+const AGENTIC_SYSTEM_PROMPT = `You are GreenForge AI Agent - an intelligent assistant that can UNDERSTAND and EXECUTE actions on the GreenForge platform.
 
-ChainFund is a blockchain crowdfunding platform on Stellar with:
+GreenForge is a blockchain crowdfunding platform on Stellar with:
 - Project creation and milestone-based funding
 - Quadratic voting governance (DAO)
 - SoulBound Token (SBT) reputation badges
@@ -83,14 +83,14 @@ When user describes their idea, generate complete form data with:
 - Realistic funding goal in XLM (100-10000)
 - 3-5 milestones with amounts that sum to the goal`,
 
-  DONATE: `You are helping a user make a donation on ChainFund.
+  DONATE: `You are helping a user make a donation on GreenForge.
 Explain the donation process, milestone-based funding, and help them choose appropriate amounts.
 You can suggest donation amounts and explain how their contribution helps.`,
 
-  GOVERNANCE: `You are helping with DAO governance on ChainFund.
+  GOVERNANCE: `You are helping with DAO governance on GreenForge.
 Explain quadratic voting (vote power = √tokens × reputation), proposal creation, and voting strategies.`,
 
-  PROJECTS: `You are helping users discover and explore projects on ChainFund.
+  PROJECTS: `You are helping users discover and explore projects on GreenForge.
 Help them search, filter, and understand project details.`,
 };
 
